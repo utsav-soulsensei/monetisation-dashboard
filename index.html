@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SoulSensei — Revenue Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --surface2: #F0EDE6;
+    --border: rgba(0,0,0,0.08);
+    --text-primary: #1A1612;
+    --text-secondary: #6B6560;
+    --text-muted: #A09B95;
+    --accent: #8B5E3C;
+    --accent-light: #F2EAE0;
+    --teal: #2D7A6B;
+    --teal-light: #E0F0EC;
+    --purple: #5A4A8A;
+    --purple-light: #EDEAF5;
+    --danger: #C44B2B;
+    --danger-light: #FBF0EC;
+    --amber: #C47A2B;
+    --pink: #B5456A;
+    --coral: #D05A3A;
+    --gray: #7A7570;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  header {
+    max-width: 960px;
+    margin: 0 auto 2.5rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.25rem;
+  }
+
+  .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+  }
+
+  .logo span {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .date-badge {
+    font-size: 12px;
+    color: var(--text-muted);
+    background: var(--surface2);
+    padding: 5px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; }
+
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 5px;
+    width: fit-content;
+  }
+
+  .tab {
+    padding: 8px 22px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+
+  .tab.active {
+    background: var(--text-primary);
+    color: #fff;
+    font-weight: 500;
+  }
+
+  .tab:hover:not(.active) { background: var(--surface2); }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 2rem;
+  }
+
+  .metric-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem 1.25rem;
+  }
+
+  .metric-card.total {
+    background: var(--text-primary);
+    border-color: var(--text-primary);
+  }
+
+  .metric-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .metric-card.total .metric-label { color: rgba(255,255,255,0.5); }
+
+  .metric-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--text-primary);
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+
+  .metric-card.total .metric-value { color: #fff; }
+
+  .metric-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .metric-card.total .metric-sub { color: rgba(255,255,255,0.4); }
+
+  .chart-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+  }
+
+  .chart-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    letter-spacing: 0.3px;
+  }
+
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .chart-wrap {
+    position: relative;
+    width: 100%;
+    height: 260px;
+  }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .failed-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .failed-card {
+    background: var(--danger-light);
+    border: 1px solid rgba(196,75,43,0.15);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+  }
+
+  .failed-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--danger);
+    opacity: 0.8;
+    margin-bottom: 5px;
+  }
+
+  .failed-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--danger);
+    margin-bottom: 3px;
+  }
+
+  .failed-sub {
+    font-size: 11px;
+    color: var(--danger);
+    opacity: 0.6;
+  }
+
+  .failed-total {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.85rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .failed-total-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .failed-total-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--danger);
+  }
+
+  .seller-table {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead tr {
+    background: var(--surface2);
+  }
+
+  th {
+    padding: 10px 16px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: left;
+  }
+
+  th:not(:first-child) { text-align: right; }
+
+  td {
+    padding: 11px 16px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border);
+  }
+
+  td:first-child { color: var(--text-primary); font-weight: 500; }
+  td:not(:first-child) { text-align: right; }
+
+  .td-revenue {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    color: var(--text-primary) !important;
+  }
+
+  .month-pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .pill-feb { background: var(--purple-light); color: var(--purple); }
+  .pill-mar { background: var(--teal-light); color: var(--teal); }
+
+  .dg-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 2rem;
+  }
+
+  @media (max-width: 640px) {
+    .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    .failed-grid { grid-template-columns: 1fr; }
+    .dg-metrics { grid-template-columns: 1fr; }
+    header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Soul<span>Sensei</span> — Revenue</div>
+  <div class="date-badge">Jan – Mar 17, 2026</div>
+</header>
+
+<div class="container">
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('ee')">Energy exchange</button>
+    <button class="tab" onclick="showTab('dg')">Digital goods</button>
+    <button class="tab" onclick="showTab('oo')">1:1 initiatives</button>
+  </div>
+
+  <!-- ENERGY EXCHANGE TAB -->
+  <div id="tab-ee">
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">January</div>
+        <div class="metric-value">₹2,453</div>
+        <div class="metric-sub">Web only</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">February</div>
+        <div class="metric-value">₹8,607</div>
+        <div class="metric-sub">Web ₹8,003 · App ₹604</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">March (MTD)</div>
+        <div class="metric-value">₹11,574</div>
+        <div class="metric-sub">Web ₹8,203 · App ₹3,371</div>
+      </div>
+      <div class="metric-card total">
+        <div class="metric-label">Total</div>
+        <div class="metric-value">₹22,634</div>
+        <div class="metric-sub">Captured only</div>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <div class="chart-header">
+        <div class="chart-title">Monthly revenue by channel</div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#5A4A8A;"></div>Web</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#2D7A6B;"></div>App</div>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="eeChart"></canvas></div>
+    </div>
+
+    <div class="section-title">Failed transactions</div>
+    <div class="failed-grid">
+      <div class="failed-card">
+        <div class="failed-label">January — Web</div>
+        <div class="failed-value">₹1,151</div>
+        <div class="failed-sub">8 failed transactions</div>
+      </div>
+      <div class="failed-card">
+        <div class="failed-label">February — Web</div>
+        <div class="failed-value">₹1,457</div>
+        <div class="failed-sub">10 failed transactions</div>
+      </div>
+      <div class="failed-card">
+        <div class="failed-label">March — Web + App</div>
+        <div class="failed-value">₹2,057</div>
+        <div class="failed-sub">9 web · 3 app failed</div>
+      </div>
+    </div>
+    <div style="margin-top:10px;">
+      <div class="failed-total">
+        <span class="failed-total-label">Total revenue lost to failures</span>
+        <span class="failed-total-value">₹4,665</span>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem;">
+      <div class="section-title">Session join page — unique visitors <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-muted);font-size:11px;">&nbsp;· Feb 25 onwards</span></div>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem;">
+        <div class="metric-card">
+          <div class="metric-label">February</div>
+          <div class="metric-value">595</div>
+          <div class="metric-sub">Web 394 · App 201</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">March (MTD)</div>
+          <div class="metric-value">2,442</div>
+          <div class="metric-sub">Web 1,479 · App 963</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Total uniques</div>
+          <div class="metric-value">2,702</div>
+          <div class="metric-sub">Deduplicated overall</div>
+        </div>
+        <div class="metric-card total">
+          <div class="metric-label">App share (Mar)</div>
+          <div class="metric-value">39%</div>
+          <div class="metric-sub">Up from 34% in Feb</div>
+        </div>
+      </div>
+
+      <div class="chart-section">
+        <div class="chart-header">
+          <div class="chart-title">Unique visitors by platform</div>
+          <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#5A4A8A;"></div>Web</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#2D7A6B;"></div>App (iOS + Android)</div>
+          </div>
+        </div>
+        <div class="chart-wrap"><canvas id="visitorsChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIGITAL GOODS TAB -->
+  <div id="tab-dg" style="display:none;">
+    <div class="dg-metrics">
+      <div class="metric-card">
+        <div class="metric-label">February</div>
+        <div class="metric-value">₹17,260</div>
+        <div class="metric-sub">Vidhi · Arjun · Amrita</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">March (MTD)</div>
+        <div class="metric-value">₹52,185</div>
+        <div class="metric-sub">Kavyal · Swapnil · others</div>
+      </div>
+      <div class="metric-card total">
+        <div class="metric-label">Total</div>
+        <div class="metric-value">₹69,445</div>
+        <div class="metric-sub">Captured only</div>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <div class="chart-header">
+        <div class="chart-title">Monthly revenue by seller</div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#5A4A8A;"></div>Vidhi</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#2D7A6B;"></div>Arjun</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#D05A3A;"></div>Amrita</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#C47A2B;"></div>Kavyal</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#B5456A;"></div>Swapnil</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#7A7570;"></div>Sushita</div>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="dgChart"></canvas></div>
+    </div>
+
+    <div class="section-title">Breakdown by seller</div>
+    <div class="seller-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Seller</th>
+            <th>Price</th>
+            <th>Txns</th>
+            <th>Revenue</th>
+            <th>Month</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Kavyal</td>
+            <td>₹399</td>
+            <td>119</td>
+            <td class="td-revenue">₹47,481</td>
+            <td><span class="month-pill pill-mar">Mar</span></td>
+          </tr>
+          <tr>
+            <td>Vidhi Agarwal</td>
+            <td>₹149</td>
+            <td>71</td>
+            <td class="td-revenue">₹10,579</td>
+            <td><span class="month-pill pill-feb">Feb</span></td>
+          </tr>
+          <tr>
+            <td>Amrita (Generic)</td>
+            <td>₹299</td>
+            <td>14</td>
+            <td class="td-revenue">₹4,186</td>
+            <td><span class="month-pill pill-feb">Feb</span></td>
+          </tr>
+          <tr>
+            <td>Swapnil (Chakra)</td>
+            <td>₹279</td>
+            <td>10</td>
+            <td class="td-revenue">₹2,790</td>
+            <td><span class="month-pill pill-mar">Mar</span></td>
+          </tr>
+          <tr>
+            <td>Arjun Iyer</td>
+            <td>₹499</td>
+            <td>5</td>
+            <td class="td-revenue">₹2,495</td>
+            <td><span class="month-pill pill-feb">Feb</span></td>
+          </tr>
+          <tr>
+            <td>Swapnil (OM)</td>
+            <td>₹279</td>
+            <td>4</td>
+            <td class="td-revenue">₹1,116</td>
+            <td><span class="month-pill pill-mar">Mar</span></td>
+          </tr>
+          <tr>
+            <td>Amrita (Personal)</td>
+            <td>₹599</td>
+            <td>1</td>
+            <td class="td-revenue">₹599</td>
+            <td><span class="month-pill pill-mar">Mar</span></td>
+          </tr>
+          <tr>
+            <td>Sushita</td>
+            <td>₹199</td>
+            <td>1</td>
+            <td class="td-revenue">₹199</td>
+            <td><span class="month-pill pill-mar">Mar</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 1:1 INITIATIVES TAB -->
+  <div id="tab-oo" style="display:none;">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:2rem;">
+      <div class="metric-card">
+        <div class="metric-label">February</div>
+        <div class="metric-value">₹453</div>
+        <div class="metric-sub">Riya — 3 tarot pulls</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">March (MTD)</div>
+        <div class="metric-value">₹2,786</div>
+        <div class="metric-sub">Tamanna — 14 tarot pulls</div>
+      </div>
+      <div class="metric-card total">
+        <div class="metric-label">Total</div>
+        <div class="metric-value">₹3,239</div>
+        <div class="metric-sub">Captured only</div>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <div class="chart-header">
+        <div class="chart-title">Monthly revenue by practitioner</div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#5A4A8A;"></div>Riya Sankhla (₹151)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#B5456A;"></div>Tamanna (₹199)</div>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="ooChart"></canvas></div>
+    </div>
+
+    <div class="section-title">Breakdown by practitioner</div>
+    <div class="seller-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Practitioner</th>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Txns</th>
+            <th>Revenue</th>
+            <th>Month</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Tamanna</td>
+            <td style="color:var(--text-secondary);text-align:left;">Tarot Pull</td>
+            <td>₹199</td>
+            <td>14</td>
+            <td class="td-revenue">₹2,786</td>
+            <td><span class="month-pill pill-mar">Mar</span></td>
+          </tr>
+          <tr>
+            <td>Riya Sankhla</td>
+            <td style="color:var(--text-secondary);text-align:left;">Tarot Pull</td>
+            <td>₹151</td>
+            <td>3</td>
+            <td class="td-revenue">₹453</td>
+            <td><span class="month-pill pill-feb">Feb</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:1.5rem;">
+      <div class="section-title">Failed transactions</div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:10px;">
+        <div class="failed-card">
+          <div class="failed-label">March — Tamanna</div>
+          <div class="failed-value">₹995</div>
+          <div class="failed-sub">5 failed (shreeyadaga1 ×4, lipeemurmu ×1)</div>
+        </div>
+        <div class="failed-card" style="background:var(--surface);border-color:var(--border);display:flex;flex-direction:column;justify-content:center;">
+          <div class="failed-label" style="color:var(--text-muted);">February — Riya</div>
+          <div class="failed-value" style="color:var(--text-muted);font-size:18px;">₹0</div>
+          <div class="failed-sub" style="color:var(--text-muted);">No failures</div>
+        </div>
+      </div>
+      <div class="failed-total">
+        <span class="failed-total-label">Total revenue lost to failures</span>
+        <span class="failed-total-value">₹995</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(tab) {
+  document.getElementById('tab-ee').style.display = tab === 'ee' ? 'block' : 'none';
+  document.getElementById('tab-dg').style.display = tab === 'dg' ? 'block' : 'none';
+  document.getElementById('tab-oo').style.display = tab === 'oo' ? 'block' : 'none';
+  document.querySelectorAll('.tab').forEach((b, i) => {
+    b.classList.toggle('active', (tab === 'ee' && i === 0) || (tab === 'dg' && i === 1) || (tab === 'oo' && i === 2));
+  });
+  if (tab === 'dg' && !window.dgBuilt) { buildDgChart(); window.dgBuilt = true; }
+  if (tab === 'oo' && !window.ooBuilt) { buildOoChart(); window.ooBuilt = true; }
+}
+
+new Chart(document.getElementById('eeChart'), {
+  type: 'bar',
+  data: {
+    labels: ['January', 'February', 'March (MTD)'],
+    datasets: [
+      { label: 'Web', data: [2453, 8003, 8203], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+      { label: 'App', data: [0, 604, 3371], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ₹' + ctx.parsed.y.toLocaleString('en-IN') } }
+    },
+    scales: {
+      x: { stacked: true, grid: { display: false }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, autoSkip: false } },
+      y: { stacked: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, callback: v => '₹' + v.toLocaleString('en-IN') }, beginAtZero: true }
+    }
+  }
+});
+
+new Chart(document.getElementById('visitorsChart'), {
+  type: 'bar',
+  data: {
+    labels: ['February', 'March (MTD)'],
+    datasets: [
+      { label: 'Web', data: [394, 1479], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+      { label: 'App', data: [201, 963], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toLocaleString('en-IN') } }
+    },
+    scales: {
+      x: { stacked: true, grid: { display: false }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, autoSkip: false } },
+      y: { stacked: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 } }, beginAtZero: true }
+    }
+  }
+});
+
+function buildOoChart() {
+  new Chart(document.getElementById('ooChart'), {
+    type: 'bar',
+    data: {
+      labels: ['January', 'February', 'March (MTD)'],
+      datasets: [
+        { label: 'Riya Sankhla', data: [0, 453, 0], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+        { label: 'Tamanna', data: [0, 0, 2786], backgroundColor: '#B5456A', borderRadius: 5, borderSkipped: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ₹' + ctx.parsed.y.toLocaleString('en-IN') } }
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, autoSkip: false } },
+        y: { stacked: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, callback: v => '₹' + v.toLocaleString('en-IN') }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+function buildDgChart() {
+  new Chart(document.getElementById('dgChart'), {
+    type: 'bar',
+    data: {
+      labels: ['January', 'February', 'March (MTD)'],
+      datasets: [
+        { label: 'Vidhi', data: [0, 10579, 0], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+        { label: 'Arjun', data: [0, 2495, 0], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false },
+        { label: 'Amrita', data: [0, 4186, 4785], backgroundColor: '#D05A3A', borderRadius: 5, borderSkipped: false },
+        { label: 'Kavyal', data: [0, 0, 47481], backgroundColor: '#C47A2B', borderRadius: 5, borderSkipped: false },
+        { label: 'Swapnil', data: [0, 0, 3906], backgroundColor: '#B5456A', borderRadius: 5, borderSkipped: false },
+        { label: 'Sushita', data: [0, 0, 199], backgroundColor: '#7A7570', borderRadius: 5, borderSkipped: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ₹' + ctx.parsed.y.toLocaleString('en-IN') } }
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, autoSkip: false } },
+        y: { stacked: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, callback: v => '₹' + v.toLocaleString('en-IN') }, beginAtZero: true }
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>
