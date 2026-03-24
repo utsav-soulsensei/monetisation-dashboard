@@ -362,17 +362,17 @@
       </div>
       <div class="metric-card">
         <div class="metric-label">February</div>
-        <div class="metric-value">₹8,607</div>
-        <div class="metric-sub">Web ₹8,003 · App ₹604</div>
+        <div class="metric-value">₹8,204</div>
+        <div class="metric-sub">Web ₹7,600 · App ₹604</div>
       </div>
       <div class="metric-card">
         <div class="metric-label">March (MTD)</div>
-        <div class="metric-value">₹38,951</div>
-        <div class="metric-sub">Web ₹27,269 · App ₹11,682</div>
+        <div class="metric-value">₹40,158</div>
+        <div class="metric-sub">Web ₹28,476 · App ₹11,682</div>
       </div>
       <div class="metric-card total">
         <div class="metric-label">Total</div>
-        <div class="metric-value">₹50,011</div>
+        <div class="metric-value">₹50,815</div>
         <div class="metric-sub">Captured only</div>
       </div>
     </div>
@@ -462,12 +462,12 @@
       </div>
       <div class="metric-card">
         <div class="metric-label">March (MTD)</div>
-        <div class="metric-value">₹53,420</div>
+        <div class="metric-value">₹65,729</div>
         <div class="metric-sub">Kavyal · Swapnil · others</div>
       </div>
       <div class="metric-card total">
         <div class="metric-label">Total</div>
-        <div class="metric-value">₹70,680</div>
+        <div class="metric-value">₹82,989</div>
         <div class="metric-sub">Captured only</div>
       </div>
     </div>
@@ -482,6 +482,7 @@
           <div class="legend-item"><div class="legend-dot" style="background:#C47A2B;"></div>Kavyal</div>
           <div class="legend-item"><div class="legend-dot" style="background:#B5456A;"></div>Swapnil</div>
           <div class="legend-item"><div class="legend-dot" style="background:#7A7570;"></div>Sushita</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#4A7A9A;"></div>Sunaina</div>
         </div>
       </div>
       <div class="chart-wrap"><canvas id="dgChart"></canvas></div>
@@ -543,6 +544,13 @@
             <td><span class="month-pill pill-mar">Mar</span></td>
           </tr>
           <tr>
+            <td>Sunaina</td>
+            <td>₹349</td>
+            <td>3</td>
+            <td class="td-revenue">₹1,047</td>
+            <td><span class="month-pill pill-mar">Mar</span></td>
+          </tr>
+          <tr>
             <td>Amrita (Personal)</td>
             <td>₹599</td>
             <td>1</td>
@@ -552,8 +560,15 @@
           <tr>
             <td>Sushita</td>
             <td>₹199</td>
-            <td>3</td>
-            <td class="td-revenue">₹597</td>
+            <td>4</td>
+            <td class="td-revenue">₹796</td>
+            <td><span class="month-pill pill-mar">Mar</span></td>
+          </tr>
+          <tr>
+            <td>Vidhi Agarwal (Hanuman Sadhana)</td>
+            <td>₹299</td>
+            <td>37</td>
+            <td class="td-revenue">₹11,063</td>
             <td><span class="month-pill pill-mar">Mar</span></td>
           </tr>
         </tbody>
@@ -566,8 +581,8 @@
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:2rem;">
       <div class="metric-card">
         <div class="metric-label">February</div>
-        <div class="metric-value">₹453</div>
-        <div class="metric-sub">Riya — 3 tarot pulls</div>
+        <div class="metric-value">₹856</div>
+        <div class="metric-sub">Riya — 6 tarot pulls</div>
       </div>
       <div class="metric-card">
         <div class="metric-label">March (MTD)</div>
@@ -576,7 +591,7 @@
       </div>
       <div class="metric-card total">
         <div class="metric-label">Total</div>
-        <div class="metric-value">₹3,239</div>
+        <div class="metric-value">₹3,642</div>
         <div class="metric-sub">Captured only</div>
       </div>
     </div>
@@ -618,8 +633,8 @@
             <td>Riya Sankhla</td>
             <td style="color:var(--text-secondary);text-align:left;">Tarot Pull</td>
             <td>₹151</td>
-            <td>3</td>
-            <td class="td-revenue">₹453</td>
+            <td>6</td>
+            <td class="td-revenue">₹856</td>
             <td><span class="month-pill pill-feb">Feb</span></td>
           </tr>
         </tbody>
@@ -666,7 +681,7 @@ new Chart(document.getElementById('eeChart'), {
   data: {
     labels: ['January', 'February', 'March (MTD)'],
     datasets: [
-      { label: 'Web', data: [2453, 8003, 27269], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+      { label: 'Web', data: [2453, 7600, 28476], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
       { label: 'App', data: [0, 604, 11682], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
     ]
   },
@@ -711,7 +726,7 @@ function buildOoChart() {
     data: {
       labels: ['January', 'February', 'March (MTD)'],
       datasets: [
-        { label: 'Riya Sankhla', data: [0, 453, 0], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+        { label: 'Riya Sankhla', data: [0, 856, 0], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
         { label: 'Tamanna', data: [0, 0, 2786], backgroundColor: '#B5456A', borderRadius: 5, borderSkipped: false }
       ]
     },
@@ -735,12 +750,13 @@ function buildDgChart() {
     data: {
       labels: ['January', 'February', 'March (MTD)'],
       datasets: [
-        { label: 'Vidhi', data: [0, 10579, 0], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+        { label: 'Vidhi', data: [0, 10579, 11063], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
         { label: 'Arjun', data: [0, 2495, 0], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false },
         { label: 'Amrita', data: [0, 4186, 4785], backgroundColor: '#D05A3A', borderRadius: 5, borderSkipped: false },
         { label: 'Kavyal', data: [0, 0, 47481], backgroundColor: '#C47A2B', borderRadius: 5, borderSkipped: false },
         { label: 'Swapnil', data: [0, 0, 4743], backgroundColor: '#B5456A', borderRadius: 5, borderSkipped: false },
-        { label: 'Sushita', data: [0, 0, 597], backgroundColor: '#7A7570', borderRadius: 5, borderSkipped: false }
+        { label: 'Sushita', data: [0, 0, 796], backgroundColor: '#7A7570', borderRadius: 5, borderSkipped: false },
+        { label: 'Sunaina', data: [0, 0, 1047], backgroundColor: '#4A7A9A', borderRadius: 5, borderSkipped: false }
       ]
     },
     options: {
