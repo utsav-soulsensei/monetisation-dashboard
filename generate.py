@@ -552,6 +552,34 @@ def main():
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(output)
 
+    # ── Persist updated bases back to config.json ──────────────────────────────
+    # This ensures the next run starts from the correct accumulated totals,
+    # not the original hardcoded values.
+    cfg_changed = False
+
+    for m, delta in app_new_cap.items():
+        if delta > 0:
+            cfg["ee_app_captured"][m] = cfg["ee_app_captured"].get(m, 0) + delta
+            cfg_changed = True
+
+    for m, delta in dg_new_by_month.items():
+        if delta > 0:
+            cfg["dg_base"][m] = cfg["dg_base"].get(m, 0) + delta
+            cfg_changed = True
+
+    if dg_breakdown:
+        cfg["dg_sellers_base"] = [
+            {"name": v["name"], "price": v["price"],
+             "txns": v["txns"], "revenue": v["revenue"], "month": v["month"]}
+            for v in merged_sellers.values()
+        ]
+        cfg_changed = True
+
+    if cfg_changed:
+        with open("config.json", "w", encoding="utf-8") as f:
+            json.dump(cfg, f, indent=2, ensure_ascii=False)
+        print("✓ config.json bases updated")
+
     print(f"✓ index.html updated — {now.strftime('%d %b %Y, %H:%M')}")
 
 
