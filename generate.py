@@ -83,7 +83,7 @@ def read_ee_web(gc):
         fail_amt  – {month: total_failed_amount}
         fail_cnt  – {month: count_of_failed_txns}
     """
-    ws = gc.open_by_key(EE_WEB_SHEET_ID).sheet1
+    ws = gc.open_by_key(EE_WEB_SHEET_ID).worksheet("Product Working - Revenue")
     all_values = ws.get_all_values()  # row i → sheet row i+1 (exact, no skipping)
 
     if len(all_values) < 2:
