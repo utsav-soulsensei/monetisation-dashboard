@@ -255,7 +255,7 @@ def write_ee_snapshot(gc, ee_months):
 
     # Write or update headers if needed
     if not existing or existing[0] != expected_headers:
-        ws.update(expected_headers, range_name="A1")
+        ws.update([expected_headers], range_name="A1")
         existing_data = existing[1:] if existing else []
     else:
         existing_data = existing[1:] if len(existing) > 1 else []
