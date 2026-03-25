@@ -22,8 +22,16 @@ EE_APP_TAB      = "EE_Payment_Revenue"
 
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]  # read + write
 
-MONTH_ORDER = ["jan", "feb", "mar", "apr", "may", "jun",
-               "jul", "aug", "sep", "oct", "nov", "dec"]
+MONTH_KEYS   = ["jan", "feb", "mar", "apr", "may", "jun",
+                "jul", "aug", "sep", "oct", "nov", "dec"]
+MONTH_LABELS = ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"]
+
+
+def active_months():
+    """Returns list of (key, label) from January up to and including current month."""
+    n = datetime.now().month  # 1-based
+    return list(zip(MONTH_KEYS[:n], MONTH_LABELS[:n]))
 
 
 # ── Auth ───────────────────────────────────────────────────────────────────────
@@ -257,42 +265,50 @@ def main():
     dg_cfg    = cfg["dg"]
     oo_cfg    = cfg["oo"]
 
-    # ── Build EE monthly rows ──────────────────────────────────────────────────
-    months = ["jan", "feb", "mar"]
-    ee = {}
-    for m in months:
-        w = web_cap.get(m, 0)
-        a = app_cap.get(m, 0)
-        ee[m] = {
-            "web_raw": w,
-            "app_raw": a,
-            "total_raw": w + a,
-            "web":   fmt_inr(w),
-            "app":   fmt_inr(a),
-            "total": fmt_inr(w + a),
-        }
+    # ── Build EE monthly rows (dynamic — auto-extends each new month) ──────────
+    months = active_months()  # e.g. [("jan","January"), ..., ("mar","March")]
+    current_key = months[-1][0]
 
-    ee_grand_raw   = sum(ee[m]["total_raw"] for m in months)
+    ee_months = []
+    for key, label in months:
+        w = web_cap.get(key, 0)
+        a = app_cap.get(key, 0)
+        ee_months.append({
+            "key":       key,
+            "label":     label + (" (MTD)" if key == current_key else ""),
+            "web_raw":   w,
+            "app_raw":   a,
+            "total_raw": w + a,
+            "web":       fmt_inr(w),
+            "app":       fmt_inr(a),
+            "total":     fmt_inr(w + a),
+        })
+
+    ee_grand_raw   = sum(m["total_raw"] for m in ee_months)
     ee_grand_total = fmt_inr(ee_grand_raw)
 
+    # Chart data
+    ee_chart_labels = [m["label"] for m in ee_months]
+    ee_chart_web    = [m["web_raw"] for m in ee_months]
+    ee_chart_app    = [m["app_raw"] for m in ee_months]
+
     # ── EE failed ─────────────────────────────────────────────────────────────
-    ee_failed = {}
-    for m in months:
-        wa = web_fail_amt.get(m, 0)
-        wc = web_fail_cnt.get(m, 0)
-        aa = app_fail.get(m, {}).get("amount", 0)
-        ac = app_fail.get(m, {}).get("count", 0)
-        ee_failed[m] = {
-            "web_amount":  fmt_inr(wa),
-            "web_count":   wc,
-            "app_amount":  fmt_inr(aa),
-            "app_count":   ac,
+    ee_failed_list = []
+    for key, label in months:
+        wa = web_fail_amt.get(key, 0)
+        wc = web_fail_cnt.get(key, 0)
+        aa = app_fail.get(key, {}).get("amount", 0)
+        ac = app_fail.get(key, {}).get("count", 0)
+        ee_failed_list.append({
+            "label":        label + (" — Web + App" if ac > 0 else " — Web"),
             "total_amount": fmt_inr(wa + aa),
             "total_raw":    wa + aa,
+            "web_count":    wc,
+            "app_count":    ac,
             "has_app":      ac > 0,
-        }
+        })
 
-    ee_failed_total_raw = sum(ee_failed[m]["total_raw"] for m in months)
+    ee_failed_total_raw = sum(m["total_raw"] for m in ee_failed_list)
     ee_failed_total     = fmt_inr(ee_failed_total_raw)
 
     # ── Visitors ───────────────────────────────────────────────────────────────
@@ -363,9 +379,12 @@ def main():
     now = datetime.now()
     output = tpl.render(
         generated_date=now.strftime("%-d %b %Y"),
-        ee=ee,
+        ee_months=ee_months,
         ee_grand_total=ee_grand_total,
-        ee_failed=ee_failed,
+        ee_chart_labels=ee_chart_labels,
+        ee_chart_web=ee_chart_web,
+        ee_chart_app=ee_chart_app,
+        ee_failed_list=ee_failed_list,
         ee_failed_total=ee_failed_total,
         vis=vis,
         dg=dg,
