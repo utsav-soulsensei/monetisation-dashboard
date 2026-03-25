@@ -209,63 +209,6 @@
     margin-bottom: 12px;
   }
 
-  .failed-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-
-  .failed-card {
-    background: var(--danger-light);
-    border: 1px solid rgba(196,75,43,0.15);
-    border-radius: 12px;
-    padding: 1rem 1.1rem;
-  }
-
-  .failed-label {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    color: var(--danger);
-    opacity: 0.8;
-    margin-bottom: 5px;
-  }
-
-  .failed-value {
-    font-family: 'DM Serif Display', serif;
-    font-size: 22px;
-    color: var(--danger);
-    margin-bottom: 3px;
-  }
-
-  .failed-sub {
-    font-size: 11px;
-    color: var(--danger);
-    opacity: 0.6;
-  }
-
-  .failed-total {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 0.85rem 1.25rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .failed-total-label {
-    font-size: 13px;
-    color: var(--text-secondary);
-  }
-
-  .failed-total-value {
-    font-family: 'DM Serif Display', serif;
-    font-size: 20px;
-    color: var(--danger);
-  }
-
   .seller-table {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -331,8 +274,7 @@
 
   @media (max-width: 640px) {
     .metrics-grid { grid-template-columns: repeat(2, 1fr); }
-    .failed-grid { grid-template-columns: 1fr; }
-    .dg-metrics { grid-template-columns: 1fr; }
+.dg-metrics { grid-template-columns: 1fr; }
     header { flex-direction: column; align-items: flex-start; gap: 10px; }
   }
 </style>
@@ -378,23 +320,6 @@
         </div>
       </div>
       <div class="chart-wrap"><canvas id="eeChart"></canvas></div>
-    </div>
-
-    <div class="section-title">Failed transactions</div>
-    <div class="failed-grid" style="grid-template-columns: repeat({{ ee_failed_list|length }}, 1fr);">
-      {% for f in ee_failed_list %}
-      <div class="failed-card">
-        <div class="failed-label">{{ f.label }}</div>
-        <div class="failed-value">{{ f.total_amount }}</div>
-        <div class="failed-sub">{% if f.has_app %}{{ f.web_count }} web · {{ f.app_count }} app failed{% else %}{{ f.web_count }} failed transactions{% endif %}</div>
-      </div>
-      {% endfor %}
-    </div>
-    <div style="margin-top:10px;">
-      <div class="failed-total">
-        <span class="failed-total-label">Total revenue lost to failures</span>
-        <span class="failed-total-value">{{ ee_failed_total }}</span>
-      </div>
     </div>
 
     <div style="margin-top:2rem;">
@@ -558,22 +483,6 @@
       </table>
     </div>
 
-    <div style="margin-top:1.5rem;">
-      <div class="section-title">Failed transactions</div>
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:10px;">
-        {% for f in oo.failed %}
-        <div class="failed-card{% if f.amount == 0 %}" style="background:var(--surface);border-color:var(--border);display:flex;flex-direction:column;justify-content:center;{% endif %}">
-          <div class="failed-label"{% if f.amount == 0 %} style="color:var(--text-muted);"{% endif %}>{{ f.label }}</div>
-          <div class="failed-value"{% if f.amount == 0 %} style="color:var(--text-muted);font-size:18px;"{% endif %}>{{ f.amount_fmt }}</div>
-          <div class="failed-sub"{% if f.amount == 0 %} style="color:var(--text-muted);"{% endif %}>{{ f.sub }}</div>
-        </div>
-        {% endfor %}
-      </div>
-      <div class="failed-total">
-        <span class="failed-total-label">Total revenue lost to failures</span>
-        <span class="failed-total-value">{{ oo.failed_total }}</span>
-      </div>
-    </div>
   </div>
 
 </div>

@@ -291,14 +291,6 @@ def main():
     app_base     = cfg["ee_app_captured"]
     app_cap      = {m: app_base.get(m, 0) + app_new_cap.get(m, 0) for m in set(list(app_base.keys()) + list(app_new_cap.keys()))}
 
-    app_fail_base = cfg["ee_app_failed"]
-    app_fail      = {
-        m: {
-            "amount": app_fail_base.get(m, {}).get("amount", 0) + app_new_fail_amt.get(m, 0),
-            "count":  app_fail_base.get(m, {}).get("count",  0) + app_new_fail_cnt.get(m, 0),
-        }
-        for m in set(list(app_fail_base.keys()) + list(app_new_fail_amt.keys()))
-    }
     visitors  = cfg["visitors"]
     dg_cfg    = cfg["dg"]
     oo_cfg    = cfg["oo"]
@@ -330,24 +322,6 @@ def main():
     ee_chart_web    = [m["web_raw"] for m in ee_months]
     ee_chart_app    = [m["app_raw"] for m in ee_months]
 
-    # ── EE failed ─────────────────────────────────────────────────────────────
-    ee_failed_list = []
-    for key, label in months:
-        wa = web_fail_amt.get(key, 0)
-        wc = web_fail_cnt.get(key, 0)
-        aa = app_fail.get(key, {}).get("amount", 0)
-        ac = app_fail.get(key, {}).get("count", 0)
-        ee_failed_list.append({
-            "label":        label + (" — Web + App" if ac > 0 else " — Web"),
-            "total_amount": fmt_inr(wa + aa),
-            "total_raw":    wa + aa,
-            "web_count":    wc,
-            "app_count":    ac,
-            "has_app":      ac > 0,
-        })
-
-    ee_failed_total_raw = sum(m["total_raw"] for m in ee_failed_list)
-    ee_failed_total     = fmt_inr(ee_failed_total_raw)
 
     # ── Daily EE Snapshot ─────────────────────────────────────────────────────
     print("Writing EE snapshot…")
@@ -407,11 +381,6 @@ def main():
             for p in oo_cfg["practitioners"]
         ],
         "chart": oo_cfg["chart"],
-        "failed": [
-            {**f, "amount_fmt": fmt_inr(f["amount"])}
-            for f in oo_cfg["failed"]
-        ],
-        "failed_total": fmt_inr(oo_cfg["failed_total"]),
     }
 
     # ── Render ─────────────────────────────────────────────────────────────────
@@ -426,8 +395,6 @@ def main():
         ee_chart_labels=ee_chart_labels,
         ee_chart_web=ee_chart_web,
         ee_chart_app=ee_chart_app,
-        ee_failed_list=ee_failed_list,
-        ee_failed_total=ee_failed_total,
         vis=vis,
         dg=dg,
         oo=oo,

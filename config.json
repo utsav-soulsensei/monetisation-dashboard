@@ -8,12 +8,6 @@
     "mar": 12084
   },
 
-  "ee_app_failed": {
-    "jan": { "amount": 0, "count": 0 },
-    "feb": { "amount": 0, "count": 0 },
-    "mar": { "amount": 597, "count": 3 }
-  },
-
   "visitors": {
     "feb_web": 394,
     "feb_app": 201,
@@ -61,10 +55,5 @@
       "riya":    [0, 856,  0],
       "tamanna": [0, 0,    2786]
     },
-    "failed": [
-      { "label": "March — Tamanna", "amount": 995, "sub": "5 failed (shreeyadaga1 ×4, lipeemurmu ×1)" },
-      { "label": "February — Riya", "amount": 0,   "sub": "No failures" }
-    ],
-    "failed_total": 995
   }
 }
