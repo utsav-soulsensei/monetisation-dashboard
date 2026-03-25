@@ -1,0 +1,69 @@
+{
+  "_note": "This file holds all data NOT yet automated from sheets. Update manually until those sheets are wired in.",
+
+  "ee_app_captured": {
+    "jan": 0,
+    "feb": 604,
+    "mar": 12084
+  },
+
+  "ee_app_failed": {
+    "jan": { "amount": 0, "count": 0 },
+    "feb": { "amount": 0, "count": 0 },
+    "mar": { "amount": 597, "count": 3 }
+  },
+
+  "visitors": {
+    "feb_web": 394,
+    "feb_app": 201,
+    "mar_web": 1479,
+    "mar_app": 963,
+    "total_uniques": 2702
+  },
+
+  "dg": {
+    "feb_total": 17260,
+    "mar_total": 65729,
+    "sellers": [
+      { "name": "Kavyal",                       "price": 399, "txns": 119, "revenue": 47481, "month": "mar" },
+      { "name": "Vidhi Agarwal",                "price": 149, "txns": 71,  "revenue": 10579, "month": "feb" },
+      { "name": "Amrita (Generic)",             "price": 299, "txns": 14,  "revenue": 4186,  "month": "feb" },
+      { "name": "Swapnil (Chakra)",             "price": 279, "txns": 10,  "revenue": 2790,  "month": "mar" },
+      { "name": "Arjun Iyer",                   "price": 499, "txns": 5,   "revenue": 2495,  "month": "feb" },
+      { "name": "Swapnil (OM)",                 "price": 279, "txns": 7,   "revenue": 1953,  "month": "mar" },
+      { "name": "Sunaina",                      "price": 349, "txns": 3,   "revenue": 1047,  "month": "mar" },
+      { "name": "Amrita (Personal)",            "price": 599, "txns": 1,   "revenue": 599,   "month": "mar" },
+      { "name": "Sushita",                      "price": 199, "txns": 4,   "revenue": 796,   "month": "mar" },
+      { "name": "Vidhi Agarwal (Hanuman Sadhana)", "price": 299, "txns": 37, "revenue": 11063, "month": "mar" }
+    ],
+    "chart": {
+      "vidhi":   [0, 10579, 11063],
+      "arjun":   [0, 2495,  0],
+      "amrita":  [0, 4186,  4785],
+      "kavyal":  [0, 0,     47481],
+      "swapnil": [0, 0,     4743],
+      "sushita": [0, 0,     796],
+      "sunaina": [0, 0,     1047]
+    }
+  },
+
+  "oo": {
+    "feb_total": 856,
+    "mar_total": 2786,
+    "feb_sub": "Riya — 6 tarot pulls",
+    "mar_sub": "Tamanna — 14 tarot pulls",
+    "practitioners": [
+      { "name": "Tamanna",     "product": "Tarot Pull", "price": 199, "txns": 14, "revenue": 2786, "month": "mar" },
+      { "name": "Riya Sankhla","product": "Tarot Pull", "price": 151, "txns": 6,  "revenue": 856,  "month": "feb" }
+    ],
+    "chart": {
+      "riya":    [0, 856,  0],
+      "tamanna": [0, 0,    2786]
+    },
+    "failed": [
+      { "label": "March — Tamanna", "amount": 995, "sub": "5 failed (shreeyadaga1 ×4, lipeemurmu ×1)" },
+      { "label": "February — Riya", "amount": 0,   "sub": "No failures" }
+    ],
+    "failed_total": 995
+  }
+}

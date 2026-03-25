@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SoulSensei — Revenue Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --surface2: #F0EDE6;
+    --border: rgba(0,0,0,0.08);
+    --text-primary: #1A1612;
+    --text-secondary: #6B6560;
+    --text-muted: #A09B95;
+    --accent: #8B5E3C;
+    --accent-light: #F2EAE0;
+    --teal: #2D7A6B;
+    --teal-light: #E0F0EC;
+    --purple: #5A4A8A;
+    --purple-light: #EDEAF5;
+    --danger: #C44B2B;
+    --danger-light: #FBF0EC;
+    --amber: #C47A2B;
+    --pink: #B5456A;
+    --coral: #D05A3A;
+    --gray: #7A7570;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  header {
+    max-width: 960px;
+    margin: 0 auto 2.5rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.25rem;
+  }
+
+  .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+  }
+
+  .logo span {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .date-badge {
+    font-size: 12px;
+    color: var(--text-muted);
+    background: var(--surface2);
+    padding: 5px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; }
+
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 5px;
+    width: fit-content;
+  }
+
+  .tab {
+    padding: 8px 22px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+
+  .tab.active {
+    background: var(--text-primary);
+    color: #fff;
+    font-weight: 500;
+  }
+
+  .tab:hover:not(.active) { background: var(--surface2); }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 2rem;
+  }
+
+  .metric-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem 1.25rem;
+  }
+
+  .metric-card.total {
+    background: var(--text-primary);
+    border-color: var(--text-primary);
+  }
+
+  .metric-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .metric-card.total .metric-label { color: rgba(255,255,255,0.5); }
+
+  .metric-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--text-primary);
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+
+  .metric-card.total .metric-value { color: #fff; }
+
+  .metric-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .metric-card.total .metric-sub { color: rgba(255,255,255,0.4); }
+
+  .chart-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+  }
+
+  .chart-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    letter-spacing: 0.3px;
+  }
+
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .chart-wrap {
+    position: relative;
+    width: 100%;
+    height: 260px;
+  }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .failed-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .failed-card {
+    background: var(--danger-light);
+    border: 1px solid rgba(196,75,43,0.15);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+  }
+
+  .failed-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--danger);
+    opacity: 0.8;
+    margin-bottom: 5px;
+  }
+
+  .failed-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--danger);
+    margin-bottom: 3px;
+  }
+
+  .failed-sub {
+    font-size: 11px;
+    color: var(--danger);
+    opacity: 0.6;
+  }
+
+  .failed-total {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.85rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .failed-total-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .failed-total-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--danger);
+  }
+
+  .seller-table {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead tr {
+    background: var(--surface2);
+  }
+
+  th {
+    padding: 10px 16px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: left;
+  }
+
+  th:not(:first-child) { text-align: right; }
+
+  td {
+    padding: 11px 16px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border);
+  }
+
+  td:first-child { color: var(--text-primary); font-weight: 500; }
+  td:not(:first-child) { text-align: right; }
+
+  .td-revenue {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    color: var(--text-primary) !important;
+  }
+
+  .month-pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .pill-feb { background: var(--purple-light); color: var(--purple); }
+  .pill-mar { background: var(--teal-light); color: var(--teal); }
+
+  .dg-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 2rem;
+  }
+
+  @media (max-width: 640px) {
+    .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    .failed-grid { grid-template-columns: 1fr; }
+    .dg-metrics { grid-template-columns: 1fr; }
+    header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Soul<span>Sensei</span> — Revenue</div>
+  <div class="date-badge">Jan – {{ generated_date }}</div>
+</header>
+
+<div class="container">
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('ee')">Energy exchange</button>
+    <button class="tab" onclick="showTab('dg')">Digital goods</button>
+    <button class="tab" onclick="showTab('oo')">1:1 initiatives</button>
+  </div>
+
+  <!-- ENERGY EXCHANGE TAB -->
+  <div id="tab-ee">
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">January</div>
+        <div class="metric-value">{{ ee.jan.total }}</div>
+        <div class="metric-sub">Web only</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">February</div>
+        <div class="metric-value">{{ ee.feb.total }}</div>
+        <div class="metric-sub">Web {{ ee.feb.web }} · App {{ ee.feb.app }}</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">March (MTD)</div>
+        <div class="metric-value">{{ ee.mar.total }}</div>
+        <div class="metric-sub">Web {{ ee.mar.web }} · App {{ ee.mar.app }}</div>
+      </div>
+      <div class="metric-card total">
+        <div class="metric-label">Total</div>
+        <div class="metric-value">{{ ee_grand_total }}</div>
+        <div class="metric-sub">Captured only</div>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <div class="chart-header">
+        <div class="chart-title">Monthly revenue by channel</div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#5A4A8A;"></div>Web</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#2D7A6B;"></div>App</div>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="eeChart"></canvas></div>
+    </div>
+
+    <div class="section-title">Failed transactions</div>
+    <div class="failed-grid">
+      <div class="failed-card">
+        <div class="failed-label">January — Web</div>
+        <div class="failed-value">{{ ee_failed.jan.web_amount }}</div>
+        <div class="failed-sub">{{ ee_failed.jan.web_count }} failed transactions</div>
+      </div>
+      <div class="failed-card">
+        <div class="failed-label">February — Web</div>
+        <div class="failed-value">{{ ee_failed.feb.web_amount }}</div>
+        <div class="failed-sub">{{ ee_failed.feb.web_count }} failed transactions</div>
+      </div>
+      <div class="failed-card">
+        <div class="failed-label">March — Web{% if ee_failed.mar.has_app %} + App{% endif %}</div>
+        <div class="failed-value">{{ ee_failed.mar.total_amount }}</div>
+        <div class="failed-sub">{% if ee_failed.mar.has_app %}{{ ee_failed.mar.web_count }} web · {{ ee_failed.mar.app_count }} app failed{% else %}{{ ee_failed.mar.web_count }} failed transactions{% endif %}</div>
+      </div>
+    </div>
+    <div style="margin-top:10px;">
+      <div class="failed-total">
+        <span class="failed-total-label">Total revenue lost to failures</span>
+        <span class="failed-total-value">{{ ee_failed_total }}</span>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem;">
+      <div class="section-title">Session join page — unique visitors <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-muted);font-size:11px;">&nbsp;· Feb 25 onwards</span></div>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem;">
+        <div class="metric-card">
+          <div class="metric-label">February</div>
+          <div class="metric-value">{{ vis.feb_total }}</div>
+          <div class="metric-sub">Web {{ vis.feb_web }} · App {{ vis.feb_app }}</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">March (MTD)</div>
+          <div class="metric-value">{{ vis.mar_total }}</div>
+          <div class="metric-sub">Web {{ vis.mar_web }} · App {{ vis.mar_app }}</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Total uniques</div>
+          <div class="metric-value">{{ vis.total_uniques }}</div>
+          <div class="metric-sub">Deduplicated overall</div>
+        </div>
+        <div class="metric-card total">
+          <div class="metric-label">App share (Mar)</div>
+          <div class="metric-value">{{ vis.mar_app_share }}</div>
+          <div class="metric-sub">Up from 34% in Feb</div>
+        </div>
+      </div>
+
+      <div class="chart-section">
+        <div class="chart-header">
+          <div class="chart-title">Unique visitors by platform</div>
+          <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#5A4A8A;"></div>Web</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#2D7A6B;"></div>App (iOS + Android)</div>
+          </div>
+        </div>
+        <div class="chart-wrap"><canvas id="visitorsChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIGITAL GOODS TAB -->
+  <div id="tab-dg" style="display:none;">
+    <div class="dg-metrics">
+      <div class="metric-card">
+        <div class="metric-label">February</div>
+        <div class="metric-value">{{ dg.feb_total }}</div>
+        <div class="metric-sub">Vidhi · Arjun · Amrita</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">March (MTD)</div>
+        <div class="metric-value">{{ dg.mar_total }}</div>
+        <div class="metric-sub">Kavyal · Swapnil · others</div>
+      </div>
+      <div class="metric-card total">
+        <div class="metric-label">Total</div>
+        <div class="metric-value">{{ dg.total }}</div>
+        <div class="metric-sub">Captured only</div>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <div class="chart-header">
+        <div class="chart-title">Monthly revenue by seller</div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#5A4A8A;"></div>Vidhi</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#2D7A6B;"></div>Arjun</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#D05A3A;"></div>Amrita</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#C47A2B;"></div>Kavyal</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#B5456A;"></div>Swapnil</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#7A7570;"></div>Sushita</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#4A7A9A;"></div>Sunaina</div>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="dgChart"></canvas></div>
+    </div>
+
+    <div class="section-title">Breakdown by seller</div>
+    <div class="seller-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Seller</th>
+            <th>Price</th>
+            <th>Txns</th>
+            <th>Revenue</th>
+            <th>Month</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in dg.sellers %}
+          <tr>
+            <td>{{ s.name }}</td>
+            <td>{{ s.price_fmt }}</td>
+            <td>{{ s.txns }}</td>
+            <td class="td-revenue">{{ s.revenue_fmt }}</td>
+            <td><span class="month-pill pill-{{ s.month }}">{{ s.month_label }}</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 1:1 INITIATIVES TAB -->
+  <div id="tab-oo" style="display:none;">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:2rem;">
+      <div class="metric-card">
+        <div class="metric-label">February</div>
+        <div class="metric-value">{{ oo.feb_total }}</div>
+        <div class="metric-sub">{{ oo.feb_sub }}</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">March (MTD)</div>
+        <div class="metric-value">{{ oo.mar_total }}</div>
+        <div class="metric-sub">{{ oo.mar_sub }}</div>
+      </div>
+      <div class="metric-card total">
+        <div class="metric-label">Total</div>
+        <div class="metric-value">{{ oo.total }}</div>
+        <div class="metric-sub">Captured only</div>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <div class="chart-header">
+        <div class="chart-title">Monthly revenue by practitioner</div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#5A4A8A;"></div>Riya Sankhla (₹151)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#B5456A;"></div>Tamanna (₹199)</div>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="ooChart"></canvas></div>
+    </div>
+
+    <div class="section-title">Breakdown by practitioner</div>
+    <div class="seller-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Practitioner</th>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Txns</th>
+            <th>Revenue</th>
+            <th>Month</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in oo.practitioners %}
+          <tr>
+            <td>{{ p.name }}</td>
+            <td style="color:var(--text-secondary);text-align:left;">{{ p.product }}</td>
+            <td>{{ p.price_fmt }}</td>
+            <td>{{ p.txns }}</td>
+            <td class="td-revenue">{{ p.revenue_fmt }}</td>
+            <td><span class="month-pill pill-{{ p.month }}">{{ p.month_label }}</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:1.5rem;">
+      <div class="section-title">Failed transactions</div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:10px;">
+        {% for f in oo.failed %}
+        <div class="failed-card{% if f.amount == 0 %}" style="background:var(--surface);border-color:var(--border);display:flex;flex-direction:column;justify-content:center;{% endif %}">
+          <div class="failed-label"{% if f.amount == 0 %} style="color:var(--text-muted);"{% endif %}>{{ f.label }}</div>
+          <div class="failed-value"{% if f.amount == 0 %} style="color:var(--text-muted);font-size:18px;"{% endif %}>{{ f.amount_fmt }}</div>
+          <div class="failed-sub"{% if f.amount == 0 %} style="color:var(--text-muted);"{% endif %}>{{ f.sub }}</div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="failed-total">
+        <span class="failed-total-label">Total revenue lost to failures</span>
+        <span class="failed-total-value">{{ oo.failed_total }}</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(tab) {
+  document.getElementById('tab-ee').style.display = tab === 'ee' ? 'block' : 'none';
+  document.getElementById('tab-dg').style.display = tab === 'dg' ? 'block' : 'none';
+  document.getElementById('tab-oo').style.display = tab === 'oo' ? 'block' : 'none';
+  document.querySelectorAll('.tab').forEach((b, i) => {
+    b.classList.toggle('active', (tab === 'ee' && i === 0) || (tab === 'dg' && i === 1) || (tab === 'oo' && i === 2));
+  });
+  if (tab === 'dg' && !window.dgBuilt) { buildDgChart(); window.dgBuilt = true; }
+  if (tab === 'oo' && !window.ooBuilt) { buildOoChart(); window.ooBuilt = true; }
+}
+
+new Chart(document.getElementById('eeChart'), {
+  type: 'bar',
+  data: {
+    labels: ['January', 'February', 'March (MTD)'],
+    datasets: [
+      { label: 'Web', data: {{ [ee.jan.web_raw, ee.feb.web_raw, ee.mar.web_raw] | tojson }}, backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+      { label: 'App', data: {{ [ee.jan.app_raw, ee.feb.app_raw, ee.mar.app_raw] | tojson }}, backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ₹' + ctx.parsed.y.toLocaleString('en-IN') } }
+    },
+    scales: {
+      x: { stacked: true, grid: { display: false }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, autoSkip: false } },
+      y: { stacked: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, callback: v => '₹' + v.toLocaleString('en-IN') }, beginAtZero: true }
+    }
+  }
+});
+
+new Chart(document.getElementById('visitorsChart'), {
+  type: 'bar',
+  data: {
+    labels: ['February', 'March (MTD)'],
+    datasets: [
+      { label: 'Web', data: {{ vis.chart_web | tojson }}, backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+      { label: 'App', data: {{ vis.chart_app | tojson }}, backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toLocaleString('en-IN') } }
+    },
+    scales: {
+      x: { stacked: true, grid: { display: false }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, autoSkip: false } },
+      y: { stacked: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 } }, beginAtZero: true }
+    }
+  }
+});
+
+function buildOoChart() {
+  new Chart(document.getElementById('ooChart'), {
+    type: 'bar',
+    data: {
+      labels: ['January', 'February', 'March (MTD)'],
+      datasets: [
+        { label: 'Riya Sankhla', data: {{ oo.chart.riya | tojson }}, backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+        { label: 'Tamanna',      data: {{ oo.chart.tamanna | tojson }}, backgroundColor: '#B5456A', borderRadius: 5, borderSkipped: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ₹' + ctx.parsed.y.toLocaleString('en-IN') } }
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, autoSkip: false } },
+        y: { stacked: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, callback: v => '₹' + v.toLocaleString('en-IN') }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+function buildDgChart() {
+  new Chart(document.getElementById('dgChart'), {
+    type: 'bar',
+    data: {
+      labels: ['January', 'February', 'March (MTD)'],
+      datasets: [
+        { label: 'Vidhi',   data: {{ dg.chart.vidhi   | tojson }}, backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+        { label: 'Arjun',   data: {{ dg.chart.arjun   | tojson }}, backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false },
+        { label: 'Amrita',  data: {{ dg.chart.amrita  | tojson }}, backgroundColor: '#D05A3A', borderRadius: 5, borderSkipped: false },
+        { label: 'Kavyal',  data: {{ dg.chart.kavyal  | tojson }}, backgroundColor: '#C47A2B', borderRadius: 5, borderSkipped: false },
+        { label: 'Swapnil', data: {{ dg.chart.swapnil | tojson }}, backgroundColor: '#B5456A', borderRadius: 5, borderSkipped: false },
+        { label: 'Sushita', data: {{ dg.chart.sushita | tojson }}, backgroundColor: '#7A7570', borderRadius: 5, borderSkipped: false },
+        { label: 'Sunaina', data: {{ dg.chart.sunaina | tojson }}, backgroundColor: '#4A7A9A', borderRadius: 5, borderSkipped: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ₹' + ctx.parsed.y.toLocaleString('en-IN') } }
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, autoSkip: false } },
+        y: { stacked: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, callback: v => '₹' + v.toLocaleString('en-IN') }, beginAtZero: true }
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>
