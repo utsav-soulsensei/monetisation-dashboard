@@ -16,19 +16,40 @@
     "total_uniques": 2702
   },
 
-  "_note_dg": "Base totals = dashboard values before DG sheet automation. Breakdown table + chart computed live from sheet.",
+  "_note_dg": "Base = dashboard values before DG sheet automation. New sheet rows added on top.",
   "dg_base": {
     "feb": 17260,
     "mar": 65729
   },
+  "dg_sellers_base": [
+    { "name": "Kavyal",                          "price": 399, "txns": 119, "revenue": 47481, "month": "mar" },
+    { "name": "Vidhi Agarwal (Hanuman Sadhana)", "price": 299, "txns": 37,  "revenue": 11063, "month": "mar" },
+    { "name": "Vidhi Agarwal",                   "price": 149, "txns": 71,  "revenue": 10579, "month": "feb" },
+    { "name": "Amrita (Generic)",                "price": 299, "txns": 14,  "revenue": 4186,  "month": "feb" },
+    { "name": "Amrita (Personal)",               "price": 599, "txns": 1,   "revenue": 599,   "month": "mar" },
+    { "name": "Swapnil (Chakra)",                "price": 279, "txns": 10,  "revenue": 2790,  "month": "mar" },
+    { "name": "Swapnil (OM)",                    "price": 279, "txns": 7,   "revenue": 1953,  "month": "mar" },
+    { "name": "Arjun Iyer",                      "price": 499, "txns": 5,   "revenue": 2495,  "month": "feb" },
+    { "name": "Sushita",                         "price": 199, "txns": 4,   "revenue": 796,   "month": "mar" },
+    { "name": "Sunaina",                         "price": 349, "txns": 3,   "revenue": 1047,  "month": "mar" }
+  ],
+  "dg_chart_base": {
+    "Vidhi":   [0, 21642, 0],
+    "Arjun":   [0, 2495,  0],
+    "Amrita":  [0, 4186,  4785],
+    "Kavyal":  [0, 0,     47481],
+    "Swapnil": [0, 0,     4743],
+    "Sushita": [0, 0,     796],
+    "Sunaina": [0, 0,     1047]
+  },
   "dg_seller_colors": {
-    "Kavyal":       "#C47A2B",
-    "Vidhi":        "#5A4A8A",
-    "Amrita":       "#D05A3A",
-    "Swapnil":      "#B5456A",
-    "Arjun":        "#2D7A6B",
-    "Sushita":      "#7A7570",
-    "Sunaina":      "#4A7A9A"
+    "Kavyal":  "#C47A2B",
+    "Vidhi":   "#5A4A8A",
+    "Amrita":  "#D05A3A",
+    "Swapnil": "#B5456A",
+    "Arjun":   "#2D7A6B",
+    "Sushita": "#7A7570",
+    "Sunaina": "#4A7A9A"
   },
 
   "oo": {

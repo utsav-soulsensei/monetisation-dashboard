@@ -288,7 +288,7 @@ def read_dg(gc):
         status         = row_vals[status_idx].strip().lower() if status_idx is not None else ""
         already_marked = revenue_idx is not None and row_vals[revenue_idx].strip() == "Calculated"
 
-        if status == "captured":
+        if status == "captured" and not already_marked:
             key = (seller, amount)
             m_idx = MONTH_KEYS.index(month) if month in MONTH_KEYS else 99
 
@@ -307,11 +307,10 @@ def read_dg(gc):
             breakdown[key]["txns"]    += 1
             breakdown[key]["revenue"] += amount
             breakdown[key]["monthly"][month] += amount
+            new_by_month[month] += amount
 
-            if not already_marked:
-                new_by_month[month] += amount
-                if col_letter:
-                    rows_to_mark.append(sheet_row)
+            if col_letter:
+                rows_to_mark.append(sheet_row)
 
     if rows_to_mark and col_letter:
         updates = [{"range": f"{col_letter}{r}", "values": [["Calculated"]]}
@@ -440,53 +439,76 @@ def main():
     }
 
     # ── DG ────────────────────────────────────────────────────────────────────
-    dg_base         = cfg["dg_base"]
-    seller_colors   = cfg.get("dg_seller_colors", {})
-    active_keys     = [k for k, _ in months]
+    dg_base          = cfg["dg_base"]
+    dg_sellers_base  = cfg["dg_sellers_base"]
+    dg_chart_base    = cfg["dg_chart_base"]
+    seller_colors    = cfg.get("dg_seller_colors", {})
+    active_keys      = [k for k, _ in months]
 
     # Monthly totals: base + new delta from sheet
-    dg_monthly = {key: dg_base.get(key, 0) + dg_new_by_month.get(key, 0) for key in active_keys}
+    dg_monthly     = {key: dg_base.get(key, 0) + dg_new_by_month.get(key, 0) for key in active_keys}
     dg_grand_total = sum(dg_monthly.values())
 
-    # Breakdown table: from sheet rows, sorted by revenue desc
+    # Breakdown table: start from config base, merge in new sheet rows
+    merged_sellers = {(s["name"], s["price"]): dict(s) for s in dg_sellers_base}
+    for (seller, price), v in dg_breakdown.items():
+        key = (seller, price)
+        if key in merged_sellers:
+            merged_sellers[key]["txns"]    += v["txns"]
+            merged_sellers[key]["revenue"] += v["revenue"]
+        else:
+            merged_sellers[key] = {
+                "name": seller, "price": price,
+                "txns": v["txns"], "revenue": v["revenue"],
+                "month": v["first_month"],
+            }
+
     dg_sellers = sorted(
         [
             {
-                "name":        v["seller"],
+                "name":        v["name"],
                 "price_fmt":   fmt_inr(v["price"]),
                 "txns":        v["txns"],
                 "revenue":     v["revenue"],
                 "revenue_fmt": fmt_inr(v["revenue"]),
-                "month":       v["first_month"],
-                "month_label": v["first_month"].capitalize(),
+                "month":       v["month"],
+                "month_label": v["month"].capitalize(),
             }
-            for v in dg_breakdown.values()
+            for v in merged_sellers.values()
         ],
         key=lambda x: -x["revenue"]
     )
 
-    # Chart datasets: per seller, monthly revenue across active months
-    seller_monthly = defaultdict(lambda: defaultdict(int))
+    # Chart datasets: config base arrays + new monthly delta per seller group
+    # Config base uses first-name keys ("Vidhi", "Swapnil" etc.)
+    chart_data = {name: list(arr) for name, arr in dg_chart_base.items()}
+
+    # Extend arrays if new months beyond config's 3 columns
+    for name in chart_data:
+        while len(chart_data[name]) < len(active_keys):
+            chart_data[name].append(0)
+
+    # Add new sheet rows to matching chart group (match by first word)
     for (seller, price), v in dg_breakdown.items():
+        group = seller.split()[0]  # e.g. "Swapnil" from "Swapnil (OM)"
+        if group not in chart_data:
+            chart_data[group] = [0] * len(active_keys)
         for mkey, rev in v["monthly"].items():
-            seller_monthly[seller][mkey] += rev
+            if mkey in active_keys:
+                chart_data[group][active_keys.index(mkey)] += rev
 
     color_idx = 0
     dg_chart_datasets = []
-    for seller in sorted(seller_monthly, key=lambda s: -sum(seller_monthly[s].values())):
-        color = seller_colors.get(seller, DG_DEFAULT_COLORS[color_idx % len(DG_DEFAULT_COLORS)])
+    for name, data in sorted(chart_data.items(), key=lambda x: -sum(x[1])):
+        color = seller_colors.get(name, DG_DEFAULT_COLORS[color_idx % len(DG_DEFAULT_COLORS)])
         color_idx += 1
-        dg_chart_datasets.append({
-            "label": seller,
-            "color": color,
-            "data":  [seller_monthly[seller].get(k, 0) for k in active_keys],
-        })
+        dg_chart_datasets.append({"label": name, "color": color, "data": data})
 
     dg = {
-        "months":   [{"label": label + (" (MTD)" if key == current_key else ""),
-                      "total": fmt_inr(dg_monthly.get(key, 0))} for key, label in months],
-        "total":    fmt_inr(dg_grand_total),
-        "sellers":  dg_sellers,
+        "months":         [{"label": label + (" (MTD)" if key == current_key else ""),
+                            "total": fmt_inr(dg_monthly.get(key, 0))} for key, label in months],
+        "total":          fmt_inr(dg_grand_total),
+        "sellers":        dg_sellers,
         "chart_datasets": dg_chart_datasets,
     }
 
