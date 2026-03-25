@@ -18,7 +18,11 @@ from jinja2 import Environment, FileSystemLoader
 EE_SHEET_ID     = "1avlg2CPbTLnYewuAOrOxDJzqDNkYoQD9QAxpCx_QBbA"
 EE_WEB_TAB      = "Product Working - Revenue"
 EE_APP_TAB      = "EE_Payment_Revenue"
-# DG_SHEET_ID   = ""
+
+DG_SHEET_ID     = "1y6CGuNwr7RtdHXBImBfYzBG0QnVn4CRWjStf8H9IeVI"
+DG_TAB          = "Digital_Payments_Revenue"
+
+DG_DEFAULT_COLORS = ["#5A4A8A","#2D7A6B","#D05A3A","#C47A2B","#B5456A","#7A7570","#4A7A9A","#8B5E3C","#2D6A8A","#6A8A4A"]
 
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]  # read + write
 
@@ -233,6 +237,93 @@ def read_ee_app(gc):
     return dict(new_captured), dict(new_fail_amt), dict(new_fail_cnt)
 
 
+def read_dg(gc):
+    """
+    Reads Digital Goods sheet.
+    - new_by_month: only uncalculated rows → added to config base for totals
+    - breakdown: ALL captured rows grouped by (seller, price) → for table + chart
+    Marks new rows as Calculated.
+    """
+    ws = gc.open_by_key(DG_SHEET_ID).worksheet(DG_TAB)
+    all_values = ws.get_all_values()
+
+    if len(all_values) < 2:
+        return {}, {}
+
+    headers = all_values[0]
+    print(f"  DG headers: {headers}")
+    print(f"  DG total rows (incl. header): {len(all_values)}")
+
+    def col_idx(name):
+        return headers.index(name) if name in headers else None
+
+    seller_idx  = col_idx("Resource Value")
+    amount_idx  = col_idx("Amount")
+    date_idx    = col_idx("Date")
+    status_idx  = col_idx("Status")
+    revenue_idx = col_idx("Revenue")
+    col_letter  = chr(ord("A") + revenue_idx) if revenue_idx is not None else None
+
+    new_by_month = defaultdict(int)
+    breakdown    = {}   # {(seller, price): {txns, revenue, first_month_idx, first_month, monthly}}
+    rows_to_mark = []
+
+    for sheet_row, row_vals in enumerate(all_values[1:], start=2):
+        while len(row_vals) < len(headers):
+            row_vals.append("")
+
+        seller = row_vals[seller_idx].strip() if seller_idx is not None else ""
+        if not seller:
+            continue
+
+        month = parse_month(row_vals[date_idx]) if date_idx is not None else None
+        if not month:
+            continue
+
+        try:
+            amount = int(float(row_vals[amount_idx] or 0))
+        except (ValueError, TypeError):
+            continue
+
+        status         = row_vals[status_idx].strip().lower() if status_idx is not None else ""
+        already_marked = revenue_idx is not None and row_vals[revenue_idx].strip() == "Calculated"
+
+        if status == "captured":
+            key = (seller, amount)
+            m_idx = MONTH_KEYS.index(month) if month in MONTH_KEYS else 99
+
+            if key not in breakdown:
+                breakdown[key] = {
+                    "seller": seller, "price": amount,
+                    "txns": 0, "revenue": 0,
+                    "first_month_idx": m_idx, "first_month": month,
+                    "monthly": defaultdict(int),
+                }
+            else:
+                if m_idx < breakdown[key]["first_month_idx"]:
+                    breakdown[key]["first_month_idx"] = m_idx
+                    breakdown[key]["first_month"] = month
+
+            breakdown[key]["txns"]    += 1
+            breakdown[key]["revenue"] += amount
+            breakdown[key]["monthly"][month] += amount
+
+            if not already_marked:
+                new_by_month[month] += amount
+                if col_letter:
+                    rows_to_mark.append(sheet_row)
+
+    if rows_to_mark and col_letter:
+        updates = [{"range": f"{col_letter}{r}", "values": [["Calculated"]]}
+                   for r in rows_to_mark]
+        ws.batch_update(updates)
+        print(f"  DG: marked {len(rows_to_mark)} new rows as Calculated")
+    else:
+        print("  DG: no new rows to mark")
+
+    return dict(new_by_month), breakdown
+
+
 def write_ee_snapshot(gc, ee_months):
     """
     Appends (or updates) a daily row in the 'Daily EE Snapshot' subsheet.
@@ -292,7 +383,6 @@ def main():
     app_cap      = {m: app_base.get(m, 0) + app_new_cap.get(m, 0) for m in set(list(app_base.keys()) + list(app_new_cap.keys()))}
 
     visitors  = cfg["visitors"]
-    dg_cfg    = cfg["dg"]
     oo_cfg    = cfg["oo"]
 
     # ── Build EE monthly rows (dynamic — auto-extends each new month) ──────────
@@ -323,6 +413,10 @@ def main():
     ee_chart_app    = [m["app_raw"] for m in ee_months]
 
 
+    # ── DG (from sheet) ────────────────────────────────────────────────────────
+    print("Reading DG sheet…")
+    dg_new_by_month, dg_breakdown = read_dg(gc)
+
     # ── Daily EE Snapshot ─────────────────────────────────────────────────────
     print("Writing EE snapshot…")
     write_ee_snapshot(gc, ee_months)
@@ -346,21 +440,54 @@ def main():
     }
 
     # ── DG ────────────────────────────────────────────────────────────────────
-    dg_total_raw = dg_cfg["feb_total"] + dg_cfg["mar_total"]
-    dg = {
-        "feb_total": fmt_inr(dg_cfg["feb_total"]),
-        "mar_total": fmt_inr(dg_cfg["mar_total"]),
-        "total":     fmt_inr(dg_total_raw),
-        "sellers": [
+    dg_base         = cfg["dg_base"]
+    seller_colors   = cfg.get("dg_seller_colors", {})
+    active_keys     = [k for k, _ in months]
+
+    # Monthly totals: base + new delta from sheet
+    dg_monthly = {key: dg_base.get(key, 0) + dg_new_by_month.get(key, 0) for key in active_keys}
+    dg_grand_total = sum(dg_monthly.values())
+
+    # Breakdown table: from sheet rows, sorted by revenue desc
+    dg_sellers = sorted(
+        [
             {
-                **s,
-                "price_fmt":   fmt_inr(s["price"]),
-                "revenue_fmt": fmt_inr(s["revenue"]),
-                "month_label": s["month"].capitalize(),
+                "name":        v["seller"],
+                "price_fmt":   fmt_inr(v["price"]),
+                "txns":        v["txns"],
+                "revenue":     v["revenue"],
+                "revenue_fmt": fmt_inr(v["revenue"]),
+                "month":       v["first_month"],
+                "month_label": v["first_month"].capitalize(),
             }
-            for s in dg_cfg["sellers"]
+            for v in dg_breakdown.values()
         ],
-        "chart": dg_cfg["chart"],
+        key=lambda x: -x["revenue"]
+    )
+
+    # Chart datasets: per seller, monthly revenue across active months
+    seller_monthly = defaultdict(lambda: defaultdict(int))
+    for (seller, price), v in dg_breakdown.items():
+        for mkey, rev in v["monthly"].items():
+            seller_monthly[seller][mkey] += rev
+
+    color_idx = 0
+    dg_chart_datasets = []
+    for seller in sorted(seller_monthly, key=lambda s: -sum(seller_monthly[s].values())):
+        color = seller_colors.get(seller, DG_DEFAULT_COLORS[color_idx % len(DG_DEFAULT_COLORS)])
+        color_idx += 1
+        dg_chart_datasets.append({
+            "label": seller,
+            "color": color,
+            "data":  [seller_monthly[seller].get(k, 0) for k in active_keys],
+        })
+
+    dg = {
+        "months":   [{"label": label + (" (MTD)" if key == current_key else ""),
+                      "total": fmt_inr(dg_monthly.get(key, 0))} for key, label in months],
+        "total":    fmt_inr(dg_grand_total),
+        "sellers":  dg_sellers,
+        "chart_datasets": dg_chart_datasets,
     }
 
     # ── OO ────────────────────────────────────────────────────────────────────

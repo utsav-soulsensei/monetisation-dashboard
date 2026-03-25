@@ -16,30 +16,19 @@
     "total_uniques": 2702
   },
 
-  "dg": {
-    "feb_total": 17260,
-    "mar_total": 65729,
-    "sellers": [
-      { "name": "Kavyal",                       "price": 399, "txns": 119, "revenue": 47481, "month": "mar" },
-      { "name": "Vidhi Agarwal",                "price": 149, "txns": 71,  "revenue": 10579, "month": "feb" },
-      { "name": "Amrita (Generic)",             "price": 299, "txns": 14,  "revenue": 4186,  "month": "feb" },
-      { "name": "Swapnil (Chakra)",             "price": 279, "txns": 10,  "revenue": 2790,  "month": "mar" },
-      { "name": "Arjun Iyer",                   "price": 499, "txns": 5,   "revenue": 2495,  "month": "feb" },
-      { "name": "Swapnil (OM)",                 "price": 279, "txns": 7,   "revenue": 1953,  "month": "mar" },
-      { "name": "Sunaina",                      "price": 349, "txns": 3,   "revenue": 1047,  "month": "mar" },
-      { "name": "Amrita (Personal)",            "price": 599, "txns": 1,   "revenue": 599,   "month": "mar" },
-      { "name": "Sushita",                      "price": 199, "txns": 4,   "revenue": 796,   "month": "mar" },
-      { "name": "Vidhi Agarwal (Hanuman Sadhana)", "price": 299, "txns": 37, "revenue": 11063, "month": "mar" }
-    ],
-    "chart": {
-      "vidhi":   [0, 10579, 11063],
-      "arjun":   [0, 2495,  0],
-      "amrita":  [0, 4186,  4785],
-      "kavyal":  [0, 0,     47481],
-      "swapnil": [0, 0,     4743],
-      "sushita": [0, 0,     796],
-      "sunaina": [0, 0,     1047]
-    }
+  "_note_dg": "Base totals = dashboard values before DG sheet automation. Breakdown table + chart computed live from sheet.",
+  "dg_base": {
+    "feb": 17260,
+    "mar": 65729
+  },
+  "dg_seller_colors": {
+    "Kavyal":       "#C47A2B",
+    "Vidhi":        "#5A4A8A",
+    "Amrita":       "#D05A3A",
+    "Swapnil":      "#B5456A",
+    "Arjun":        "#2D7A6B",
+    "Sushita":      "#7A7570",
+    "Sunaina":      "#4A7A9A"
   },
 
   "oo": {
