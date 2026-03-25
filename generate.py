@@ -201,7 +201,7 @@ def read_ee_app(gc):
             continue
 
         status         = row_vals[status_idx].strip().lower() if status_idx is not None else ""
-        already_marked = revenue_idx is not None and row_vals[revenue_idx].strip() != ""
+        already_marked = revenue_idx is not None and row_vals[revenue_idx].strip() == "Calculated"
 
         # Only count NEW rows (not yet marked)
         if not already_marked:
@@ -215,10 +215,10 @@ def read_ee_app(gc):
                 rows_to_mark.append(sheet_row)
 
     if rows_to_mark and col_letter:
-        updates = [{"range": f"{col_letter}{r}", "values": [["Captured"]]}
+        updates = [{"range": f"{col_letter}{r}", "values": [["Calculated"]]}
                    for r in rows_to_mark]
         ws.batch_update(updates)
-        print(f"  EE App: marked {len(rows_to_mark)} new rows as Captured")
+        print(f"  EE App: marked {len(rows_to_mark)} new rows as Calculated")
     else:
         print("  EE App: no new rows to mark")
 
