@@ -90,6 +90,8 @@ def read_ee_web(gc):
         return {}, {}, {}
 
     headers = all_values[0]
+    print(f"  Headers found: {headers}")
+    print(f"  Total rows in sheet (incl. header): {len(all_values)}")
 
     def col_idx(name):
         return headers.index(name) if name in headers else None
@@ -99,6 +101,13 @@ def read_ee_web(gc):
     status_idx  = col_idx("Status")
     revenue_idx = col_idx("Revenue")
     col_letter  = chr(ord("A") + revenue_idx) if revenue_idx is not None else None
+
+    print(f"  Revenue col index (0-based): {revenue_idx}, letter: {col_letter}")
+
+    # Debug: show what row 245 looks like
+    if len(all_values) >= 245:
+        row245 = all_values[244]  # 0-based, row 245 = index 244
+        print(f"  Row 245 raw values: {row245}")
 
     captured = defaultdict(int)
     fail_amt = defaultdict(int)
