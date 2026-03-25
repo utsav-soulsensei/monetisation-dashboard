@@ -1,6 +1,7 @@
 {
   "_note": "This file holds all data NOT yet automated from sheets. Update manually until those sheets are wired in.",
 
+  "_note_app": "Base values = what was on the dashboard before App sheet automation. Script adds new sheet rows on top.",
   "ee_app_captured": {
     "jan": 0,
     "feb": 604,

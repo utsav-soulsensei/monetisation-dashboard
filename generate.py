@@ -14,10 +14,11 @@ from google.oauth2.service_account import Credentials
 from jinja2 import Environment, FileSystemLoader
 
 # ── Sheet IDs ──────────────────────────────────────────────────────────────────
-EE_WEB_SHEET_ID = "1avlg2CPbTLnYewuAOrOxDJzqDNkYoQD9QAxpCx_QBbA"
-# Add EE App and DG sheet IDs here when ready:
-# EE_APP_SHEET_ID = ""
-# DG_SHEET_ID     = ""
+# Both EE Web and EE App live in the same Google Sheets file
+EE_SHEET_ID     = "1avlg2CPbTLnYewuAOrOxDJzqDNkYoQD9QAxpCx_QBbA"
+EE_WEB_TAB      = "Product Working - Revenue"
+EE_APP_TAB      = "EE_Payment_Revenue"
+# DG_SHEET_ID   = ""
 
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]  # read + write
 
@@ -83,7 +84,7 @@ def read_ee_web(gc):
         fail_amt  – {month: total_failed_amount}
         fail_cnt  – {month: count_of_failed_txns}
     """
-    ws = gc.open_by_key(EE_WEB_SHEET_ID).worksheet("Product Working - Revenue")
+    ws = gc.open_by_key(EE_SHEET_ID).worksheet(EE_WEB_TAB)
     all_values = ws.get_all_values()  # row i → sheet row i+1 (exact, no skipping)
 
     if len(all_values) < 2:
@@ -151,20 +152,107 @@ def read_ee_web(gc):
     return dict(captured), dict(fail_amt), dict(fail_cnt)
 
 
+def read_ee_app(gc):
+    """
+    Reads EE App sheet. Only processes NEW rows (Revenue column empty).
+    Adds new amounts to base values from config.json to avoid double-counting.
+    Returns:
+        new_captured  – {month: new_amount_to_add}
+        new_fail_amt  – {month: new_failed_amount_to_add}
+        new_fail_cnt  – {month: new_failed_count_to_add}
+    """
+    ws = gc.open_by_key(EE_SHEET_ID).worksheet(EE_APP_TAB)
+    all_values = ws.get_all_values()
+
+    if len(all_values) < 2:
+        return {}, {}, {}
+
+    headers = all_values[0]
+    print(f"  EE App headers: {headers}")
+    print(f"  EE App total rows (incl. header): {len(all_values)}")
+
+    def col_idx(name):
+        return headers.index(name) if name in headers else None
+
+    date_idx    = col_idx("Date")
+    amount_idx  = col_idx("Amount")
+    status_idx  = col_idx("Status")
+    revenue_idx = col_idx("Revenue")
+    col_letter  = chr(ord("A") + revenue_idx) if revenue_idx is not None else None
+
+    new_captured = defaultdict(int)
+    new_fail_amt = defaultdict(int)
+    new_fail_cnt = defaultdict(int)
+    rows_to_mark = []
+
+    for sheet_row, row_vals in enumerate(all_values[1:], start=2):
+        while len(row_vals) < len(headers):
+            row_vals.append("")
+
+        if date_idx is None:
+            continue
+        month = parse_month(row_vals[date_idx])
+        if not month:
+            continue
+
+        try:
+            amount = int(float(row_vals[amount_idx] or 0))
+        except (ValueError, TypeError):
+            continue
+
+        status         = row_vals[status_idx].strip().lower() if status_idx is not None else ""
+        already_marked = revenue_idx is not None and row_vals[revenue_idx].strip() != ""
+
+        # Only count NEW rows (not yet marked)
+        if not already_marked:
+            if status == "captured":
+                new_captured[month] += amount
+            elif status == "failed":
+                new_fail_amt[month] += amount
+                new_fail_cnt[month] += 1
+
+            if status in ("captured", "failed") and col_letter:
+                rows_to_mark.append(sheet_row)
+
+    if rows_to_mark and col_letter:
+        updates = [{"range": f"{col_letter}{r}", "values": [["Captured"]]}
+                   for r in rows_to_mark]
+        ws.batch_update(updates)
+        print(f"  EE App: marked {len(rows_to_mark)} new rows as Captured")
+    else:
+        print("  EE App: no new rows to mark")
+
+    return dict(new_captured), dict(new_fail_amt), dict(new_fail_cnt)
+
+
 # ── Main ───────────────────────────────────────────────────────────────────────
 def main():
     gc = get_client()
 
-    # ── EE Web (from sheet) ────────────────────────────────────────────────────
+    # ── EE Web (from sheet — full recompute) ───────────────────────────────────
     print("Reading EE Web sheet…")
     web_cap, web_fail_amt, web_fail_cnt = read_ee_web(gc)
+
+    # ── EE App (base from config + new rows from sheet) ────────────────────────
+    print("Reading EE App sheet…")
+    app_new_cap, app_new_fail_amt, app_new_fail_cnt = read_ee_app(gc)
 
     # ── Config (manual data) ───────────────────────────────────────────────────
     with open("config.json") as f:
         cfg = json.load(f)
 
-    app_cap   = cfg["ee_app_captured"]
-    app_fail  = cfg["ee_app_failed"]
+    # EE App: base (already on dashboard) + new rows from sheet
+    app_base     = cfg["ee_app_captured"]
+    app_cap      = {m: app_base.get(m, 0) + app_new_cap.get(m, 0) for m in set(list(app_base.keys()) + list(app_new_cap.keys()))}
+
+    app_fail_base = cfg["ee_app_failed"]
+    app_fail      = {
+        m: {
+            "amount": app_fail_base.get(m, {}).get("amount", 0) + app_new_fail_amt.get(m, 0),
+            "count":  app_fail_base.get(m, {}).get("count",  0) + app_new_fail_cnt.get(m, 0),
+        }
+        for m in set(list(app_fail_base.keys()) + list(app_new_fail_amt.keys()))
+    }
     visitors  = cfg["visitors"]
     dg_cfg    = cfg["dg"]
     oo_cfg    = cfg["oo"]
