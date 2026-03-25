@@ -77,36 +77,52 @@ def fmt_num(n: int) -> str:
 def read_ee_web(gc):
     """
     Reads EE Web sheet, computes monthly totals, marks processed rows.
+    Uses get_all_values() so row numbers are always exact (no empty-row drift).
     Returns:
         captured  – {month: total_amount}
         fail_amt  – {month: total_failed_amount}
         fail_cnt  – {month: count_of_failed_txns}
     """
     ws = gc.open_by_key(EE_WEB_SHEET_ID).sheet1
-    records = ws.get_all_records()
+    all_values = ws.get_all_values()  # row i → sheet row i+1 (exact, no skipping)
 
-    # Find which column index "Revenue" is (1-based for Sheets API)
-    headers = ws.row_values(1)
-    try:
-        revenue_col = headers.index("Revenue") + 1  # 1-based
-    except ValueError:
-        revenue_col = None
+    if len(all_values) < 2:
+        return {}, {}, {}
+
+    headers = all_values[0]
+
+    def col_idx(name):
+        return headers.index(name) if name in headers else None
+
+    date_idx    = col_idx("Session Date")
+    amount_idx  = col_idx("Amount")
+    status_idx  = col_idx("Status")
+    revenue_idx = col_idx("Revenue")
+    col_letter  = chr(ord("A") + revenue_idx) if revenue_idx is not None else None
 
     captured = defaultdict(int)
     fail_amt = defaultdict(int)
     fail_cnt = defaultdict(int)
-    rows_to_mark = []  # sheet row numbers (2-based) not yet marked
+    rows_to_mark = []
 
-    for i, row in enumerate(records):
-        month = parse_month(str(row.get("Session Date", "")))
+    for i, row_vals in enumerate(all_values[1:], start=2):  # start=2 → real sheet row
+        # Pad short rows
+        while len(row_vals) < len(headers):
+            row_vals.append("")
+
+        if date_idx is None:
+            continue
+        month = parse_month(row_vals[date_idx])
         if not month:
             continue
+
         try:
-            amount = int(float(str(row.get("Amount", 0) or 0)))
+            amount = int(float(row_vals[amount_idx] or 0))
         except (ValueError, TypeError):
             continue
-        status = str(row.get("Status", "")).strip().lower()
-        already_marked = str(row.get("Revenue", "")).strip() == "Calculated"
+
+        status         = row_vals[status_idx].strip().lower() if status_idx is not None else ""
+        already_marked = revenue_idx is not None and row_vals[revenue_idx].strip() == "Calculated"
 
         if status == "captured":
             captured[month] += amount
@@ -114,13 +130,10 @@ def read_ee_web(gc):
             fail_amt[month] += amount
             fail_cnt[month] += 1
 
-        # Mark any unprocessed row (captured or failed) as Calculated
-        if status in ("captured", "failed") and not already_marked and revenue_col:
-            rows_to_mark.append(i + 2)  # +2: row 1 is header, records is 0-indexed
+        if status in ("captured", "failed") and not already_marked and col_letter:
+            rows_to_mark.append(i)
 
-    # Write "Calculated" back in a single batch call
-    if rows_to_mark and revenue_col:
-        col_letter = chr(ord("A") + revenue_col - 1)
+    if rows_to_mark and col_letter:
         updates = [{"range": f"{col_letter}{r}", "values": [["Calculated"]]}
                    for r in rows_to_mark]
         ws.batch_update(updates)
