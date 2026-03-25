@@ -233,6 +233,44 @@ def read_ee_app(gc):
     return dict(new_captured), dict(new_fail_amt), dict(new_fail_cnt)
 
 
+def write_ee_snapshot(gc, ee_months):
+    """
+    Appends (or updates) a daily row in the 'Daily EE Snapshot' subsheet.
+    Columns: Date | Jan-Web | Jan-App | Feb-Web | Feb-App | ...
+    Auto-extends headers when a new month becomes active.
+    """
+    ws = gc.open_by_key(EE_SHEET_ID).worksheet("Daily EE Snapshot")
+
+    # Build expected headers
+    expected_headers = ["Date"]
+    for m in ee_months:
+        label = m["key"].capitalize()  # "Jan", "Feb", etc.
+        expected_headers += [f"{label}-Web", f"{label}-App"]
+
+    # Build today's data row
+    today = datetime.now().strftime("%d/%m/%Y")
+    data_row = [today] + [val for m in ee_months for val in (m["web_raw"], m["app_raw"])]
+
+    existing = ws.get_all_values()
+
+    # Write or update headers if needed
+    if not existing or existing[0] != expected_headers:
+        ws.update(expected_headers, range_name="A1")
+        existing_data = existing[1:] if existing else []
+    else:
+        existing_data = existing[1:] if len(existing) > 1 else []
+
+    # Check if today already has a row → update it, else append
+    existing_dates = [r[0] for r in existing_data]
+    if today in existing_dates:
+        row_idx = existing_dates.index(today) + 2  # +1 for header, +1 for 1-based
+        ws.update([data_row], range_name=f"A{row_idx}")
+        print(f"  EE Snapshot: updated row for {today}")
+    else:
+        ws.append_row(data_row, value_input_option="RAW")
+        print(f"  EE Snapshot: appended row for {today}")
+
+
 # ── Main ───────────────────────────────────────────────────────────────────────
 def main():
     gc = get_client()
@@ -310,6 +348,10 @@ def main():
 
     ee_failed_total_raw = sum(m["total_raw"] for m in ee_failed_list)
     ee_failed_total     = fmt_inr(ee_failed_total_raw)
+
+    # ── Daily EE Snapshot ─────────────────────────────────────────────────────
+    print("Writing EE snapshot…")
+    write_ee_snapshot(gc, ee_months)
 
     # ── Visitors ───────────────────────────────────────────────────────────────
     feb_v = visitors["feb_web"] + visitors["feb_app"]
