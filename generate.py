@@ -19,7 +19,7 @@ EE_WEB_SHEET_ID = "1avlg2CPbTLnYewuAOrOxDJzqDNkYoQD9QAxpCx_QBbA"
 # EE_APP_SHEET_ID = ""
 # DG_SHEET_ID     = ""
 
-SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
+SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]  # read + write
 
 MONTH_ORDER = ["jan", "feb", "mar", "apr", "may", "jun",
                "jul", "aug", "sep", "oct", "nov", "dec"]
@@ -74,8 +74,9 @@ def fmt_num(n: int) -> str:
 
 
 # ── Sheet readers ──────────────────────────────────────────────────────────────
-def read_ee_web(gc) -> tuple[dict, dict, dict]:
+def read_ee_web(gc):
     """
+    Reads EE Web sheet, computes monthly totals, marks processed rows.
     Returns:
         captured  – {month: total_amount}
         fail_amt  – {month: total_failed_amount}
@@ -84,11 +85,19 @@ def read_ee_web(gc) -> tuple[dict, dict, dict]:
     ws = gc.open_by_key(EE_WEB_SHEET_ID).sheet1
     records = ws.get_all_records()
 
+    # Find which column index "Revenue" is (1-based for Sheets API)
+    headers = ws.row_values(1)
+    try:
+        revenue_col = headers.index("Revenue") + 1  # 1-based
+    except ValueError:
+        revenue_col = None
+
     captured = defaultdict(int)
     fail_amt = defaultdict(int)
     fail_cnt = defaultdict(int)
+    rows_to_mark = []  # sheet row numbers (2-based) not yet marked
 
-    for row in records:
+    for i, row in enumerate(records):
         month = parse_month(str(row.get("Session Date", "")))
         if not month:
             continue
@@ -97,12 +106,25 @@ def read_ee_web(gc) -> tuple[dict, dict, dict]:
         except (ValueError, TypeError):
             continue
         status = str(row.get("Status", "")).strip().lower()
+        already_marked = str(row.get("Revenue", "")).strip() == "Calculated"
 
         if status == "captured":
             captured[month] += amount
         elif status == "failed":
             fail_amt[month] += amount
             fail_cnt[month] += 1
+
+        # Mark any unprocessed row (captured or failed) as Calculated
+        if status in ("captured", "failed") and not already_marked and revenue_col:
+            rows_to_mark.append(i + 2)  # +2: row 1 is header, records is 0-indexed
+
+    # Write "Calculated" back in a single batch call
+    if rows_to_mark and revenue_col:
+        col_letter = chr(ord("A") + revenue_col - 1)
+        updates = [{"range": f"{col_letter}{r}", "values": [["Calculated"]]}
+                   for r in rows_to_mark]
+        ws.batch_update(updates)
+        print(f"  Marked {len(rows_to_mark)} new rows as Calculated")
 
     return dict(captured), dict(fail_amt), dict(fail_cnt)
 
