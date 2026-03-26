@@ -272,10 +272,44 @@
     margin-bottom: 2rem;
   }
 
+  .visitors-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .oo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 2rem;
+  }
+
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
   @media (max-width: 640px) {
-    .metrics-grid { grid-template-columns: repeat(2, 1fr); }
-.dg-metrics { grid-template-columns: 1fr; }
-    header { flex-direction: column; align-items: flex-start; gap: 10px; }
+    body { padding: 1rem 1rem 3rem; }
+
+    header { flex-direction: column; align-items: flex-start; gap: 8px; }
+
+    .tabs { width: 100%; }
+    .tab { flex: 1; padding: 8px 8px; font-size: 13px; text-align: center; }
+
+    .metrics-grid,
+    .dg-metrics { grid-template-columns: repeat(2, 1fr) !important; }
+
+    .visitors-grid { grid-template-columns: repeat(2, 1fr); }
+    .oo-grid { grid-template-columns: 1fr; }
+
+    .metric-value { font-size: 22px; }
+
+    .chart-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .legend { gap: 10px; }
+
+    .chart-wrap { height: 200px; }
+
+    .chart-section { padding: 1rem; }
   }
 </style>
 </head>
@@ -325,7 +359,7 @@
     <div style="margin-top:2rem;">
       <div class="section-title">Session join page — unique visitors <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-muted);font-size:11px;">&nbsp;· Feb 25 onwards</span></div>
 
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem;">
+      <div class="visitors-grid">
         <div class="metric-card">
           <div class="metric-label">February</div>
           <div class="metric-value">{{ vis.feb_total }}</div>
@@ -391,7 +425,7 @@
     </div>
 
     <div class="section-title">Breakdown by seller</div>
-    <div class="seller-table">
+    <div class="seller-table table-scroll">
       <table>
         <thead>
           <tr>
@@ -419,7 +453,7 @@
 
   <!-- 1:1 INITIATIVES TAB -->
   <div id="tab-oo" style="display:none;">
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:2rem;">
+    <div class="oo-grid">
       <div class="metric-card">
         <div class="metric-label">February</div>
         <div class="metric-value">{{ oo.feb_total }}</div>
@@ -449,7 +483,7 @@
     </div>
 
     <div class="section-title">Breakdown by practitioner</div>
-    <div class="seller-table">
+    <div class="seller-table table-scroll">
       <table>
         <thead>
           <tr>
