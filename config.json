@@ -16,7 +16,7 @@
   "_note_dg": "Base = dashboard values before DG sheet automation. New sheet rows added on top.",
   "dg_base": {
     "feb": 17260,
-    "mar": 66028
+    "mar": 68024
   },
   "dg_sellers_base": [
     {
@@ -94,6 +94,13 @@
       "price": 299,
       "txns": 1,
       "revenue": 299,
+      "month": "mar"
+    },
+    {
+      "name": "Vidhi_2506",
+      "price": 499,
+      "txns": 4,
+      "revenue": 1996,
       "month": "mar"
     }
   ],
