@@ -4,7 +4,8 @@
   "ee_app_captured": {
     "jan": 0,
     "feb": 604,
-    "mar": 12687
+    "mar": 12687,
+    "apr": 201
   },
   "visitors": {
     "feb_web": 394,
@@ -16,7 +17,7 @@
   "_note_dg": "Base = dashboard values before DG sheet automation. New sheet rows added on top.",
   "dg_base": {
     "feb": 17260,
-    "mar": 68024
+    "mar": 68523
   },
   "dg_sellers_base": [
     {
@@ -99,8 +100,8 @@
     {
       "name": "Vidhi_2506",
       "price": 499,
-      "txns": 4,
-      "revenue": 1996,
+      "txns": 5,
+      "revenue": 2495,
       "month": "mar"
     }
   ],

@@ -317,7 +317,7 @@
 
 <header>
   <div class="logo">Soul<span>Sensei</span> — Revenue</div>
-  <div class="date-badge">Jan – 31 Mar 2026</div>
+  <div class="date-badge">Jan – 1 Apr 2026</div>
 </header>
 
 <div class="container">
@@ -330,7 +330,7 @@
 
   <!-- ENERGY EXCHANGE TAB -->
   <div id="tab-ee">
-    <div class="metrics-grid" style="grid-template-columns: repeat(4, 1fr);">
+    <div class="metrics-grid" style="grid-template-columns: repeat(5, 1fr);">
       
       <div class="metric-card">
         <div class="metric-label">January</div>
@@ -345,14 +345,20 @@
       </div>
       
       <div class="metric-card">
-        <div class="metric-label">March (MTD)</div>
-        <div class="metric-value">₹45,043</div>
-        <div class="metric-sub">Web ₹32,356 · App ₹12,687</div>
+        <div class="metric-label">March</div>
+        <div class="metric-value">₹46,203</div>
+        <div class="metric-sub">Web ₹33,516 · App ₹12,687</div>
+      </div>
+      
+      <div class="metric-card">
+        <div class="metric-label">April (MTD)</div>
+        <div class="metric-value">₹504</div>
+        <div class="metric-sub">Web ₹303 · App ₹201</div>
       </div>
       
       <div class="metric-card total">
         <div class="metric-label">Total</div>
-        <div class="metric-value">₹60,042</div>
+        <div class="metric-value">₹61,706</div>
         <div class="metric-sub">Captured only</div>
       </div>
     </div>
@@ -409,7 +415,7 @@
 
   <!-- DIGITAL GOODS TAB -->
   <div id="tab-dg" style="display:none;">
-    <div class="dg-metrics" style="grid-template-columns: repeat(4, 1fr);">
+    <div class="dg-metrics" style="grid-template-columns: repeat(5, 1fr);">
       
       <div class="metric-card">
         <div class="metric-label">January</div>
@@ -424,14 +430,20 @@
       </div>
       
       <div class="metric-card">
-        <div class="metric-label">March (MTD)</div>
-        <div class="metric-value">₹68,024</div>
+        <div class="metric-label">March</div>
+        <div class="metric-value">₹68,523</div>
+        <div class="metric-sub">Captured only</div>
+      </div>
+      
+      <div class="metric-card">
+        <div class="metric-label">April (MTD)</div>
+        <div class="metric-value">₹0</div>
         <div class="metric-sub">Captured only</div>
       </div>
       
       <div class="metric-card total">
         <div class="metric-label">Total</div>
-        <div class="metric-value">₹85,284</div>
+        <div class="metric-value">₹85,783</div>
         <div class="metric-sub">Captured only</div>
       </div>
     </div>
@@ -454,6 +466,8 @@
           <div class="legend-item"><div class="legend-dot" style="background:#4A7A9A;"></div>Sunaina</div>
           
           <div class="legend-item"><div class="legend-dot" style="background:#7A7570;"></div>Sushita</div>
+          
+          <div class="legend-item"><div class="legend-dot" style="background:#8B5E3C;"></div>Vidhi_2506</div>
           
         </div>
       </div>
@@ -525,8 +539,8 @@
           <tr>
             <td>Vidhi_2506</td>
             <td>₹499</td>
-            <td>4</td>
-            <td class="td-revenue">₹1,996</td>
+            <td>5</td>
+            <td class="td-revenue">₹2,495</td>
             <td><span class="month-pill pill-mar">Mar</span></td>
           </tr>
           
@@ -662,10 +676,10 @@ function showTab(tab) {
 new Chart(document.getElementById('eeChart'), {
   type: 'bar',
   data: {
-    labels: ["January", "February", "March (MTD)"],
+    labels: ["January", "February", "March", "April (MTD)"],
     datasets: [
-      { label: 'Web', data: [2073, 12322, 32356], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
-      { label: 'App', data: [0, 604, 12687], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
+      { label: 'Web', data: [2073, 12322, 33516, 303], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+      { label: 'App', data: [0, 604, 12687, 201], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
     ]
   },
   options: {
@@ -731,22 +745,24 @@ function buildDgChart() {
   new Chart(document.getElementById('dgChart'), {
     type: 'bar',
     data: {
-      labels: ["January", "February", "March (MTD)"],
+      labels: ["January", "February", "March", "April (MTD)"],
       datasets: [
         
-        { label: "Kavyal", data: [0, 0, 47481], backgroundColor: "#C47A2B", borderRadius: 5, borderSkipped: false },
+        { label: "Kavyal", data: [0, 0, 47481, 0], backgroundColor: "#C47A2B", borderRadius: 5, borderSkipped: false },
         
-        { label: "Vidhi", data: [0, 21642, 0], backgroundColor: "#5A4A8A", borderRadius: 5, borderSkipped: false },
+        { label: "Vidhi", data: [0, 21642, 0, 0], backgroundColor: "#5A4A8A", borderRadius: 5, borderSkipped: false },
         
-        { label: "Amrita", data: [0, 4186, 4785], backgroundColor: "#D05A3A", borderRadius: 5, borderSkipped: false },
+        { label: "Amrita", data: [0, 4186, 4785, 0], backgroundColor: "#D05A3A", borderRadius: 5, borderSkipped: false },
         
-        { label: "Swapnil", data: [0, 0, 4743], backgroundColor: "#B5456A", borderRadius: 5, borderSkipped: false },
+        { label: "Swapnil", data: [0, 0, 4743, 0], backgroundColor: "#B5456A", borderRadius: 5, borderSkipped: false },
         
-        { label: "Arjun", data: [0, 2495, 0], backgroundColor: "#2D7A6B", borderRadius: 5, borderSkipped: false },
+        { label: "Arjun", data: [0, 2495, 0, 0], backgroundColor: "#2D7A6B", borderRadius: 5, borderSkipped: false },
         
-        { label: "Sunaina", data: [0, 0, 1047], backgroundColor: "#4A7A9A", borderRadius: 5, borderSkipped: false },
+        { label: "Sunaina", data: [0, 0, 1047, 0], backgroundColor: "#4A7A9A", borderRadius: 5, borderSkipped: false },
         
-        { label: "Sushita", data: [0, 0, 796], backgroundColor: "#7A7570", borderRadius: 5, borderSkipped: false },
+        { label: "Sushita", data: [0, 0, 796, 0], backgroundColor: "#7A7570", borderRadius: 5, borderSkipped: false },
+        
+        { label: "Vidhi_2506", data: [0, 0, 499, 0], backgroundColor: "#8B5E3C", borderRadius: 5, borderSkipped: false },
         
       ]
     },
