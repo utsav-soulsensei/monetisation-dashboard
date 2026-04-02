@@ -494,7 +494,6 @@ def main():
         [
             {
                 "name":        v["name"],
-                "price":       v["price"],
                 "price_fmt":   fmt_inr(v["price"]),
                 "txns":        v["txns"],
                 "revenue":     v["revenue"],

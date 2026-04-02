@@ -288,6 +288,21 @@
 
   .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
+  .csv-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .csv-btn:hover { background: var(--surface2); color: var(--text-primary); }
+
   .wow-note {
     font-size: 12px;
     color: var(--text-muted);
@@ -500,7 +515,10 @@
       <div class="chart-wrap"><canvas id="dgChart"></canvas></div>
     </div>
 
-    <div class="section-title">Breakdown by seller</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <div class="section-title" style="margin-bottom:0;">Breakdown by seller</div>
+      <button class="csv-btn" onclick="downloadDgCsv()">↓ Download CSV</button>
+    </div>
     <div class="seller-table table-scroll">
       <table>
         <thead>
@@ -762,6 +780,26 @@
 </div>
 
 <script>
+function downloadDgCsv() {
+  const table = document.querySelector('#tab-dg table');
+  const rows = [];
+  table.querySelectorAll('tr').forEach(tr => {
+    const cells = [...tr.querySelectorAll('th, td')].map(cell => {
+      const text = cell.innerText.trim();
+      return '"' + text.replace(/"/g, '""') + '"';
+    });
+    rows.push(cells.join(','));
+  });
+  const csv = rows.join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'digital_goods_breakdown.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 function showTab(tab) {
   document.getElementById('tab-ee').style.display = tab === 'ee' ? 'block' : 'none';
   document.getElementById('tab-dg').style.display = tab === 'dg' ? 'block' : 'none';

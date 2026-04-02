@@ -616,20 +616,17 @@ function showTab(tab) {
   if (tab === 'wow' && !window.wowBuilt) { buildWowCharts(); window.wowBuilt = true; }
 }
 
-const DG_SELLERS = {{ dg.sellers | tojson }};
-
 function downloadDgCsv() {
-  const rows = [['Seller', 'Price (INR)', 'Transactions', 'Revenue (INR)', 'Month']];
-  DG_SELLERS.forEach(s => {
-    rows.push([
-      '"' + s.name.replace(/"/g, '""') + '"',
-      s.price,
-      s.txns,
-      s.revenue,
-      s.month_label
-    ]);
+  const table = document.querySelector('#tab-dg table');
+  const rows = [];
+  table.querySelectorAll('tr').forEach(tr => {
+    const cells = [...tr.querySelectorAll('th, td')].map(cell => {
+      const text = cell.innerText.trim();
+      return '"' + text.replace(/"/g, '""') + '"';
+    });
+    rows.push(cells.join(','));
   });
-  const csv = rows.map(r => r.join(',')).join('\n');
+  const csv = rows.join('\n');
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
