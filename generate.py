@@ -62,6 +62,17 @@ def parse_month(date_str: str) -> str | None:
     return None
 
 
+def parse_month_week(date_str: str):
+    """Returns (month_key, week_num) e.g. ('apr', 1) for Apr 1–7."""
+    for fmt in ("%d/%m/%Y, %H:%M:%S", "%d/%m/%Y %H:%M:%S", "%d/%m/%Y"):
+        try:
+            dt = datetime.strptime(date_str.strip(), fmt)
+            return dt.strftime("%b").lower(), (dt.day - 1) // 7 + 1
+        except ValueError:
+            continue
+    return None, None
+
+
 def fmt_inr(n: int) -> str:
     """Format integer in Indian Rupee notation: 123456 → ₹1,23,456"""
     if n == 0:
@@ -100,7 +111,7 @@ def read_ee_web(gc):
     all_values = ws.get_all_values()  # row i → sheet row i+1 (exact, no skipping)
 
     if len(all_values) < 2:
-        return {}, {}, {}
+        return {}, {}, {}, {}
 
     headers = all_values[0]
     print(f"  Headers found: {headers}")
@@ -125,6 +136,7 @@ def read_ee_web(gc):
     captured = defaultdict(int)
     fail_amt = defaultdict(int)
     fail_cnt = defaultdict(int)
+    weekly   = defaultdict(int)   # (month, week_num) → amount
     rows_to_mark = []
 
     for i, row_vals in enumerate(all_values[1:], start=2):  # start=2 → real sheet row
@@ -137,6 +149,7 @@ def read_ee_web(gc):
         month = parse_month(row_vals[date_idx])
         if not month:
             continue
+        _, week_num = parse_month_week(row_vals[date_idx])
 
         try:
             amount = int(float(row_vals[amount_idx] or 0))
@@ -148,6 +161,8 @@ def read_ee_web(gc):
 
         if status == "captured":
             captured[month] += amount
+            if week_num:
+                weekly[(month, week_num)] += amount
         elif status == "failed":
             fail_amt[month] += amount
             fail_cnt[month] += 1
@@ -161,7 +176,7 @@ def read_ee_web(gc):
         ws.batch_update(updates)
         print(f"  Marked {len(rows_to_mark)} new rows as Calculated")
 
-    return dict(captured), dict(fail_amt), dict(fail_cnt)
+    return dict(captured), dict(fail_amt), dict(fail_cnt), dict(weekly)
 
 
 def read_ee_app(gc):
@@ -177,7 +192,7 @@ def read_ee_app(gc):
     all_values = ws.get_all_values()
 
     if len(all_values) < 2:
-        return {}, {}, {}
+        return {}, {}, {}, {}
 
     headers = all_values[0]
     print(f"  EE App headers: {headers}")
@@ -195,6 +210,7 @@ def read_ee_app(gc):
     new_captured = defaultdict(int)
     new_fail_amt = defaultdict(int)
     new_fail_cnt = defaultdict(int)
+    all_weekly   = defaultdict(int)   # ALL rows (month, week_num) → amount
     rows_to_mark = []
 
     for sheet_row, row_vals in enumerate(all_values[1:], start=2):
@@ -206,6 +222,7 @@ def read_ee_app(gc):
         month = parse_month(row_vals[date_idx])
         if not month:
             continue
+        _, week_num = parse_month_week(row_vals[date_idx])
 
         try:
             amount = int(float(row_vals[amount_idx] or 0))
@@ -215,7 +232,11 @@ def read_ee_app(gc):
         status         = row_vals[status_idx].strip().lower() if status_idx is not None else ""
         already_marked = revenue_idx is not None and row_vals[revenue_idx].strip() == "Calculated"
 
-        # Only count NEW rows (not yet marked)
+        # Weekly from ALL rows (regardless of Calculated) for the WoW tab
+        if status == "captured" and week_num:
+            all_weekly[(month, week_num)] += amount
+
+        # Only count NEW rows (not yet marked) for monthly base
         if not already_marked:
             if status == "captured":
                 new_captured[month] += amount
@@ -234,7 +255,7 @@ def read_ee_app(gc):
     else:
         print("  EE App: no new rows to mark")
 
-    return dict(new_captured), dict(new_fail_amt), dict(new_fail_cnt)
+    return dict(new_captured), dict(new_fail_amt), dict(new_fail_cnt), dict(all_weekly)
 
 
 def read_dg(gc):
@@ -248,7 +269,7 @@ def read_dg(gc):
     all_values = ws.get_all_values()
 
     if len(all_values) < 2:
-        return {}, {}
+        return {}, {}, {}
 
     headers = all_values[0]
     print(f"  DG headers: {headers}")
@@ -266,6 +287,7 @@ def read_dg(gc):
 
     new_by_month = defaultdict(int)
     breakdown    = {}   # {(seller, price): {txns, revenue, first_month_idx, first_month, monthly}}
+    all_weekly   = defaultdict(int)   # ALL rows (month, week_num) → amount
     rows_to_mark = []
 
     for sheet_row, row_vals in enumerate(all_values[1:], start=2):
@@ -279,6 +301,7 @@ def read_dg(gc):
         month = parse_month(row_vals[date_idx]) if date_idx is not None else None
         if not month:
             continue
+        _, week_num = parse_month_week(row_vals[date_idx]) if date_idx is not None else (None, None)
 
         try:
             amount = int(float(row_vals[amount_idx] or 0))
@@ -287,6 +310,10 @@ def read_dg(gc):
 
         status         = row_vals[status_idx].strip().lower() if status_idx is not None else ""
         already_marked = revenue_idx is not None and row_vals[revenue_idx].strip() == "Calculated"
+
+        # Weekly from ALL rows (regardless of Calculated) for the WoW tab
+        if status == "captured" and week_num:
+            all_weekly[(month, week_num)] += amount
 
         if status == "captured" and not already_marked:
             key = (seller, amount)
@@ -320,7 +347,7 @@ def read_dg(gc):
     else:
         print("  DG: no new rows to mark")
 
-    return dict(new_by_month), breakdown
+    return dict(new_by_month), breakdown, dict(all_weekly)
 
 
 def write_ee_snapshot(gc, ee_months):
@@ -367,11 +394,11 @@ def main():
 
     # ── EE Web (from sheet — full recompute) ───────────────────────────────────
     print("Reading EE Web sheet…")
-    web_cap, web_fail_amt, web_fail_cnt = read_ee_web(gc)
+    web_cap, web_fail_amt, web_fail_cnt, ee_web_weekly = read_ee_web(gc)
 
     # ── EE App (base from config + new rows from sheet) ────────────────────────
     print("Reading EE App sheet…")
-    app_new_cap, app_new_fail_amt, app_new_fail_cnt = read_ee_app(gc)
+    app_new_cap, app_new_fail_amt, app_new_fail_cnt, ee_app_weekly = read_ee_app(gc)
 
     # ── Config (manual data) ───────────────────────────────────────────────────
     with open("config.json") as f:
@@ -414,7 +441,7 @@ def main():
 
     # ── DG (from sheet) ────────────────────────────────────────────────────────
     print("Reading DG sheet…")
-    dg_new_by_month, dg_breakdown = read_dg(gc)
+    dg_new_by_month, dg_breakdown, dg_weekly = read_dg(gc)
 
     # ── Daily EE Snapshot ─────────────────────────────────────────────────────
     print("Writing EE snapshot…")
@@ -467,6 +494,7 @@ def main():
         [
             {
                 "name":        v["name"],
+                "price":       v["price"],
                 "price_fmt":   fmt_inr(v["price"]),
                 "txns":        v["txns"],
                 "revenue":     v["revenue"],
@@ -532,11 +560,49 @@ def main():
         "chart": oo_cfg["chart"],
     }
 
+    # ── Week on Week (April 2026) ──────────────────────────────────────────────
+    now = datetime.now()
+    APR_WEEKS = [
+        (1, "W1", "Apr 1–7"),
+        (2, "W2", "Apr 8–14"),
+        (3, "W3", "Apr 15–21"),
+        (4, "W4", "Apr 22–28"),
+    ]
+    current_week_num = (now.day - 1) // 7 + 1 if now.month == 4 else None
+
+    wow_weeks = []
+    for w_num, w_label, w_range in APR_WEEKS:
+        ee_w  = ee_web_weekly.get(("apr", w_num), 0)
+        ea_w  = ee_app_weekly.get(("apr", w_num), 0)
+        dg_w  = dg_weekly.get(("apr", w_num), 0)
+        ee_total = ee_w + ea_w
+        is_cur = (w_num == current_week_num)
+        wow_weeks.append({
+            "label":         w_label,
+            "range":         w_range,
+            "ee_web":        ee_w,
+            "ee_app":        ea_w,
+            "ee_total":      ee_total,
+            "ee_total_fmt":  fmt_inr(ee_total),
+            "ee_web_fmt":    fmt_inr(ee_w),
+            "ee_app_fmt":    fmt_inr(ea_w),
+            "dg":            dg_w,
+            "dg_fmt":        fmt_inr(dg_w),
+            "is_current":    is_cur,
+        })
+
+    wow = {
+        "weeks":       wow_weeks,
+        "ee_web_data": [w["ee_web"]  for w in wow_weeks],
+        "ee_app_data": [w["ee_app"]  for w in wow_weeks],
+        "dg_data":     [w["dg"]      for w in wow_weeks],
+        "labels":      [w["label"]   for w in wow_weeks],
+    }
+
     # ── Render ─────────────────────────────────────────────────────────────────
     env = Environment(loader=FileSystemLoader("."), autoescape=False)
     tpl = env.get_template("template.html")
 
-    now = datetime.now()
     output = tpl.render(
         generated_date=now.strftime("%-d %b %Y"),
         ee_months=ee_months,
@@ -547,6 +613,7 @@ def main():
         vis=vis,
         dg=dg,
         oo=oo,
+        wow=wow,
     )
 
     with open("index.html", "w", encoding="utf-8") as f:

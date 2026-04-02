@@ -288,19 +288,52 @@
 
   .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
+  .csv-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .csv-btn:hover { background: var(--surface2); color: var(--text-primary); }
+
+  .wow-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 8px 14px;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+  }
+
+  .wow-stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+
   @media (max-width: 640px) {
     body { padding: 1rem 1rem 3rem; }
 
     header { flex-direction: column; align-items: flex-start; gap: 8px; }
 
-    .tabs { width: 100%; }
-    .tab { flex: 1; padding: 8px 8px; font-size: 13px; text-align: center; }
+    .tabs { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .tab { flex-shrink: 0; padding: 8px 14px; font-size: 12px; text-align: center; }
 
     .metrics-grid,
     .dg-metrics { grid-template-columns: repeat(2, 1fr) !important; }
 
     .visitors-grid { grid-template-columns: repeat(2, 1fr); }
     .oo-grid { grid-template-columns: 1fr; }
+    .wow-stat-row { grid-template-columns: repeat(2, 1fr); }
 
     .metric-value { font-size: 22px; }
 
@@ -326,6 +359,7 @@
     <button class="tab active" onclick="showTab('ee')">Energy exchange</button>
     <button class="tab" onclick="showTab('dg')">Digital goods</button>
     <button class="tab" onclick="showTab('oo')">1:1 initiatives</button>
+    <button class="tab" onclick="showTab('wow')">Week on week</button>
   </div>
 
   <!-- ENERGY EXCHANGE TAB -->
@@ -424,7 +458,10 @@
       <div class="chart-wrap"><canvas id="dgChart"></canvas></div>
     </div>
 
-    <div class="section-title">Breakdown by seller</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <div class="section-title" style="margin-bottom:0;">Breakdown by seller</div>
+      <button class="csv-btn" onclick="downloadDgCsv()">↓ Download CSV</button>
+    </div>
     <div class="seller-table table-scroll">
       <table>
         <thead>
@@ -448,6 +485,54 @@
           {% endfor %}
         </tbody>
       </table>
+    </div>
+  </div>
+
+  <!-- WEEK ON WEEK TAB -->
+  <div id="tab-wow" style="display:none;">
+    <div class="wow-note">April 2026 — week-by-week revenue. Current week is partial.</div>
+
+    <div class="section-title">Digital goods</div>
+    <div class="wow-stat-row">
+      {% for w in wow.weeks %}
+      <div class="metric-card{% if w.is_current %} total{% endif %}">
+        <div class="metric-label">{{ w.label }} · {{ w.range }}</div>
+        <div class="metric-value">{{ w.dg_fmt if w.dg > 0 else '—' }}</div>
+        <div class="metric-sub">{% if w.is_current %}Partial week{% elif w.dg == 0 %}Upcoming{% else %}Captured{% endif %}</div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="chart-section">
+      <div class="chart-header">
+        <div class="chart-title">Digital goods — weekly revenue (April)</div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#C47A2B;"></div>Revenue</div>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="wowDgChart"></canvas></div>
+    </div>
+
+    <div class="section-title" style="margin-top:1rem;">Energy exchange</div>
+    <div class="wow-stat-row">
+      {% for w in wow.weeks %}
+      <div class="metric-card{% if w.is_current %} total{% endif %}">
+        <div class="metric-label">{{ w.label }} · {{ w.range }}</div>
+        <div class="metric-value">{{ w.ee_total_fmt if w.ee_total > 0 else '—' }}</div>
+        <div class="metric-sub">{% if w.ee_total > 0 %}Web {{ w.ee_web_fmt }} · App {{ w.ee_app_fmt }}{% elif w.is_current %}Partial week{% else %}Upcoming{% endif %}</div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="chart-section">
+      <div class="chart-header">
+        <div class="chart-title">Energy exchange — weekly revenue (April)</div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#5A4A8A;"></div>Web</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#2D7A6B;"></div>App</div>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="wowEeChart"></canvas></div>
     </div>
   </div>
 
@@ -519,11 +604,86 @@ function showTab(tab) {
   document.getElementById('tab-ee').style.display = tab === 'ee' ? 'block' : 'none';
   document.getElementById('tab-dg').style.display = tab === 'dg' ? 'block' : 'none';
   document.getElementById('tab-oo').style.display = tab === 'oo' ? 'block' : 'none';
+  document.getElementById('tab-wow').style.display = tab === 'wow' ? 'block' : 'none';
   document.querySelectorAll('.tab').forEach((b, i) => {
-    b.classList.toggle('active', (tab === 'ee' && i === 0) || (tab === 'dg' && i === 1) || (tab === 'oo' && i === 2));
+    b.classList.toggle('active',
+      (tab === 'ee' && i === 0) || (tab === 'dg' && i === 1) ||
+      (tab === 'oo' && i === 2) || (tab === 'wow' && i === 3)
+    );
   });
   if (tab === 'dg' && !window.dgBuilt) { buildDgChart(); window.dgBuilt = true; }
   if (tab === 'oo' && !window.ooBuilt) { buildOoChart(); window.ooBuilt = true; }
+  if (tab === 'wow' && !window.wowBuilt) { buildWowCharts(); window.wowBuilt = true; }
+}
+
+const DG_SELLERS = {{ dg.sellers | tojson }};
+
+function downloadDgCsv() {
+  const rows = [['Seller', 'Price (INR)', 'Transactions', 'Revenue (INR)', 'Month']];
+  DG_SELLERS.forEach(s => {
+    rows.push([
+      '"' + s.name.replace(/"/g, '""') + '"',
+      s.price,
+      s.txns,
+      s.revenue,
+      s.month_label
+    ]);
+  });
+  const csv = rows.map(r => r.join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'digital_goods_breakdown.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function buildWowCharts() {
+  const wowLabels = {{ wow.labels | tojson }};
+
+  new Chart(document.getElementById('wowDgChart'), {
+    type: 'bar',
+    data: {
+      labels: wowLabels,
+      datasets: [
+        { label: 'Revenue', data: {{ wow.dg_data | tojson }}, backgroundColor: '#C47A2B', borderRadius: 6, borderSkipped: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => 'Revenue: ₹' + ctx.parsed.y.toLocaleString('en-IN') } }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 11 }, maxRotation: 0 } },
+        y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, callback: v => '₹' + v.toLocaleString('en-IN') }, beginAtZero: true }
+      }
+    }
+  });
+
+  new Chart(document.getElementById('wowEeChart'), {
+    type: 'bar',
+    data: {
+      labels: wowLabels,
+      datasets: [
+        { label: 'Web', data: {{ wow.ee_web_data | tojson }}, backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+        { label: 'App', data: {{ wow.ee_app_data | tojson }}, backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ₹' + ctx.parsed.y.toLocaleString('en-IN') } }
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 11 }, maxRotation: 0 } },
+        y: { stacked: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, callback: v => '₹' + v.toLocaleString('en-IN') }, beginAtZero: true }
+      }
+    }
+  });
 }
 
 new Chart(document.getElementById('eeChart'), {
