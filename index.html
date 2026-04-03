@@ -313,15 +313,6 @@
     display: inline-block;
   }
 
-  .wow-week-label {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 4px;
-  }
-
   .wow-stat-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -359,7 +350,7 @@
 
 <header>
   <div class="logo">Soul<span>Sensei</span> — Revenue</div>
-  <div class="date-badge">Jan – 2 Apr 2026</div>
+  <div class="date-badge">Jan – 3 Apr 2026</div>
 </header>
 
 <div class="container">
@@ -395,13 +386,13 @@
       
       <div class="metric-card">
         <div class="metric-label">April (MTD)</div>
-        <div class="metric-value">₹2,359</div>
-        <div class="metric-sub">Web ₹1,555 · App ₹804</div>
+        <div class="metric-value">₹3,914</div>
+        <div class="metric-sub">Web ₹2,208 · App ₹1,706</div>
       </div>
       
       <div class="metric-card total">
         <div class="metric-label">Total</div>
-        <div class="metric-value">₹63,561</div>
+        <div class="metric-value">₹65,116</div>
         <div class="metric-sub">Captured only</div>
       </div>
     </div>
@@ -480,13 +471,13 @@
       
       <div class="metric-card">
         <div class="metric-label">April (MTD)</div>
-        <div class="metric-value">₹0</div>
+        <div class="metric-value">₹1,356</div>
         <div class="metric-sub">Captured only</div>
       </div>
       
       <div class="metric-card total">
         <div class="metric-label">Total</div>
-        <div class="metric-value">₹85,783</div>
+        <div class="metric-value">₹87,139</div>
         <div class="metric-sub">Captured only</div>
       </div>
     </div>
@@ -509,6 +500,12 @@
           <div class="legend-item"><div class="legend-dot" style="background:#4A7A9A;"></div>Sunaina</div>
           
           <div class="legend-item"><div class="legend-dot" style="background:#7A7570;"></div>Sushita</div>
+          
+          <div class="legend-item"><div class="legend-dot" style="background:#8B5E3C;"></div>Swapnil_2975</div>
+          
+          <div class="legend-item"><div class="legend-dot" style="background:#2D6A8A;"></div>Arjun_2976</div>
+          
+          <div class="legend-item"><div class="legend-dot" style="background:#6A8A4A;"></div>Rhea_2884</div>
           
         </div>
       </div>
@@ -621,11 +618,35 @@
           </tr>
           
           <tr>
+            <td>Swapnil_2975</td>
+            <td>₹279</td>
+            <td>2</td>
+            <td class="td-revenue">₹558</td>
+            <td><span class="month-pill pill-apr">Apr</span></td>
+          </tr>
+          
+          <tr>
+            <td>Arjun_2976</td>
+            <td>₹499</td>
+            <td>1</td>
+            <td class="td-revenue">₹499</td>
+            <td><span class="month-pill pill-apr">Apr</span></td>
+          </tr>
+          
+          <tr>
             <td>Rhea_2611</td>
             <td>₹299</td>
             <td>1</td>
             <td class="td-revenue">₹299</td>
             <td><span class="month-pill pill-mar">Mar</span></td>
+          </tr>
+          
+          <tr>
+            <td>Rhea_2884</td>
+            <td>₹299</td>
+            <td>1</td>
+            <td class="td-revenue">₹299</td>
+            <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
         </tbody>
@@ -635,30 +656,35 @@
 
   <!-- WEEK ON WEEK TAB -->
   <div id="tab-wow" style="display:none;">
-    <div class="wow-note">April 2026 — week-by-week revenue. W1 = Apr 1–7 (partial, updated live).</div>
+    <div class="wow-note">April 2026 — week-by-week revenue. Current week is partial.</div>
 
     <div class="section-title">Digital goods</div>
     <div class="wow-stat-row">
-      <div class="metric-card">
+      
+      <div class="metric-card total">
         <div class="metric-label">W1 · Apr 1–7</div>
-        <div class="metric-value" id="wow-dg-w1">₹0</div>
+        <div class="metric-value">₹1,356</div>
         <div class="metric-sub">Partial week</div>
       </div>
+      
       <div class="metric-card">
         <div class="metric-label">W2 · Apr 8–14</div>
         <div class="metric-value">—</div>
         <div class="metric-sub">Upcoming</div>
       </div>
+      
       <div class="metric-card">
         <div class="metric-label">W3 · Apr 15–21</div>
         <div class="metric-value">—</div>
         <div class="metric-sub">Upcoming</div>
       </div>
+      
       <div class="metric-card">
         <div class="metric-label">W4 · Apr 22–28</div>
         <div class="metric-value">—</div>
         <div class="metric-sub">Upcoming</div>
       </div>
+      
     </div>
 
     <div class="chart-section">
@@ -673,26 +699,31 @@
 
     <div class="section-title" style="margin-top:1rem;">Energy exchange</div>
     <div class="wow-stat-row">
-      <div class="metric-card">
+      
+      <div class="metric-card total">
         <div class="metric-label">W1 · Apr 1–7</div>
-        <div class="metric-value" id="wow-ee-w1">₹2,359</div>
-        <div class="metric-sub">Web ₹1,555 · App ₹804</div>
+        <div class="metric-value">₹3,914</div>
+        <div class="metric-sub">Web ₹2,208 · App ₹1,706</div>
       </div>
+      
       <div class="metric-card">
         <div class="metric-label">W2 · Apr 8–14</div>
         <div class="metric-value">—</div>
         <div class="metric-sub">Upcoming</div>
       </div>
+      
       <div class="metric-card">
         <div class="metric-label">W3 · Apr 15–21</div>
         <div class="metric-value">—</div>
         <div class="metric-sub">Upcoming</div>
       </div>
+      
       <div class="metric-card">
         <div class="metric-label">W4 · Apr 22–28</div>
         <div class="metric-value">—</div>
         <div class="metric-sub">Upcoming</div>
       </div>
+      
     </div>
 
     <div class="chart-section">
@@ -780,6 +811,22 @@
 </div>
 
 <script>
+function showTab(tab) {
+  document.getElementById('tab-ee').style.display = tab === 'ee' ? 'block' : 'none';
+  document.getElementById('tab-dg').style.display = tab === 'dg' ? 'block' : 'none';
+  document.getElementById('tab-oo').style.display = tab === 'oo' ? 'block' : 'none';
+  document.getElementById('tab-wow').style.display = tab === 'wow' ? 'block' : 'none';
+  document.querySelectorAll('.tab').forEach((b, i) => {
+    b.classList.toggle('active',
+      (tab === 'ee' && i === 0) || (tab === 'dg' && i === 1) ||
+      (tab === 'oo' && i === 2) || (tab === 'wow' && i === 3)
+    );
+  });
+  if (tab === 'dg' && !window.dgBuilt) { buildDgChart(); window.dgBuilt = true; }
+  if (tab === 'oo' && !window.ooBuilt) { buildOoChart(); window.ooBuilt = true; }
+  if (tab === 'wow' && !window.wowBuilt) { buildWowCharts(); window.wowBuilt = true; }
+}
+
 function downloadDgCsv() {
   const table = document.querySelector('#tab-dg table');
   const rows = [];
@@ -800,20 +847,51 @@ function downloadDgCsv() {
   URL.revokeObjectURL(url);
 }
 
-function showTab(tab) {
-  document.getElementById('tab-ee').style.display = tab === 'ee' ? 'block' : 'none';
-  document.getElementById('tab-dg').style.display = tab === 'dg' ? 'block' : 'none';
-  document.getElementById('tab-oo').style.display = tab === 'oo' ? 'block' : 'none';
-  document.getElementById('tab-wow').style.display = tab === 'wow' ? 'block' : 'none';
-  document.querySelectorAll('.tab').forEach((b, i) => {
-    b.classList.toggle('active',
-      (tab === 'ee' && i === 0) || (tab === 'dg' && i === 1) ||
-      (tab === 'oo' && i === 2) || (tab === 'wow' && i === 3)
-    );
+function buildWowCharts() {
+  const wowLabels = ["W1", "W2", "W3", "W4"];
+
+  new Chart(document.getElementById('wowDgChart'), {
+    type: 'bar',
+    data: {
+      labels: wowLabels,
+      datasets: [
+        { label: 'Revenue', data: [1356, 0, 0, 0], backgroundColor: '#C47A2B', borderRadius: 6, borderSkipped: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => 'Revenue: ₹' + ctx.parsed.y.toLocaleString('en-IN') } }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 11 }, maxRotation: 0 } },
+        y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, callback: v => '₹' + v.toLocaleString('en-IN') }, beginAtZero: true }
+      }
+    }
   });
-  if (tab === 'dg' && !window.dgBuilt) { buildDgChart(); window.dgBuilt = true; }
-  if (tab === 'oo' && !window.ooBuilt) { buildOoChart(); window.ooBuilt = true; }
-  if (tab === 'wow' && !window.wowBuilt) { buildWowCharts(); window.wowBuilt = true; }
+
+  new Chart(document.getElementById('wowEeChart'), {
+    type: 'bar',
+    data: {
+      labels: wowLabels,
+      datasets: [
+        { label: 'Web', data: [2208, 0, 0, 0], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+        { label: 'App', data: [1706, 0, 0, 0], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ₹' + ctx.parsed.y.toLocaleString('en-IN') } }
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 11 }, maxRotation: 0 } },
+        y: { stacked: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, callback: v => '₹' + v.toLocaleString('en-IN') }, beginAtZero: true }
+      }
+    }
+  });
 }
 
 new Chart(document.getElementById('eeChart'), {
@@ -821,8 +899,8 @@ new Chart(document.getElementById('eeChart'), {
   data: {
     labels: ["January", "February", "March", "April (MTD)"],
     datasets: [
-      { label: 'Web', data: [2073, 12322, 33516, 1555], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
-      { label: 'App', data: [0, 604, 12687, 804], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
+      { label: 'Web', data: [2073, 12322, 33516, 2208], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+      { label: 'App', data: [0, 604, 12687, 1706], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
     ]
   },
   options: {
@@ -884,61 +962,6 @@ function buildOoChart() {
   });
 }
 
-function buildWowCharts() {
-  // Week labels for April
-  const wowLabels = ['W1\nApr 1–7', 'W2\nApr 8–14', 'W3\nApr 15–21', 'W4\nApr 22–28'];
-
-  // Digital Goods weekly data — update W1 as April data comes in
-  const wowDgData = [0, 0, 0, 0]; // W1=Apr MTD DG revenue
-
-  new Chart(document.getElementById('wowDgChart'), {
-    type: 'bar',
-    data: {
-      labels: wowLabels,
-      datasets: [
-        { label: 'Revenue', data: wowDgData, backgroundColor: '#C47A2B', borderRadius: 6, borderSkipped: false }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: ctx => 'Revenue: ₹' + ctx.parsed.y.toLocaleString('en-IN') } }
-      },
-      scales: {
-        x: { grid: { display: false }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 11 }, maxRotation: 0 } },
-        y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, callback: v => '₹' + v.toLocaleString('en-IN') }, beginAtZero: true }
-      }
-    }
-  });
-
-  // Energy Exchange weekly data — Web + App stacked, W1=Apr MTD EE
-  const wowEeWeb = [1555, 0, 0, 0];
-  const wowEeApp = [804,  0, 0, 0];
-
-  new Chart(document.getElementById('wowEeChart'), {
-    type: 'bar',
-    data: {
-      labels: wowLabels,
-      datasets: [
-        { label: 'Web', data: wowEeWeb, backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
-        { label: 'App', data: wowEeApp, backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ₹' + ctx.parsed.y.toLocaleString('en-IN') } }
-      },
-      scales: {
-        x: { stacked: true, grid: { display: false }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 11 }, maxRotation: 0 } },
-        y: { stacked: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, callback: v => '₹' + v.toLocaleString('en-IN') }, beginAtZero: true }
-      }
-    }
-  });
-}
-
 function buildDgChart() {
   new Chart(document.getElementById('dgChart'), {
     type: 'bar',
@@ -959,6 +982,12 @@ function buildDgChart() {
         { label: "Sunaina", data: [0, 0, 1047, 0], backgroundColor: "#4A7A9A", borderRadius: 5, borderSkipped: false },
         
         { label: "Sushita", data: [0, 0, 796, 0], backgroundColor: "#7A7570", borderRadius: 5, borderSkipped: false },
+        
+        { label: "Swapnil_2975", data: [0, 0, 0, 558], backgroundColor: "#8B5E3C", borderRadius: 5, borderSkipped: false },
+        
+        { label: "Arjun_2976", data: [0, 0, 0, 499], backgroundColor: "#2D6A8A", borderRadius: 5, borderSkipped: false },
+        
+        { label: "Rhea_2884", data: [0, 0, 0, 299], backgroundColor: "#6A8A4A", borderRadius: 5, borderSkipped: false },
         
       ]
     },

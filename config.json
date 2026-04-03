@@ -5,7 +5,7 @@
     "jan": 0,
     "feb": 604,
     "mar": 12687,
-    "apr": 804
+    "apr": 1706
   },
   "visitors": {
     "feb_web": 394,
@@ -17,7 +17,8 @@
   "_note_dg": "Base = dashboard values before DG sheet automation. New sheet rows added on top.",
   "dg_base": {
     "feb": 17260,
-    "mar": 68523
+    "mar": 68523,
+    "apr": 1356
   },
   "dg_sellers_base": [
     {
@@ -103,6 +104,27 @@
       "txns": 5,
       "revenue": 2495,
       "month": "mar"
+    },
+    {
+      "name": "Swapnil_2975",
+      "price": 279,
+      "txns": 2,
+      "revenue": 558,
+      "month": "apr"
+    },
+    {
+      "name": "Arjun_2976",
+      "price": 499,
+      "txns": 1,
+      "revenue": 499,
+      "month": "apr"
+    },
+    {
+      "name": "Rhea_2884",
+      "price": 299,
+      "txns": 1,
+      "revenue": 299,
+      "month": "apr"
     }
   ],
   "dg_chart_base": {
