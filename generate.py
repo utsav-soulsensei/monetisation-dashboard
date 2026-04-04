@@ -388,6 +388,41 @@ def write_ee_snapshot(gc, ee_months):
         print(f"  EE Snapshot: appended row for {today}")
 
 
+def write_dg_snapshot(gc, dg_monthly, months):
+    """
+    Appends (or updates) a daily row in the 'Digital_Goods_Snapshot' subsheet.
+    Columns: Date | Jan | Feb | Mar | Apr | ...
+    Auto-extends headers when a new month becomes active.
+    """
+    ws = gc.open_by_key(DG_SHEET_ID).worksheet("Digital_Goods_Snapshot")
+
+    # Build expected headers
+    expected_headers = ["Date"] + [label for _, label in months]
+
+    # Build today's data row
+    today = datetime.now().strftime("%d/%m/%Y")
+    data_row = [today] + [dg_monthly.get(key, 0) for key, _ in months]
+
+    existing = ws.get_all_values()
+
+    # Write or update headers if needed
+    if not existing or existing[0] != expected_headers:
+        ws.update([expected_headers], range_name="A1")
+        existing_data = existing[1:] if existing else []
+    else:
+        existing_data = existing[1:] if len(existing) > 1 else []
+
+    # Check if today already has a row → update it, else append
+    existing_dates = [r[0] for r in existing_data]
+    if today in existing_dates:
+        row_idx = existing_dates.index(today) + 2  # +1 for header, +1 for 1-based
+        ws.update([data_row], range_name=f"A{row_idx}")
+        print(f"  DG Snapshot: updated row for {today}")
+    else:
+        ws.append_row(data_row, value_input_option="RAW")
+        print(f"  DG Snapshot: appended row for {today}")
+
+
 # ── Main ───────────────────────────────────────────────────────────────────────
 def main():
     gc = get_client()
@@ -475,6 +510,10 @@ def main():
     # Monthly totals: base + new delta from sheet
     dg_monthly     = {key: dg_base.get(key, 0) + dg_new_by_month.get(key, 0) for key in active_keys}
     dg_grand_total = sum(dg_monthly.values())
+
+    # ── Daily DG Snapshot ─────────────────────────────────────────────────────
+    print("Writing DG snapshot…")
+    write_dg_snapshot(gc, dg_monthly, months)
 
     # Breakdown table: start from config base, merge in new sheet rows
     merged_sellers = {(s["name"], s["price"]): dict(s) for s in dg_sellers_base}
