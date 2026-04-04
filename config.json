@@ -5,7 +5,7 @@
     "jan": 0,
     "feb": 604,
     "mar": 12687,
-    "apr": 1706
+    "apr": 1907
   },
   "visitors": {
     "feb_web": 394,
@@ -18,7 +18,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 1356
+    "apr": 2601
   },
   "dg_sellers_base": [
     {
@@ -124,6 +124,13 @@
       "price": 299,
       "txns": 1,
       "revenue": 299,
+      "month": "apr"
+    },
+    {
+      "name": "Kajal_2925",
+      "price": 249,
+      "txns": 5,
+      "revenue": 1245,
       "month": "apr"
     }
   ],
