@@ -18,7 +18,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 2601
+    "apr": 65244
   },
   "dg_sellers_base": [
     {
@@ -131,6 +131,13 @@
       "price": 249,
       "txns": 5,
       "revenue": 1245,
+      "month": "apr"
+    },
+    {
+      "name": "Kavyal_2935",
+      "price": 399,
+      "txns": 157,
+      "revenue": 62643,
       "month": "apr"
     }
   ],

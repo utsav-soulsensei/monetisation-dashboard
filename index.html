@@ -350,7 +350,7 @@
 
 <header>
   <div class="logo">Soul<span>Sensei</span> — Revenue</div>
-  <div class="date-badge">Jan – 4 Apr 2026</div>
+  <div class="date-badge">Jan – 5 Apr 2026</div>
 </header>
 
 <div class="container">
@@ -386,13 +386,13 @@
       
       <div class="metric-card">
         <div class="metric-label">April (MTD)</div>
-        <div class="metric-value">₹4,517</div>
-        <div class="metric-sub">Web ₹2,610 · App ₹1,907</div>
+        <div class="metric-value">₹10,497</div>
+        <div class="metric-sub">Web ₹8,590 · App ₹1,907</div>
       </div>
       
       <div class="metric-card total">
         <div class="metric-label">Total</div>
-        <div class="metric-value">₹65,719</div>
+        <div class="metric-value">₹71,699</div>
         <div class="metric-sub">Captured only</div>
       </div>
     </div>
@@ -471,13 +471,13 @@
       
       <div class="metric-card">
         <div class="metric-label">April (MTD)</div>
-        <div class="metric-value">₹2,601</div>
+        <div class="metric-value">₹65,244</div>
         <div class="metric-sub">Captured only</div>
       </div>
       
       <div class="metric-card total">
         <div class="metric-label">Total</div>
-        <div class="metric-value">₹88,384</div>
+        <div class="metric-value">₹1,51,027</div>
         <div class="metric-sub">Captured only</div>
       </div>
     </div>
@@ -486,6 +486,8 @@
       <div class="chart-header">
         <div class="chart-title">Monthly revenue by seller</div>
         <div class="legend">
+          
+          <div class="legend-item"><div class="legend-dot" style="background:#5A4A8A;"></div>Kavyal_2935</div>
           
           <div class="legend-item"><div class="legend-dot" style="background:#C47A2B;"></div>Kavyal</div>
           
@@ -522,6 +524,14 @@
           </tr>
         </thead>
         <tbody>
+          
+          <tr>
+            <td>Kavyal_2935</td>
+            <td>₹399</td>
+            <td>157</td>
+            <td class="td-revenue">₹62,643</td>
+            <td><span class="month-pill pill-apr">Apr</span></td>
+          </tr>
           
           <tr>
             <td>Kavyal</td>
@@ -665,7 +675,7 @@
       
       <div class="metric-card total">
         <div class="metric-label">W1 · Apr 1–7</div>
-        <div class="metric-value">₹2,601</div>
+        <div class="metric-value">₹65,244</div>
         <div class="metric-sub">Partial week</div>
       </div>
       
@@ -704,8 +714,8 @@
       
       <div class="metric-card total">
         <div class="metric-label">W1 · Apr 1–7</div>
-        <div class="metric-value">₹4,517</div>
-        <div class="metric-sub">Web ₹2,610 · App ₹1,907</div>
+        <div class="metric-value">₹10,497</div>
+        <div class="metric-sub">Web ₹8,590 · App ₹1,907</div>
       </div>
       
       <div class="metric-card">
@@ -857,7 +867,7 @@ function buildWowCharts() {
     data: {
       labels: wowLabels,
       datasets: [
-        { label: 'Revenue', data: [2601, 0, 0, 0], backgroundColor: '#C47A2B', borderRadius: 6, borderSkipped: false }
+        { label: 'Revenue', data: [65244, 0, 0, 0], backgroundColor: '#C47A2B', borderRadius: 6, borderSkipped: false }
       ]
     },
     options: {
@@ -878,7 +888,7 @@ function buildWowCharts() {
     data: {
       labels: wowLabels,
       datasets: [
-        { label: 'Web', data: [2610, 0, 0, 0], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+        { label: 'Web', data: [8590, 0, 0, 0], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
         { label: 'App', data: [1907, 0, 0, 0], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
       ]
     },
@@ -901,7 +911,7 @@ new Chart(document.getElementById('eeChart'), {
   data: {
     labels: ["January", "February", "March", "April (MTD)"],
     datasets: [
-      { label: 'Web', data: [2073, 12322, 33516, 2610], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+      { label: 'Web', data: [2073, 12322, 33516, 8590], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
       { label: 'App', data: [0, 604, 12687, 1907], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
     ]
   },
@@ -970,6 +980,8 @@ function buildDgChart() {
     data: {
       labels: ["January", "February", "March", "April (MTD)"],
       datasets: [
+        
+        { label: "Kavyal_2935", data: [0, 0, 0, 62643], backgroundColor: "#5A4A8A", borderRadius: 5, borderSkipped: false },
         
         { label: "Kavyal", data: [0, 0, 47481, 0], backgroundColor: "#C47A2B", borderRadius: 5, borderSkipped: false },
         
