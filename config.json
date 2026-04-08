@@ -18,7 +18,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 67338
+    "apr": 67617
   },
   "dg_sellers_base": [
     {
@@ -145,6 +145,13 @@
       "price": 249,
       "txns": 2,
       "revenue": 498,
+      "month": "apr"
+    },
+    {
+      "name": "Amrita_2950",
+      "price": 279,
+      "txns": 1,
+      "revenue": 279,
       "month": "apr"
     }
   ],
