@@ -315,7 +315,7 @@
 
   .wow-stat-row {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 10px;
     margin-bottom: 1.5rem;
   }
@@ -333,7 +333,7 @@
 
     .visitors-grid { grid-template-columns: repeat(2, 1fr); }
     .oo-grid { grid-template-columns: 1fr; }
-    .wow-stat-row { grid-template-columns: repeat(2, 1fr); }
+    .wow-stat-row { grid-template-columns: repeat(3, 1fr); }
 
     .metric-value { font-size: 22px; }
 
@@ -688,11 +688,17 @@
 
   <!-- WEEK ON WEEK TAB -->
   <div id="tab-wow" style="display:none;">
-    <div class="wow-note">April 2026 — week-by-week revenue. Current week is partial.</div>
+    <div class="wow-note">Mar 25 – Apr 2026 · Week-by-week revenue. W2 (Apr 8–14) is the current partial week.</div>
 
     <div class="section-title">Digital goods</div>
     <div class="wow-stat-row">
-      
+
+      <div class="metric-card">
+        <div class="metric-label">W0 · Mar 25–31</div>
+        <div class="metric-value">₹2,794</div>
+        <div class="metric-sub">Captured</div>
+      </div>
+
       <div class="metric-card">
         <div class="metric-label">W1 · Apr 1–7</div>
         <div class="metric-value">₹67,617</div>
@@ -731,7 +737,13 @@
 
     <div class="section-title" style="margin-top:1rem;">Energy exchange</div>
     <div class="wow-stat-row">
-      
+
+      <div class="metric-card">
+        <div class="metric-label">W0 · Mar 25–31</div>
+        <div class="metric-value">₹5,589</div>
+        <div class="metric-sub">Web ₹4,583 · App ₹1,006</div>
+      </div>
+
       <div class="metric-card">
         <div class="metric-label">W1 · Apr 1–7</div>
         <div class="metric-value">₹12,353</div>
@@ -880,14 +892,14 @@ function downloadDgCsv() {
 }
 
 function buildWowCharts() {
-  const wowLabels = ["W1", "W2", "W3", "W4"];
+  const wowLabels = ["W0", "W1", "W2", "W3", "W4"];
 
   new Chart(document.getElementById('wowDgChart'), {
     type: 'bar',
     data: {
       labels: wowLabels,
       datasets: [
-        { label: 'Revenue', data: [67617, 0, 0, 0], backgroundColor: '#C47A2B', borderRadius: 6, borderSkipped: false }
+        { label: 'Revenue', data: [2794, 67617, 0, 0, 0], backgroundColor: '#C47A2B', borderRadius: 6, borderSkipped: false }
       ]
     },
     options: {
@@ -908,8 +920,8 @@ function buildWowCharts() {
     data: {
       labels: wowLabels,
       datasets: [
-        { label: 'Web', data: [9043, 0, 0, 0], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
-        { label: 'App', data: [3310, 201, 0, 0], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
+        { label: 'Web', data: [4583, 9043, 0, 0, 0], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+        { label: 'App', data: [1006, 3310, 201, 0, 0], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
       ]
     },
     options: {
