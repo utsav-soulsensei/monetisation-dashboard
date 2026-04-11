@@ -5,7 +5,7 @@
     "jan": 0,
     "feb": 604,
     "mar": 12687,
-    "apr": 3511
+    "apr": 4114
   },
   "visitors": {
     "feb_web": 394,
@@ -18,7 +18,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 67617
+    "apr": 68145
   },
   "dg_sellers_base": [
     {
@@ -152,6 +152,20 @@
       "price": 279,
       "txns": 1,
       "revenue": 279,
+      "month": "apr"
+    },
+    {
+      "name": "Jyotismita_2850",
+      "price": 229,
+      "txns": 1,
+      "revenue": 229,
+      "month": "apr"
+    },
+    {
+      "name": "Vidhi",
+      "price": 299,
+      "txns": 1,
+      "revenue": 299,
       "month": "apr"
     }
   ],
