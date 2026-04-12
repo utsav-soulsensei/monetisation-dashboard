@@ -18,7 +18,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 68145
+    "apr": 70656
   },
   "dg_sellers_base": [
     {
@@ -166,6 +166,13 @@
       "price": 299,
       "txns": 1,
       "revenue": 299,
+      "month": "apr"
+    },
+    {
+      "name": "Swapnil_2688",
+      "price": 279,
+      "txns": 9,
+      "revenue": 2511,
       "month": "apr"
     }
   ],
