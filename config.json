@@ -5,7 +5,7 @@
     "jan": 0,
     "feb": 604,
     "mar": 12687,
-    "apr": 4114
+    "apr": 4315
   },
   "visitors": {
     "feb_web": 394,
@@ -18,7 +18,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 70656
+    "apr": 71333
   },
   "dg_sellers_base": [
     {
@@ -173,6 +173,20 @@
       "price": 279,
       "txns": 9,
       "revenue": 2511,
+      "month": "apr"
+    },
+    {
+      "name": "Susitha_2916",
+      "price": 199,
+      "txns": 2,
+      "revenue": 398,
+      "month": "apr"
+    },
+    {
+      "name": "Swapnil_2702",
+      "price": 279,
+      "txns": 1,
+      "revenue": 279,
       "month": "apr"
     }
   ],
