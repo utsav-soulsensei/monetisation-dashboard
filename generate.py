@@ -25,10 +25,6 @@ DG_TAB          = "Digital_Payments_Revenue"
 
 DG_DEFAULT_COLORS = ["#5A4A8A","#2D7A6B","#D05A3A","#C47A2B","#B5456A","#7A7570","#4A7A9A","#8B5E3C","#2D6A8A","#6A8A4A"]
 
-# Sellers whose payments flow through the DG sheet but belong to 1:1 Initiatives.
-# Excluded from all DG totals, charts, and WoW weekly data.
-DG_OO_SELLERS = {"Tamanna"}
-
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]  # read + write
 
 MONTH_KEYS   = ["jan", "feb", "mar", "apr", "may", "jun",
@@ -347,8 +343,6 @@ def read_dg(gc):
         seller = row_vals[seller_idx].strip() if seller_idx is not None else ""
         if not seller:
             continue
-        if seller in DG_OO_SELLERS:
-            continue   # belongs to 1:1 Initiatives, not Digital Goods
 
         month = parse_month(row_vals[date_idx]) if date_idx is not None else None
         if not month:
