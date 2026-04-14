@@ -25,6 +25,10 @@ DG_TAB          = "Digital_Payments_Revenue"
 
 DG_DEFAULT_COLORS = ["#5A4A8A","#2D7A6B","#D05A3A","#C47A2B","#B5456A","#7A7570","#4A7A9A","#8B5E3C","#2D6A8A","#6A8A4A"]
 
+# Sellers whose payments flow through the DG sheet but belong to 1:1 Initiatives.
+# Excluded from all DG totals, charts, and WoW weekly data.
+DG_OO_SELLERS = {"Tamanna"}
+
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]  # read + write
 
 MONTH_KEYS   = ["jan", "feb", "mar", "apr", "may", "jun",
@@ -343,6 +347,8 @@ def read_dg(gc):
         seller = row_vals[seller_idx].strip() if seller_idx is not None else ""
         if not seller:
             continue
+        if seller in DG_OO_SELLERS:
+            continue   # belongs to 1:1 Initiatives, not Digital Goods
 
         month = parse_month(row_vals[date_idx]) if date_idx is not None else None
         if not month:
@@ -626,13 +632,16 @@ def main():
     }
 
     # ── OO ────────────────────────────────────────────────────────────────────
-    oo_total_raw = oo_cfg["feb_total"] + oo_cfg["mar_total"]
+    oo_apr_raw   = oo_cfg.get("apr_total", 0)
+    oo_total_raw = oo_cfg["feb_total"] + oo_cfg["mar_total"] + oo_apr_raw
     oo = {
         "feb_total": fmt_inr(oo_cfg["feb_total"]),
         "mar_total": fmt_inr(oo_cfg["mar_total"]),
+        "apr_total": fmt_inr(oo_apr_raw),
         "total":     fmt_inr(oo_total_raw),
         "feb_sub":   oo_cfg["feb_sub"],
         "mar_sub":   oo_cfg["mar_sub"],
+        "apr_sub":   oo_cfg.get("apr_sub", ""),
         "practitioners": [
             {
                 **p,

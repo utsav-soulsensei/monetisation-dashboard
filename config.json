@@ -18,7 +18,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 74718
+    "apr": 72131
   },
   "dg_sellers_base": [
     {
@@ -196,13 +196,6 @@
       "revenue": 798,
       "month": "apr"
     },
-    {
-      "name": "Tamanna",
-      "price": 199,
-      "txns": 13,
-      "revenue": 2587,
-      "month": "apr"
-    }
   ],
   "dg_chart_base": {
     "Vidhi": [
@@ -281,9 +274,19 @@
   "oo": {
     "feb_total": 856,
     "mar_total": 2786,
+    "apr_total": 2587,
     "feb_sub": "Riya — 6 tarot pulls",
     "mar_sub": "Tamanna — 14 tarot pulls",
+    "apr_sub": "Tamanna — 13 tarot pulls",
     "practitioners": [
+      {
+        "name": "Tamanna",
+        "product": "Tarot Pull",
+        "price": 199,
+        "txns": 13,
+        "revenue": 2587,
+        "month": "apr"
+      },
       {
         "name": "Tamanna",
         "product": "Tarot Pull",
@@ -302,16 +305,8 @@
       }
     ],
     "chart": {
-      "riya": [
-        0,
-        856,
-        0
-      ],
-      "tamanna": [
-        0,
-        0,
-        2786
-      ]
+      "riya": [0, 856, 0, 0],
+      "tamanna": [0, 0, 2786, 2587]
     }
   }
 }

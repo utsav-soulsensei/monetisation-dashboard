@@ -471,13 +471,13 @@
       
       <div class="metric-card">
         <div class="metric-label">April (MTD)</div>
-        <div class="metric-value">₹74,718</div>
+        <div class="metric-value">₹72,131</div>
         <div class="metric-sub">Captured only</div>
       </div>
-      
+
       <div class="metric-card total">
         <div class="metric-label">Total</div>
-        <div class="metric-value">₹1,60,501</div>
+        <div class="metric-value">₹1,57,914</div>
         <div class="metric-sub">Captured only</div>
       </div>
     </div>
@@ -575,14 +575,6 @@
             <td>10</td>
             <td class="td-revenue">₹2,790</td>
             <td><span class="month-pill pill-mar">Mar</span></td>
-          </tr>
-          
-          <tr>
-            <td>Tamanna</td>
-            <td>₹199</td>
-            <td>13</td>
-            <td class="td-revenue">₹2,587</td>
-            <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
           <tr>
@@ -835,13 +827,18 @@
         <div class="metric-sub">Riya — 6 tarot pulls</div>
       </div>
       <div class="metric-card">
-        <div class="metric-label">March (MTD)</div>
+        <div class="metric-label">March</div>
         <div class="metric-value">₹2,786</div>
         <div class="metric-sub">Tamanna — 14 tarot pulls</div>
       </div>
+      <div class="metric-card">
+        <div class="metric-label">April</div>
+        <div class="metric-value">₹2,587</div>
+        <div class="metric-sub">Tamanna — 13 tarot pulls</div>
+      </div>
       <div class="metric-card total">
         <div class="metric-label">Total</div>
-        <div class="metric-value">₹3,642</div>
+        <div class="metric-value">₹6,229</div>
         <div class="metric-sub">Captured only</div>
       </div>
     </div>
@@ -872,6 +869,14 @@
         </thead>
         <tbody>
           
+          <tr>
+            <td>Tamanna</td>
+            <td style="color:var(--text-secondary);text-align:left;">Tarot Pull</td>
+            <td>₹199</td>
+            <td>13</td>
+            <td class="td-revenue">₹2,587</td>
+            <td><span class="month-pill pill-apr">Apr</span></td>
+          </tr>
           <tr>
             <td>Tamanna</td>
             <td style="color:var(--text-secondary);text-align:left;">Tarot Pull</td>
@@ -1030,10 +1035,10 @@ function buildOoChart() {
   new Chart(document.getElementById('ooChart'), {
     type: 'bar',
     data: {
-      labels: ['January', 'February', 'March (MTD)'],
+      labels: ['January', 'February', 'March', 'April'],
       datasets: [
-        { label: 'Riya Sankhla', data: [0, 856, 0], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
-        { label: 'Tamanna',      data: [0, 0, 2786], backgroundColor: '#B5456A', borderRadius: 5, borderSkipped: false }
+        { label: 'Riya Sankhla', data: [0, 856, 0, 0], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+        { label: 'Tamanna',      data: [0, 0, 2786, 2587], backgroundColor: '#B5456A', borderRadius: 5, borderSkipped: false }
       ]
     },
     options: {

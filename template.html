@@ -545,9 +545,14 @@
         <div class="metric-sub">{{ oo.feb_sub }}</div>
       </div>
       <div class="metric-card">
-        <div class="metric-label">March (MTD)</div>
+        <div class="metric-label">March</div>
         <div class="metric-value">{{ oo.mar_total }}</div>
         <div class="metric-sub">{{ oo.mar_sub }}</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">April</div>
+        <div class="metric-value">{{ oo.apr_total }}</div>
+        <div class="metric-sub">{{ oo.apr_sub }}</div>
       </div>
       <div class="metric-card total">
         <div class="metric-label">Total</div>
@@ -731,7 +736,7 @@ function buildOoChart() {
   new Chart(document.getElementById('ooChart'), {
     type: 'bar',
     data: {
-      labels: ['January', 'February', 'March (MTD)'],
+      labels: ['January', 'February', 'March', 'April'],
       datasets: [
         { label: 'Riya Sankhla', data: {{ oo.chart.riya | tojson }}, backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
         { label: 'Tamanna',      data: {{ oo.chart.tamanna | tojson }}, backgroundColor: '#B5456A', borderRadius: 5, borderSkipped: false }
