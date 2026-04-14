@@ -23,6 +23,8 @@ EE_APP_TAB      = "EE_Payment_Revenue"
 DG_SHEET_ID     = "1y6CGuNwr7RtdHXBImBfYzBG0QnVn4CRWjStf8H9IeVI"
 DG_TAB          = "Digital_Payments_Revenue"
 
+PE_SHEET_ID     = "17lT0DCz9UFyYgZcgN1qrZh4sia674iwi9MtGKkDcpaI"
+
 DG_DEFAULT_COLORS = ["#5A4A8A","#2D7A6B","#D05A3A","#C47A2B","#B5456A","#7A7570","#4A7A9A","#8B5E3C","#2D6A8A","#6A8A4A"]
 
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]  # read + write
@@ -96,6 +98,26 @@ def fmt_inr(n: int) -> str:
 def fmt_num(n: int) -> str:
     """Format with commas: 2442 → 2,442"""
     return f"{n:,}"
+
+
+# ── Payment Extension helpers ──────────────────────────────────────────────────
+def parse_pe_date(date_str: str):
+    """Parse 'Feb 5, 2026' → (month_key, iso_year, iso_week), or (None,None,None)."""
+    try:
+        dt = datetime.strptime(date_str.strip(), "%b %d, %Y")
+        iso = dt.isocalendar()
+        return dt.strftime("%b").lower(), iso[0], iso[1]
+    except ValueError:
+        return None, None, None
+
+
+def parse_pe_value(val_str: str) -> int:
+    """Parse '₹6,436.36' or '1200.06' → integer rupees."""
+    cleaned = val_str.replace("₹", "").replace(",", "").strip()
+    try:
+        return int(float(cleaned))
+    except (ValueError, TypeError):
+        return 0
 
 
 # ── ISO-week helpers (used for dynamic WoW tab) ────────────────────────────────
@@ -396,6 +418,75 @@ def read_dg(gc):
     return dict(new_by_month), breakdown, dict(all_weekly)
 
 
+def read_pe(gc):
+    """
+    Reads Payment Extension sheet (pre-aggregated rows: one per date+slug).
+    Columns expected: Time | oneOnOneSlug | A. Uniques of register_succeed | B. Sum of value on register_succeed
+    Returns:
+        pe_weekly      – {(iso_year, iso_week): total_revenue_int}
+        pe_slug_rows   – [{month, month_label, slug, uniques, revenue, revenue_fmt}]
+                         sorted by month asc, revenue desc
+    """
+    ws = gc.open_by_key(PE_SHEET_ID).get_worksheet(0)
+    all_values = ws.get_all_values()
+
+    if len(all_values) < 2:
+        return {}, []
+
+    headers = [h.lower() for h in all_values[0]]
+    print(f"  PE headers: {all_values[0]}")
+    print(f"  PE total rows (incl. header): {len(all_values)}")
+
+    def col_idx(fragment):
+        for i, h in enumerate(headers):
+            if fragment in h:
+                return i
+        return None
+
+    time_idx    = col_idx("time")
+    slug_idx    = col_idx("slug")
+    uniques_idx = col_idx("uniques")
+    value_idx   = col_idx("sum of value")
+
+    pe_weekly  = defaultdict(int)
+    pe_monthly = defaultdict(lambda: defaultdict(lambda: {"uniques": 0, "revenue": 0}))
+
+    for row_vals in all_values[1:]:
+        while len(row_vals) < len(all_values[0]):
+            row_vals.append("")
+
+        if time_idx is None:
+            continue
+        month, iso_y, iso_w = parse_pe_date(row_vals[time_idx])
+        if not month:
+            continue
+
+        slug    = row_vals[slug_idx].strip() if slug_idx is not None else ""
+        uniques = int(float(row_vals[uniques_idx] or 0)) if uniques_idx is not None else 0
+        revenue = parse_pe_value(row_vals[value_idx]) if value_idx is not None else 0
+
+        if iso_y:
+            pe_weekly[(iso_y, iso_w)] += revenue
+        if slug:
+            pe_monthly[month][slug]["uniques"] += uniques
+            pe_monthly[month][slug]["revenue"] += revenue
+
+    # Flatten to sorted list: month asc, revenue desc within month
+    pe_slug_rows = []
+    for month in sorted(pe_monthly.keys(), key=lambda m: MONTH_KEYS.index(m) if m in MONTH_KEYS else 99):
+        for slug, data in sorted(pe_monthly[month].items(), key=lambda x: -x[1]["revenue"]):
+            pe_slug_rows.append({
+                "month":       month,
+                "month_label": month.capitalize(),
+                "slug":        slug,
+                "uniques":     data["uniques"],
+                "revenue":     data["revenue"],
+                "revenue_fmt": fmt_inr(data["revenue"]),
+            })
+
+    return dict(pe_weekly), pe_slug_rows
+
+
 def write_ee_snapshot(gc, ee_months):
     """
     Appends (or updates) a daily row in the 'Daily EE Snapshot' subsheet.
@@ -524,6 +615,10 @@ def main():
     # ── DG (from sheet) ────────────────────────────────────────────────────────
     print("Reading DG sheet…")
     dg_new_by_month, dg_breakdown, dg_weekly = read_dg(gc)
+
+    # ── Payment Extension (from sheet) ─────────────────────────────────────────
+    print("Reading PE sheet…")
+    pe_weekly_raw, pe_slug_rows = read_pe(gc)
 
     # ── Daily EE Snapshot ─────────────────────────────────────────────────────
     print("Writing EE snapshot…")
@@ -696,6 +791,33 @@ def main():
         "labels":      [w["chart_label"]  for w in wow_weeks],
     }
 
+    # ── Payment Extension WoW (reuses the same 4 ISO week keys) ───────────────
+    pe_wow_weeks = []
+    for i, (wy, ww) in enumerate(week_keys):
+        is_cur    = (i == len(week_keys) - 1)
+        rev       = pe_weekly_raw.get((wy, ww), 0)
+        label     = iso_week_label(wy, ww)
+        start_d   = iso_week_monday(wy, ww)
+        chart_lbl = f"{start_d.strftime('%b')} {start_d.day}"
+        pe_wow_weeks.append({
+            "range":       label,
+            "chart_label": chart_lbl,
+            "revenue":     rev,
+            "revenue_fmt": fmt_inr(rev) if rev > 0 else "—",
+            "is_current":  is_cur,
+        })
+
+    pe = {
+        "wow_weeks":  pe_wow_weeks,
+        "wow_note":   (
+            f"{pe_wow_weeks[0]['range']} – {pe_wow_weeks[-1]['range']}"
+            " · Payment extension weekly revenue. Current week is partial."
+        ) if pe_wow_weeks else "",
+        "wow_data":   [w["revenue"]    for w in pe_wow_weeks],
+        "wow_labels": [w["chart_label"] for w in pe_wow_weeks],
+        "slug_rows":  pe_slug_rows,
+    }
+
     # ── Render ─────────────────────────────────────────────────────────────────
     env = Environment(loader=FileSystemLoader("."), autoescape=False)
     tpl = env.get_template("template.html")
@@ -711,6 +833,7 @@ def main():
         dg=dg,
         oo=oo,
         wow=wow,
+        pe=pe,
     )
 
     with open("index.html", "w", encoding="utf-8") as f:
