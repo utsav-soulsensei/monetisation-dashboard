@@ -8,7 +8,6 @@ import json
 import os
 from collections import defaultdict
 from datetime import datetime, date as date_class, timedelta
-import calendar as cal_module
 
 import gspread
 from google.oauth2.service_account import Credentials
@@ -445,8 +444,8 @@ def read_pe(gc):
 
     time_idx    = col_idx("time")
     slug_idx    = col_idx("slug")
-    uniques_idx = col_idx("uniques")
-    value_idx   = col_idx("sum of value")
+    uniques_idx = col_idx("payments")
+    value_idx   = col_idx("revenue")
 
     pe_weekly  = defaultdict(int)
     pe_monthly = defaultdict(lambda: defaultdict(lambda: {"uniques": 0, "revenue": 0}))
