@@ -490,22 +490,22 @@
 
   <!-- WEEK ON WEEK TAB -->
   <div id="tab-wow" style="display:none;">
-    <div class="wow-note">April 2026 — week-by-week revenue. Current week is partial.</div>
+    <div class="wow-note">{{ wow.note }}</div>
 
     <div class="section-title">Digital goods</div>
     <div class="wow-stat-row">
       {% for w in wow.weeks %}
       <div class="metric-card{% if w.is_current %} total{% endif %}">
-        <div class="metric-label">{{ w.label }} · {{ w.range }}</div>
+        <div class="metric-label">{{ w.range }}</div>
         <div class="metric-value">{{ w.dg_fmt if w.dg > 0 else '—' }}</div>
-        <div class="metric-sub">{% if w.is_current %}Partial week{% elif w.dg == 0 %}Upcoming{% else %}Captured{% endif %}</div>
+        <div class="metric-sub">{% if w.is_current %}Partial week{% elif w.dg == 0 %}No revenue{% else %}Captured{% endif %}</div>
       </div>
       {% endfor %}
     </div>
 
     <div class="chart-section">
       <div class="chart-header">
-        <div class="chart-title">Digital goods — weekly revenue (April)</div>
+        <div class="chart-title">Digital goods — week-by-week revenue</div>
         <div class="legend">
           <div class="legend-item"><div class="legend-dot" style="background:#C47A2B;"></div>Revenue</div>
         </div>
@@ -517,16 +517,16 @@
     <div class="wow-stat-row">
       {% for w in wow.weeks %}
       <div class="metric-card{% if w.is_current %} total{% endif %}">
-        <div class="metric-label">{{ w.label }} · {{ w.range }}</div>
+        <div class="metric-label">{{ w.range }}</div>
         <div class="metric-value">{{ w.ee_total_fmt if w.ee_total > 0 else '—' }}</div>
-        <div class="metric-sub">{% if w.ee_total > 0 %}Web {{ w.ee_web_fmt }} · App {{ w.ee_app_fmt }}{% elif w.is_current %}Partial week{% else %}Upcoming{% endif %}</div>
+        <div class="metric-sub">{% if w.ee_total > 0 %}Web {{ w.ee_web_fmt }} · App {{ w.ee_app_fmt }}{% elif w.is_current %}Partial week{% else %}No revenue{% endif %}</div>
       </div>
       {% endfor %}
     </div>
 
     <div class="chart-section">
       <div class="chart-header">
-        <div class="chart-title">Energy exchange — weekly revenue (April)</div>
+        <div class="chart-title">Energy exchange — week-by-week revenue</div>
         <div class="legend">
           <div class="legend-item"><div class="legend-dot" style="background:#5A4A8A;"></div>Web</div>
           <div class="legend-item"><div class="legend-dot" style="background:#2D7A6B;"></div>App</div>

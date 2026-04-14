@@ -7,7 +7,8 @@ Reads Google Sheets, computes totals, renders index.html from template.html
 import json
 import os
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, date as date_class, timedelta
+import calendar as cal_module
 
 import gspread
 from google.oauth2.service_account import Credentials
@@ -97,6 +98,51 @@ def fmt_num(n: int) -> str:
     return f"{n:,}"
 
 
+# ── ISO-week helpers (used for dynamic WoW tab) ────────────────────────────────
+def parse_iso_week(date_str: str):
+    """Returns (iso_year, iso_week_number) for the given date string, or (None, None)."""
+    for fmt in ("%d/%m/%Y, %H:%M:%S", "%d/%m/%Y %H:%M:%S", "%d/%m/%Y"):
+        try:
+            dt = datetime.strptime(date_str.strip(), fmt)
+            iso = dt.isocalendar()
+            return iso[0], iso[1]
+        except ValueError:
+            continue
+    return None, None
+
+
+def iso_week_monday(iso_year: int, iso_week: int) -> date_class:
+    """Return the Monday of the given ISO year/week."""
+    jan4  = date_class(iso_year, 1, 4)          # Jan 4 is always in ISO week 1
+    w1mon = jan4 - timedelta(days=jan4.weekday())
+    return w1mon + timedelta(weeks=iso_week - 1)
+
+
+def iso_week_label(iso_year: int, iso_week: int) -> str:
+    """Return a display label like 'Apr 8–14' or 'Mar 30 – Apr 5' for the ISO week."""
+    start = iso_week_monday(iso_year, iso_week)
+    end   = start + timedelta(days=6)
+    if start.month == end.month:
+        return f"{start.strftime('%b')} {start.day}–{end.day}"
+    return f"{start.strftime('%b')} {start.day} – {end.strftime('%b')} {end.day}"
+
+
+def prev_iso_weeks(today: date_class, n: int = 4):
+    """Return list of (iso_year, iso_week) for today's week and n-1 prior, oldest first."""
+    iso = today.isocalendar()
+    y, w = iso[0], iso[1]
+    result = []
+    for _ in range(n):
+        result.append((y, w))
+        w -= 1
+        if w < 1:
+            y -= 1
+            dec28 = date_class(y, 12, 28)   # Dec 28 is always in the last ISO week
+            w = dec28.isocalendar()[1]
+    result.reverse()
+    return result
+
+
 # ── Sheet readers ──────────────────────────────────────────────────────────────
 def read_ee_web(gc):
     """
@@ -136,7 +182,7 @@ def read_ee_web(gc):
     captured = defaultdict(int)
     fail_amt = defaultdict(int)
     fail_cnt = defaultdict(int)
-    weekly   = defaultdict(int)   # (month, week_num) → amount
+    weekly   = defaultdict(int)   # (iso_year, iso_week) → amount
     rows_to_mark = []
 
     for i, row_vals in enumerate(all_values[1:], start=2):  # start=2 → real sheet row
@@ -149,7 +195,7 @@ def read_ee_web(gc):
         month = parse_month(row_vals[date_idx])
         if not month:
             continue
-        _, week_num = parse_month_week(row_vals[date_idx])
+        iso_y, iso_w = parse_iso_week(row_vals[date_idx])
 
         try:
             amount = int(float(row_vals[amount_idx] or 0))
@@ -161,8 +207,8 @@ def read_ee_web(gc):
 
         if status == "captured":
             captured[month] += amount
-            if week_num:
-                weekly[(month, week_num)] += amount
+            if iso_y:
+                weekly[(iso_y, iso_w)] += amount
         elif status == "failed":
             fail_amt[month] += amount
             fail_cnt[month] += 1
@@ -210,7 +256,7 @@ def read_ee_app(gc):
     new_captured = defaultdict(int)
     new_fail_amt = defaultdict(int)
     new_fail_cnt = defaultdict(int)
-    all_weekly   = defaultdict(int)   # ALL rows (month, week_num) → amount
+    all_weekly   = defaultdict(int)   # ALL rows (iso_year, iso_week) → amount
     rows_to_mark = []
 
     for sheet_row, row_vals in enumerate(all_values[1:], start=2):
@@ -222,7 +268,7 @@ def read_ee_app(gc):
         month = parse_month(row_vals[date_idx])
         if not month:
             continue
-        _, week_num = parse_month_week(row_vals[date_idx])
+        iso_y, iso_w = parse_iso_week(row_vals[date_idx])
 
         try:
             amount = int(float(row_vals[amount_idx] or 0))
@@ -233,8 +279,8 @@ def read_ee_app(gc):
         already_marked = revenue_idx is not None and row_vals[revenue_idx].strip() == "Calculated"
 
         # Weekly from ALL rows (regardless of Calculated) for the WoW tab
-        if status == "captured" and week_num:
-            all_weekly[(month, week_num)] += amount
+        if status == "captured" and iso_y:
+            all_weekly[(iso_y, iso_w)] += amount
 
         # Only count NEW rows (not yet marked) for monthly base
         if not already_marked:
@@ -287,7 +333,7 @@ def read_dg(gc):
 
     new_by_month = defaultdict(int)
     breakdown    = {}   # {(seller, price): {txns, revenue, first_month_idx, first_month, monthly}}
-    all_weekly   = defaultdict(int)   # ALL rows (month, week_num) → amount
+    all_weekly   = defaultdict(int)   # ALL rows (iso_year, iso_week) → amount
     rows_to_mark = []
 
     for sheet_row, row_vals in enumerate(all_values[1:], start=2):
@@ -301,7 +347,7 @@ def read_dg(gc):
         month = parse_month(row_vals[date_idx]) if date_idx is not None else None
         if not month:
             continue
-        _, week_num = parse_month_week(row_vals[date_idx]) if date_idx is not None else (None, None)
+        iso_y, iso_w = parse_iso_week(row_vals[date_idx]) if date_idx is not None else (None, None)
 
         try:
             amount = int(float(row_vals[amount_idx] or 0))
@@ -312,8 +358,8 @@ def read_dg(gc):
         already_marked = revenue_idx is not None and row_vals[revenue_idx].strip() == "Calculated"
 
         # Weekly from ALL rows (regardless of Calculated) for the WoW tab
-        if status == "captured" and week_num:
-            all_weekly[(month, week_num)] += amount
+        if status == "captured" and iso_y:
+            all_weekly[(iso_y, iso_w)] += amount
 
         if status == "captured" and not already_marked:
             key = (seller, amount)
@@ -425,6 +471,7 @@ def write_dg_snapshot(gc, dg_monthly, months):
 
 # ── Main ───────────────────────────────────────────────────────────────────────
 def main():
+    now = datetime.now()
     gc = get_client()
 
     # ── EE Web (from sheet — full recompute) ───────────────────────────────────
@@ -598,26 +645,25 @@ def main():
         "chart": oo_cfg["chart"],
     }
 
-    # ── Week on Week (April 2026) ──────────────────────────────────────────────
-    now = datetime.now()
-    APR_WEEKS = [
-        (1, "W1", "Apr 1–7"),
-        (2, "W2", "Apr 8–14"),
-        (3, "W3", "Apr 15–21"),
-        (4, "W4", "Apr 22–28"),
-    ]
-    current_week_num = (now.day - 1) // 7 + 1 if now.month == 4 else None
+    # ── Week on Week — dynamic: current ISO week + 3 prior ────────────────────
+    today_d   = date_class(now.year, now.month, now.day)
+    week_keys = prev_iso_weeks(today_d, n=4)   # oldest first
 
     wow_weeks = []
-    for w_num, w_label, w_range in APR_WEEKS:
-        ee_w  = ee_web_weekly.get(("apr", w_num), 0)
-        ea_w  = ee_app_weekly.get(("apr", w_num), 0)
-        dg_w  = dg_weekly.get(("apr", w_num), 0)
+    for i, (wy, ww) in enumerate(week_keys):
+        is_cur   = (i == len(week_keys) - 1)
+        ee_w     = ee_web_weekly.get((wy, ww), 0)
+        ea_w     = ee_app_weekly.get((wy, ww), 0)
+        dg_w     = dg_weekly.get((wy, ww), 0)
         ee_total = ee_w + ea_w
-        is_cur = (w_num == current_week_num)
+        label    = iso_week_label(wy, ww)
+        # Short x-axis label: "Apr 13" (week start)
+        start_d  = iso_week_monday(wy, ww)
+        chart_lbl = f"{start_d.strftime('%b')} {start_d.day}"
+
         wow_weeks.append({
-            "label":         w_label,
-            "range":         w_range,
+            "range":         label,
+            "chart_label":   chart_lbl,
             "ee_web":        ee_w,
             "ee_app":        ea_w,
             "ee_total":      ee_total,
@@ -629,12 +675,22 @@ def main():
             "is_current":    is_cur,
         })
 
+    # Build a human-readable note for the tab
+    if wow_weeks:
+        wow_note = (
+            f"{wow_weeks[0]['range']} – {wow_weeks[-1]['range']}"
+            " · Week-by-week revenue. Current week is partial."
+        )
+    else:
+        wow_note = "Week-by-week revenue."
+
     wow = {
         "weeks":       wow_weeks,
-        "ee_web_data": [w["ee_web"]  for w in wow_weeks],
-        "ee_app_data": [w["ee_app"]  for w in wow_weeks],
-        "dg_data":     [w["dg"]      for w in wow_weeks],
-        "labels":      [w["label"]   for w in wow_weeks],
+        "note":        wow_note,
+        "ee_web_data": [w["ee_web"]       for w in wow_weeks],
+        "ee_app_data": [w["ee_app"]       for w in wow_weeks],
+        "dg_data":     [w["dg"]           for w in wow_weeks],
+        "labels":      [w["chart_label"]  for w in wow_weeks],
     }
 
     # ── Render ─────────────────────────────────────────────────────────────────
