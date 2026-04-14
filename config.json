@@ -5,7 +5,7 @@
     "jan": 0,
     "feb": 604,
     "mar": 12687,
-    "apr": 4315
+    "apr": 4516
   },
   "visitors": {
     "feb_web": 394,
@@ -18,7 +18,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 71333
+    "apr": 74718
   },
   "dg_sellers_base": [
     {
@@ -187,6 +187,20 @@
       "price": 279,
       "txns": 1,
       "revenue": 279,
+      "month": "apr"
+    },
+    {
+      "name": "Sayali_2860",
+      "price": 399,
+      "txns": 2,
+      "revenue": 798,
+      "month": "apr"
+    },
+    {
+      "name": "Tamanna",
+      "price": 199,
+      "txns": 13,
+      "revenue": 2587,
       "month": "apr"
     }
   ],
