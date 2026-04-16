@@ -5,7 +5,7 @@
     "jan": 0,
     "feb": 604,
     "mar": 12687,
-    "apr": 4516
+    "apr": 8224
   },
   "visitors": {
     "feb_web": 394,
@@ -18,7 +18,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 72131
+    "apr": 87280
   },
   "dg_sellers_base": [
     {
@@ -195,6 +195,27 @@
       "txns": 2,
       "revenue": 798,
       "month": "apr"
+    },
+    {
+      "name": "Divyaa_2926",
+      "price": 249,
+      "txns": 2,
+      "revenue": 498,
+      "month": "apr"
+    },
+    {
+      "name": "Tamanna_3140",
+      "price": 299,
+      "txns": 48,
+      "revenue": 14352,
+      "month": "apr"
+    },
+    {
+      "name": "Tamanna_3140🌬️🫧🫧✨",
+      "price": 299,
+      "txns": 1,
+      "revenue": 299,
+      "month": "apr"
     }
   ],
   "dg_chart_base": {
@@ -305,8 +326,18 @@
       }
     ],
     "chart": {
-      "riya": [0, 856, 0, 0],
-      "tamanna": [0, 0, 2786, 2587]
+      "riya": [
+        0,
+        856,
+        0,
+        0
+      ],
+      "tamanna": [
+        0,
+        0,
+        2786,
+        2587
+      ]
     }
   }
 }
