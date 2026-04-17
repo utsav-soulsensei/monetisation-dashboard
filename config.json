@@ -5,7 +5,7 @@
     "jan": 0,
     "feb": 604,
     "mar": 12687,
-    "apr": 8224
+    "apr": 8647
   },
   "visitors": {
     "feb_web": 394,
@@ -18,7 +18,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 87280
+    "apr": 94755
   },
   "dg_sellers_base": [
     {
@@ -164,8 +164,8 @@
     {
       "name": "Vidhi",
       "price": 299,
-      "txns": 1,
-      "revenue": 299,
+      "txns": 2,
+      "revenue": 598,
       "month": "apr"
     },
     {
@@ -215,6 +215,20 @@
       "price": 299,
       "txns": 1,
       "revenue": 299,
+      "month": "apr"
+    },
+    {
+      "name": "Vidhi\"",
+      "price": 299,
+      "txns": 9,
+      "revenue": 2691,
+      "month": "apr"
+    },
+    {
+      "name": "Vidhi_2694",
+      "price": 299,
+      "txns": 15,
+      "revenue": 4485,
       "month": "apr"
     }
   ],
