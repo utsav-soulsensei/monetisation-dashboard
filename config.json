@@ -18,7 +18,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 94755
+    "apr": 97050
   },
   "dg_sellers_base": [
     {
@@ -164,8 +164,8 @@
     {
       "name": "Vidhi",
       "price": 299,
-      "txns": 2,
-      "revenue": 598,
+      "txns": 3,
+      "revenue": 897,
       "month": "apr"
     },
     {
@@ -229,6 +229,13 @@
       "price": 299,
       "txns": 15,
       "revenue": 4485,
+      "month": "apr"
+    },
+    {
+      "name": "Tanisha_Reading",
+      "price": 499,
+      "txns": 4,
+      "revenue": 1996,
       "month": "apr"
     }
   ],
