@@ -18,7 +18,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 97050
+    "apr": 97948
   },
   "dg_sellers_base": [
     {
@@ -206,8 +206,8 @@
     {
       "name": "Tamanna_3140",
       "price": 299,
-      "txns": 48,
-      "revenue": 14352,
+      "txns": 49,
+      "revenue": 14651,
       "month": "apr"
     },
     {
@@ -236,6 +236,13 @@
       "price": 499,
       "txns": 4,
       "revenue": 1996,
+      "month": "apr"
+    },
+    {
+      "name": "Nupur_3283",
+      "price": 599,
+      "txns": 1,
+      "revenue": 599,
       "month": "apr"
     }
   ],
