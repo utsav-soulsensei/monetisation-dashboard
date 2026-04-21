@@ -245,13 +245,6 @@
       "revenue": 498,
       "month": "apr"
     },
-    {
-      "name": "Tamannapages.razorpay.comPay",
-      "price": 199,
-      "txns": 18,
-      "revenue": 3582,
-      "month": "apr"
-    }
   ],
   "dg_chart_base": {
     "Vidhi": [
@@ -330,10 +323,10 @@
   "oo": {
     "feb_total": 856,
     "mar_total": 2786,
-    "apr_total": 4583,
+    "apr_total": 8165,
     "feb_sub": "Riya — 6 tarot pulls",
     "mar_sub": "Tamanna — 14 tarot pulls",
-    "apr_sub": "Tamanna — 13 tarot pulls; Tanisha — 4 readings",
+    "apr_sub": "Tamanna — 31 tarot pulls; Tanisha — 4 readings",
     "practitioners": [
       {
         "name": "Tamanna",
@@ -341,6 +334,14 @@
         "price": 199,
         "txns": 13,
         "revenue": 2587,
+        "month": "apr"
+      },
+      {
+        "name": "Tamanna",
+        "product": "Tarot Pull",
+        "price": 199,
+        "txns": 18,
+        "revenue": 3582,
         "month": "apr"
       },
       {
@@ -379,7 +380,7 @@
         0,
         0,
         2786,
-        2587
+        6169
       ],
       "tanisha": [0, 0, 0, 1996]
     }
