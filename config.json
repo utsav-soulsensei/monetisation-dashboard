@@ -5,7 +5,7 @@
     "jan": 0,
     "feb": 604,
     "mar": 12687,
-    "apr": 9050
+    "apr": 9251
   },
   "visitors": {
     "feb_web": 394,
@@ -18,7 +18,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 102028
+    "apr": 104818
   },
   "dg_sellers_base": [
     {
@@ -164,8 +164,8 @@
     {
       "name": "Vidhi_2694",
       "price": 299,
-      "txns": 3,
-      "revenue": 897,
+      "txns": 15,
+      "revenue": 4485,
       "month": "apr"
     },
     {
@@ -218,20 +218,6 @@
       "month": "apr"
     },
     {
-      "name": "Vidhi_2694",
-      "price": 299,
-      "txns": 9,
-      "revenue": 2691,
-      "month": "apr"
-    },
-    {
-      "name": "Vidhi_2694",
-      "price": 299,
-      "txns": 15,
-      "revenue": 4485,
-      "month": "apr"
-    },
-    {
       "name": "Nupur_3283",
       "price": 599,
       "txns": 1,
@@ -243,6 +229,13 @@
       "price": 249,
       "txns": 2,
       "revenue": 498,
+      "month": "apr"
+    },
+    {
+      "name": "Swapnil_2977",
+      "price": 279,
+      "txns": 10,
+      "revenue": 2790,
       "month": "apr"
     }
   ],
@@ -382,7 +375,12 @@
         2786,
         6169
       ],
-      "tanisha": [0, 0, 0, 1996]
+      "tanisha": [
+        0,
+        0,
+        0,
+        1996
+      ]
     }
   }
 }

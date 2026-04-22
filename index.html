@@ -350,7 +350,7 @@
 
 <header>
   <div class="logo">Soul<span>Sensei</span> — Revenue</div>
-  <div class="date-badge">Jan – 21 Apr 2026</div>
+  <div class="date-badge">Jan – 22 Apr 2026</div>
 </header>
 
 <div class="container">
@@ -387,13 +387,13 @@
       
       <div class="metric-card">
         <div class="metric-label">April (MTD)</div>
-        <div class="metric-value">₹24,274</div>
-        <div class="metric-sub">Web ₹15,224 · App ₹9,050</div>
+        <div class="metric-value">₹24,777</div>
+        <div class="metric-sub">Web ₹15,526 · App ₹9,251</div>
       </div>
       
       <div class="metric-card total">
         <div class="metric-label">Total</div>
-        <div class="metric-value">₹85,476</div>
+        <div class="metric-value">₹85,979</div>
         <div class="metric-sub">Captured only</div>
       </div>
     </div>
@@ -472,13 +472,13 @@
       
       <div class="metric-card">
         <div class="metric-label">April (MTD)</div>
-        <div class="metric-value">₹1,02,028</div>
+        <div class="metric-value">₹1,04,818</div>
         <div class="metric-sub">Captured only</div>
       </div>
       
       <div class="metric-card total">
         <div class="metric-label">Total</div>
-        <div class="metric-value">₹1,87,811</div>
+        <div class="metric-value">₹1,90,601</div>
         <div class="metric-sub">Captured only</div>
       </div>
     </div>
@@ -497,6 +497,8 @@
           <div class="legend-item"><div class="legend-dot" style="background:#B5456A;"></div>Swapnil</div>
           
           <div class="legend-item"><div class="legend-dot" style="background:#2D7A6B;"></div>Arjun</div>
+          
+          <div class="legend-item"><div class="legend-dot" style="background:#7A7570;"></div>Swapnil_2977</div>
           
           <div class="legend-item"><div class="legend-dot" style="background:#4A8A6A;"></div>Kajal</div>
           
@@ -592,6 +594,14 @@
             <td>10</td>
             <td class="td-revenue">₹2,790</td>
             <td><span class="month-pill pill-mar">Mar</span></td>
+          </tr>
+          
+          <tr>
+            <td>Swapnil_2977</td>
+            <td>₹279</td>
+            <td>10</td>
+            <td class="td-revenue">₹2,790</td>
+            <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
           <tr>
@@ -802,7 +812,7 @@
       
       <div class="metric-card total">
         <div class="metric-label">Apr 20–26</div>
-        <div class="metric-value">₹3,582</div>
+        <div class="metric-value">₹6,372</div>
         <div class="metric-sub">Partial week</div>
       </div>
       
@@ -841,8 +851,8 @@
       
       <div class="metric-card total">
         <div class="metric-label">Apr 20–26</div>
-        <div class="metric-value">₹1,156</div>
-        <div class="metric-sub">Web ₹653 · App ₹503</div>
+        <div class="metric-value">₹1,659</div>
+        <div class="metric-sub">Web ₹955 · App ₹704</div>
       </div>
       
     </div>
@@ -1303,7 +1313,7 @@ function buildWowCharts() {
     data: {
       labels: wowLabels,
       datasets: [
-        { label: 'Revenue', data: [69434, 4394, 29700, 3582], backgroundColor: '#C47A2B', borderRadius: 6, borderSkipped: false }
+        { label: 'Revenue', data: [69434, 4394, 29700, 6372], backgroundColor: '#C47A2B', borderRadius: 6, borderSkipped: false }
       ]
     },
     options: {
@@ -1324,8 +1334,8 @@ function buildWowCharts() {
     data: {
       labels: wowLabels,
       datasets: [
-        { label: 'Web', data: [10455, 1006, 4824, 653], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
-        { label: 'App', data: [2309, 2207, 4634, 503], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
+        { label: 'Web', data: [10455, 1006, 4824, 955], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+        { label: 'App', data: [2309, 2207, 4634, 704], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
       ]
     },
     options: {
@@ -1347,8 +1357,8 @@ new Chart(document.getElementById('eeChart'), {
   data: {
     labels: ["January", "February", "March", "April (MTD)"],
     datasets: [
-      { label: 'Web', data: [2073, 12322, 33516, 15224], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
-      { label: 'App', data: [0, 604, 12687, 9050], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
+      { label: 'Web', data: [2073, 12322, 33516, 15526], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+      { label: 'App', data: [0, 604, 12687, 9251], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
     ]
   },
   options: {
@@ -1426,6 +1436,8 @@ function buildDgChart() {
         { label: "Swapnil", data: [0, 0, 4743, 558], backgroundColor: "#B5456A", borderRadius: 5, borderSkipped: false },
         
         { label: "Arjun", data: [0, 2495, 0, 499], backgroundColor: "#2D7A6B", borderRadius: 5, borderSkipped: false },
+        
+        { label: "Swapnil_2977", data: [0, 0, 0, 2790], backgroundColor: "#7A7570", borderRadius: 5, borderSkipped: false },
         
         { label: "Kajal", data: [0, 0, 0, 1245], backgroundColor: "#4A8A6A", borderRadius: 5, borderSkipped: false },
         
