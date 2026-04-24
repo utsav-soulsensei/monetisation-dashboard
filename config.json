@@ -5,7 +5,7 @@
     "jan": 0,
     "feb": 604,
     "mar": 12687,
-    "apr": 9452
+    "apr": 10555
   },
   "visitors": {
     "feb_web": 394,
@@ -18,7 +18,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 104818
+    "apr": 106930
   },
   "dg_sellers_base": [
     {
@@ -236,6 +236,20 @@
       "price": 279,
       "txns": 10,
       "revenue": 2790,
+      "month": "apr"
+    },
+    {
+      "name": "Sushita_3296",
+      "price": 179,
+      "txns": 4,
+      "revenue": 716,
+      "month": "apr"
+    },
+    {
+      "name": "Sunaina_2917",
+      "price": 349,
+      "txns": 4,
+      "revenue": 1396,
       "month": "apr"
     }
   ],
