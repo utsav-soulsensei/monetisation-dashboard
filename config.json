@@ -18,7 +18,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 106930
+    "apr": 107929
   },
   "dg_sellers_base": [
     {
@@ -250,6 +250,13 @@
       "price": 349,
       "txns": 4,
       "revenue": 1396,
+      "month": "apr"
+    },
+    {
+      "name": "Poonam_Personal_Reading",
+      "price": 999,
+      "txns": 1,
+      "revenue": 999,
       "month": "apr"
     }
   ],
