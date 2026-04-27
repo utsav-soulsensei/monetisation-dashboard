@@ -18,7 +18,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 107929
+    "apr": 109864
   },
   "dg_sellers_base": [
     {
@@ -257,6 +257,27 @@
       "price": 999,
       "txns": 1,
       "revenue": 999,
+      "month": "apr"
+    },
+    {
+      "name": "Roop_3142",
+      "price": 229,
+      "txns": 3,
+      "revenue": 687,
+      "month": "apr"
+    },
+    {
+      "name": "Rooppreet_Personal_Reading",
+      "price": 999,
+      "txns": 1,
+      "revenue": 999,
+      "month": "apr"
+    },
+    {
+      "name": "Poonam_2770",
+      "price": 249,
+      "txns": 1,
+      "revenue": 249,
       "month": "apr"
     }
   ],
