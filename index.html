@@ -472,13 +472,13 @@
       
       <div class="metric-card">
         <div class="metric-label">April (MTD)</div>
-        <div class="metric-value">₹1,09,864</div>
+        <div class="metric-value">₹1,07,866</div>
         <div class="metric-sub">Captured only</div>
       </div>
-      
+
       <div class="metric-card total">
         <div class="metric-label">Total</div>
-        <div class="metric-value">₹1,95,647</div>
+        <div class="metric-value">₹1,93,649</div>
         <div class="metric-sub">Captured only</div>
       </div>
     </div>
@@ -501,8 +501,6 @@
           <div class="legend-item"><div class="legend-dot" style="background:#4A8A6A;"></div>Kajal</div>
           
           <div class="legend-item"><div class="legend-dot" style="background:#4A7A9A;"></div>Sunaina</div>
-          
-          <div class="legend-item"><div class="legend-dot" style="background:#8B5E3C;"></div>Rooppreet_Personal_Reading</div>
           
           <div class="legend-item"><div class="legend-dot" style="background:#7A7570;"></div>Sushita</div>
           
@@ -662,22 +660,6 @@
             <td>3</td>
             <td class="td-revenue">₹1,047</td>
             <td><span class="month-pill pill-mar">Mar</span></td>
-          </tr>
-          
-          <tr>
-            <td>Poonam_Personal_Reading</td>
-            <td>₹999</td>
-            <td>1</td>
-            <td class="td-revenue">₹999</td>
-            <td><span class="month-pill pill-apr">Apr</span></td>
-          </tr>
-          
-          <tr>
-            <td>Rooppreet_Personal_Reading</td>
-            <td>₹999</td>
-            <td>1</td>
-            <td class="td-revenue">₹999</td>
-            <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
           <tr>
@@ -936,12 +918,12 @@
       </div>
       <div class="metric-card">
         <div class="metric-label">April</div>
-        <div class="metric-value">₹8,165</div>
-        <div class="metric-sub">Tamanna — 31 tarot pulls; Tanisha — 4 readings</div>
+        <div class="metric-value">₹10,163</div>
+        <div class="metric-sub">Tamanna — 31 tarot pulls; Tanisha — 4 readings; Poonam — 1 reading; Rooppreet — 1 reading</div>
       </div>
       <div class="metric-card total">
         <div class="metric-label">Total</div>
-        <div class="metric-value">₹11,807</div>
+        <div class="metric-value">₹13,805</div>
         <div class="metric-sub">Captured only</div>
       </div>
     </div>
@@ -952,6 +934,9 @@
         <div class="legend">
           <div class="legend-item"><div class="legend-dot" style="background:#5A4A8A;"></div>Riya Sankhla (₹151)</div>
           <div class="legend-item"><div class="legend-dot" style="background:#B5456A;"></div>Tamanna (₹199)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#2D7A6B;"></div>Tanisha (₹499)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#C47A2B;"></div>Poonam (₹999)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#D05A3A;"></div>Rooppreet (₹999)</div>
         </div>
       </div>
       <div class="chart-wrap"><canvas id="ooChart"></canvas></div>
@@ -1016,7 +1001,25 @@
             <td class="td-revenue">₹856</td>
             <td><span class="month-pill pill-feb">Feb</span></td>
           </tr>
-          
+
+          <tr>
+            <td>Poonam</td>
+            <td style="color:var(--text-secondary);text-align:left;">Personal Reading</td>
+            <td>₹999</td>
+            <td>1</td>
+            <td class="td-revenue">₹999</td>
+            <td><span class="month-pill pill-apr">Apr</span></td>
+          </tr>
+
+          <tr>
+            <td>Rooppreet</td>
+            <td style="color:var(--text-secondary);text-align:left;">Personal Reading</td>
+            <td>₹999</td>
+            <td>1</td>
+            <td class="td-revenue">₹999</td>
+            <td><span class="month-pill pill-apr">Apr</span></td>
+          </tr>
+
         </tbody>
       </table>
     </div>
@@ -1455,7 +1458,10 @@ function buildOoChart() {
       labels: ['January', 'February', 'March', 'April'],
       datasets: [
         { label: 'Riya Sankhla', data: [0, 856, 0, 0], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
-        { label: 'Tamanna',      data: [0, 0, 2786, 6169], backgroundColor: '#B5456A', borderRadius: 5, borderSkipped: false }
+        { label: 'Tamanna',      data: [0, 0, 2786, 6169], backgroundColor: '#B5456A', borderRadius: 5, borderSkipped: false },
+        { label: 'Tanisha',      data: [0, 0, 0, 1996], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false },
+        { label: 'Poonam',       data: [0, 0, 0, 999], backgroundColor: '#C47A2B', borderRadius: 5, borderSkipped: false },
+        { label: 'Rooppreet',    data: [0, 0, 0, 999], backgroundColor: '#D05A3A', borderRadius: 5, borderSkipped: false }
       ]
     },
     options: {
@@ -1492,8 +1498,6 @@ function buildDgChart() {
         { label: "Kajal", data: [0, 0, 0, 1245], backgroundColor: "#4A8A6A", borderRadius: 5, borderSkipped: false },
         
         { label: "Sunaina", data: [0, 0, 1047, 0], backgroundColor: "#4A7A9A", borderRadius: 5, borderSkipped: false },
-        
-        { label: "Rooppreet_Personal_Reading", data: [0, 0, 0, 999], backgroundColor: "#8B5E3C", borderRadius: 5, borderSkipped: false },
         
         { label: "Sushita", data: [0, 0, 796, 0], backgroundColor: "#7A7570", borderRadius: 5, borderSkipped: false },
         
