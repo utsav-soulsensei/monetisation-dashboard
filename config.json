@@ -18,7 +18,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 109864
+    "apr": 107866
   },
   "dg_sellers_base": [
     {
@@ -253,24 +253,10 @@
       "month": "apr"
     },
     {
-      "name": "Poonam_Personal_Reading",
-      "price": 999,
-      "txns": 1,
-      "revenue": 999,
-      "month": "apr"
-    },
-    {
       "name": "Roop_3142",
       "price": 229,
       "txns": 3,
       "revenue": 687,
-      "month": "apr"
-    },
-    {
-      "name": "Rooppreet_Personal_Reading",
-      "price": 999,
-      "txns": 1,
-      "revenue": 999,
       "month": "apr"
     },
     {
@@ -358,10 +344,10 @@
   "oo": {
     "feb_total": 856,
     "mar_total": 2786,
-    "apr_total": 8165,
+    "apr_total": 10163,
     "feb_sub": "Riya — 6 tarot pulls",
     "mar_sub": "Tamanna — 14 tarot pulls",
-    "apr_sub": "Tamanna — 31 tarot pulls; Tanisha — 4 readings",
+    "apr_sub": "Tamanna — 31 tarot pulls; Tanisha — 4 readings; Poonam — 1 reading; Rooppreet — 1 reading",
     "practitioners": [
       {
         "name": "Tamanna",
@@ -402,6 +388,22 @@
         "txns": 6,
         "revenue": 856,
         "month": "feb"
+      },
+      {
+        "name": "Poonam",
+        "product": "Personal Reading",
+        "price": 999,
+        "txns": 1,
+        "revenue": 999,
+        "month": "apr"
+      },
+      {
+        "name": "Rooppreet",
+        "product": "Personal Reading",
+        "price": 999,
+        "txns": 1,
+        "revenue": 999,
+        "month": "apr"
       }
     ],
     "chart": {
@@ -422,7 +424,9 @@
         0,
         0,
         1996
-      ]
+      ],
+      "poonam": [0, 0, 0, 999],
+      "rooppreet": [0, 0, 0, 999]
     }
   }
 }

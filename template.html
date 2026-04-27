@@ -793,7 +793,10 @@ function buildOoChart() {
       labels: ['January', 'February', 'March', 'April'],
       datasets: [
         { label: 'Riya Sankhla', data: {{ oo.chart.riya | tojson }}, backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
-        { label: 'Tamanna',      data: {{ oo.chart.tamanna | tojson }}, backgroundColor: '#B5456A', borderRadius: 5, borderSkipped: false }
+        { label: 'Tamanna',      data: {{ oo.chart.tamanna | tojson }}, backgroundColor: '#B5456A', borderRadius: 5, borderSkipped: false },
+        { label: 'Tanisha',      data: {{ oo.chart.tanisha | tojson }}, backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false },
+        { label: 'Poonam',       data: {{ oo.chart.poonam | tojson }}, backgroundColor: '#C47A2B', borderRadius: 5, borderSkipped: false },
+        { label: 'Rooppreet',    data: {{ oo.chart.rooppreet | tojson }}, backgroundColor: '#D05A3A', borderRadius: 5, borderSkipped: false }
       ]
     },
     options: {
