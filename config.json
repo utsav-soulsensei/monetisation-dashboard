@@ -5,7 +5,7 @@
     "jan": 0,
     "feb": 604,
     "mar": 12687,
-    "apr": 11157
+    "apr": 11358
   },
   "visitors": {
     "feb_web": 394,
@@ -18,7 +18,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 107866
+    "apr": 108115
   },
   "dg_sellers_base": [
     {
@@ -262,8 +262,8 @@
     {
       "name": "Poonam_2770",
       "price": 249,
-      "txns": 1,
-      "revenue": 249,
+      "txns": 2,
+      "revenue": 498,
       "month": "apr"
     }
   ],
@@ -425,8 +425,18 @@
         0,
         1996
       ],
-      "poonam": [0, 0, 0, 999],
-      "rooppreet": [0, 0, 0, 999]
+      "poonam": [
+        0,
+        0,
+        0,
+        999
+      ],
+      "rooppreet": [
+        0,
+        0,
+        0,
+        999
+      ]
     }
   }
 }
