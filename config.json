@@ -5,7 +5,7 @@
     "jan": 0,
     "feb": 604,
     "mar": 12687,
-    "apr": 11358
+    "apr": 11559
   },
   "visitors": {
     "feb_web": 394,
@@ -18,7 +18,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 108115
+    "apr": 133252
   },
   "dg_sellers_base": [
     {
@@ -264,6 +264,48 @@
       "price": 249,
       "txns": 2,
       "revenue": 498,
+      "month": "apr"
+    },
+    {
+      "name": "Guided Hypnosis Script To Attract Meaningful Relationships",
+      "price": 399,
+      "txns": 10,
+      "revenue": 3990,
+      "month": "apr"
+    },
+    {
+      "name": "Daily Script To Build Confidence And Self-Esteem",
+      "price": 399,
+      "txns": 13,
+      "revenue": 5187,
+      "month": "apr"
+    },
+    {
+      "name": "Health Meditation To Reduce Stress And Improve Vitality",
+      "price": 399,
+      "txns": 12,
+      "revenue": 4788,
+      "month": "apr"
+    },
+    {
+      "name": "Deep Meditation To Remove Blockages",
+      "price": 399,
+      "txns": 14,
+      "revenue": 5586,
+      "month": "apr"
+    },
+    {
+      "name": "Build Better Relations With Family",
+      "price": 399,
+      "txns": 7,
+      "revenue": 2793,
+      "month": "apr"
+    },
+    {
+      "name": "Hypnosis To Calm Down Anxiety",
+      "price": 399,
+      "txns": 7,
+      "revenue": 2793,
       "month": "apr"
     }
   ],
