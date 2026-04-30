@@ -5,7 +5,7 @@
     "jan": 0,
     "feb": 604,
     "mar": 12687,
-    "apr": 11559
+    "apr": 12361
   },
   "visitors": {
     "feb_web": 394,
@@ -18,7 +18,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 133252
+    "apr": 140434
   },
   "dg_sellers_base": [
     {
@@ -271,6 +271,55 @@
       "price": 399,
       "txns": 63,
       "revenue": 25137,
+      "month": "apr"
+    },
+    {
+      "name": "Health Meditation To Reduce Stress And Improve Vitality",
+      "price": 399,
+      "txns": 2,
+      "revenue": 798,
+      "month": "apr"
+    },
+    {
+      "name": "Deep Meditation To Remove Blockages",
+      "price": 399,
+      "txns": 5,
+      "revenue": 1995,
+      "month": "apr"
+    },
+    {
+      "name": "Guided Hypnosis Script To Attract Meaningful Relationships",
+      "price": 399,
+      "txns": 2,
+      "revenue": 798,
+      "month": "apr"
+    },
+    {
+      "name": "Tamanna_3451",
+      "price": 299,
+      "txns": 3,
+      "revenue": 897,
+      "month": "apr"
+    },
+    {
+      "name": "Build Better Relations With Family",
+      "price": 399,
+      "txns": 2,
+      "revenue": 798,
+      "month": "apr"
+    },
+    {
+      "name": "Daily Script To Build Confidence And Self-Esteem",
+      "price": 399,
+      "txns": 1,
+      "revenue": 399,
+      "month": "apr"
+    },
+    {
+      "name": "Ddevika_3289",
+      "price": 499,
+      "txns": 3,
+      "revenue": 1497,
       "month": "apr"
     }
   ],
