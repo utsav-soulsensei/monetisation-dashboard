@@ -5,7 +5,8 @@
     "jan": 0,
     "feb": 604,
     "mar": 12687,
-    "apr": 12361
+    "apr": 12361,
+    "may": 302
   },
   "visitors": {
     "feb_web": 394,
@@ -18,7 +19,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 140434
+    "apr": 146148
   },
   "dg_sellers_base": [
     {
@@ -234,8 +235,8 @@
     {
       "name": "Swapnil_2977",
       "price": 279,
-      "txns": 10,
-      "revenue": 2790,
+      "txns": 11,
+      "revenue": 3069,
       "month": "apr"
     },
     {
@@ -262,8 +263,8 @@
     {
       "name": "Poonam_2770",
       "price": 249,
-      "txns": 2,
-      "revenue": 498,
+      "txns": 3,
+      "revenue": 747,
       "month": "apr"
     },
     {
@@ -290,8 +291,8 @@
     {
       "name": "Guided Hypnosis Script To Attract Meaningful Relationships",
       "price": 399,
-      "txns": 2,
-      "revenue": 798,
+      "txns": 3,
+      "revenue": 1197,
       "month": "apr"
     },
     {
@@ -318,8 +319,22 @@
     {
       "name": "Ddevika_3289",
       "price": 499,
-      "txns": 3,
-      "revenue": 1497,
+      "txns": 4,
+      "revenue": 1996,
+      "month": "apr"
+    },
+    {
+      "name": "Moneka_Personal",
+      "price": 299,
+      "txns": 11,
+      "revenue": 3289,
+      "month": "apr"
+    },
+    {
+      "name": "Nattasha_Personal_Reading",
+      "price": 999,
+      "txns": 1,
+      "revenue": 999,
       "month": "apr"
     }
   ],
