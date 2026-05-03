@@ -6,7 +6,7 @@
     "feb": 604,
     "mar": 12687,
     "apr": 12361,
-    "may": 503
+    "may": 1219
   },
   "visitors": {
     "feb_web": 394,
@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 146148,
-    "may": 798
+    "may": 9285
   },
   "dg_sellers_base": [
     {
@@ -337,6 +337,20 @@
       "txns": 1,
       "revenue": 999,
       "month": "apr"
+    },
+    {
+      "name": "Manka_3506",
+      "price": 199,
+      "txns": 9,
+      "revenue": 1791,
+      "month": "may"
+    },
+    {
+      "name": "Swapnil_2947",
+      "price": 279,
+      "txns": 24,
+      "revenue": 6696,
+      "month": "may"
     }
   ],
   "dg_chart_base": {
