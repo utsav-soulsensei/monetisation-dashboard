@@ -540,8 +540,8 @@
             <th>Month</th>
           </tr>
         </thead>
-        <tbody>
-          
+        <tbody id="dgTableBody">
+
           <tr>
             <td>Kavyal_2935</td>
             <td>₹399</td>
@@ -1000,8 +1000,8 @@
             <th>Month</th>
           </tr>
         </thead>
-        <tbody>
-          
+        <tbody id="ooTableBody">
+
           <tr>
             <td>Tamanna</td>
             <td style="color:var(--text-secondary);text-align:left;">Tarot Pull</td>
@@ -1608,6 +1608,63 @@ function buildPeChart() {
     }
   });
 }
+
+// Auto-move any DG row whose seller name ends with _Personal or _Personal_Reading into 1:1 Initiatives
+function applyPersonalRule() {
+  const dgBody = document.getElementById('dgTableBody');
+  const ooBody = document.getElementById('ooTableBody');
+  if (!dgBody || !ooBody) return;
+
+  Array.from(dgBody.querySelectorAll('tr')).forEach(row => {
+    const cells = row.querySelectorAll('td');
+    if (cells.length < 5) return;
+    const name = cells[0].textContent.trim();
+
+    let practitioner, product;
+    if (/_Personal_Reading$/i.test(name)) {
+      practitioner = name.replace(/_Personal_Reading$/i, '');
+      product = 'Personal Reading';
+    } else if (/_Personal$/i.test(name)) {
+      practitioner = name.replace(/_Personal$/i, '');
+      product = 'Personal';
+    } else {
+      return;
+    }
+
+    const revenue = parseInt(cells[3].textContent.replace(/[₹,\s]/g, ''), 10);
+    const pillEl = cells[4].querySelector('[class*="pill-"]');
+    const month = pillEl ? [...pillEl.classList].find(c => c.startsWith('pill-')).replace('pill-', '') : null;
+
+    dgBody.removeChild(row);
+    adjustMetricCard('#tab-dg', month, -revenue);
+
+    const newRow = document.createElement('tr');
+    newRow.innerHTML =
+      `<td>${practitioner}</td>` +
+      `<td style="color:var(--text-secondary);text-align:left;">${product}</td>` +
+      cells[1].outerHTML + cells[2].outerHTML + cells[3].outerHTML + cells[4].outerHTML;
+    ooBody.appendChild(newRow);
+    adjustMetricCard('#tab-oo', month, +revenue);
+  });
+}
+
+function adjustMetricCard(tabSelector, month, delta) {
+  const tab = document.querySelector(tabSelector);
+  if (!tab || !month) return;
+  const monthLabels = { jan: 'January', feb: 'February', mar: 'March', apr: 'April', may: ['May', 'May (MTD)'] };
+  const labels = [].concat(monthLabels[month] || month, 'Total');
+  tab.querySelectorAll('.metric-card').forEach(card => {
+    const labelEl = card.querySelector('.metric-label');
+    const valueEl = card.querySelector('.metric-value');
+    if (!labelEl || !valueEl) return;
+    if (labels.includes(labelEl.textContent.trim())) {
+      const current = parseInt(valueEl.textContent.replace(/[₹,\s]/g, ''), 10);
+      valueEl.textContent = '₹' + (current + delta).toLocaleString('en-IN');
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', applyPersonalRule);
 </script>
 </body>
 </html>
