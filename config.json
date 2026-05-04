@@ -19,7 +19,7 @@
   "dg_base": {
     "feb": 17260,
     "mar": 68523,
-    "apr": 146148,
+    "apr": 141860,
     "may": 9285
   },
   "dg_sellers_base": [
@@ -325,20 +325,6 @@
       "month": "apr"
     },
     {
-      "name": "Moneka_Personal",
-      "price": 299,
-      "txns": 11,
-      "revenue": 3289,
-      "month": "apr"
-    },
-    {
-      "name": "Nattasha_Personal_Reading",
-      "price": 999,
-      "txns": 1,
-      "revenue": 999,
-      "month": "apr"
-    },
-    {
       "name": "Manka_3506",
       "price": 199,
       "txns": 9,
@@ -430,10 +416,10 @@
   "oo": {
     "feb_total": 856,
     "mar_total": 2786,
-    "apr_total": 10163,
+    "apr_total": 14451,
     "feb_sub": "Riya — 6 tarot pulls",
     "mar_sub": "Tamanna — 14 tarot pulls",
-    "apr_sub": "Tamanna — 31 tarot pulls; Tanisha — 4 readings; Poonam — 1 reading; Rooppreet — 1 reading",
+    "apr_sub": "Tamanna — 31 tarot pulls; Tanisha — 4 readings; Poonam — 1 reading; Rooppreet — 1 reading; Moneka — 11 sessions; Nattasha — 1 reading",
     "practitioners": [
       {
         "name": "Tamanna",
@@ -490,6 +476,22 @@
         "txns": 1,
         "revenue": 999,
         "month": "apr"
+      },
+      {
+        "name": "Moneka",
+        "product": "Personal",
+        "price": 299,
+        "txns": 11,
+        "revenue": 3289,
+        "month": "apr"
+      },
+      {
+        "name": "Nattasha",
+        "product": "Personal Reading",
+        "price": 999,
+        "txns": 1,
+        "revenue": 999,
+        "month": "apr"
       }
     ],
     "chart": {
@@ -518,6 +520,18 @@
         999
       ],
       "rooppreet": [
+        0,
+        0,
+        0,
+        999
+      ],
+      "moneka": [
+        0,
+        0,
+        0,
+        3289
+      ],
+      "nattasha": [
         0,
         0,
         0,
