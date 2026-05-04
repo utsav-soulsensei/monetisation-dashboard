@@ -136,16 +136,24 @@ def extract_personal_entries(merged_sellers, dg_breakdown, dg_new_by_month, cfg)
             "month_label": v["month"].capitalize(),
         })
 
-        # If this entry came from this run's sheet data, unwind dg_new_by_month
+        # Roll back base portion (if any) from cfg["dg_base"]
+        base_entry = next(
+            (s for s in cfg["dg_sellers_base"]
+             if s["name"] == v["name"] and s["price"] == v["price"]),
+            None
+        )
+        if base_entry:
+            base_month = base_entry["month"]
+            if base_month in cfg["dg_base"]:
+                cfg["dg_base"][base_month] = max(
+                    0, cfg["dg_base"][base_month] - base_entry["revenue"]
+                )
+
+        # Roll back new-this-run portion from dg_new_by_month
         if key in dg_breakdown:
             for mkey, rev in dg_breakdown.pop(key)["monthly"].items():
                 if mkey in dg_new_by_month:
                     dg_new_by_month[mkey] = max(0, dg_new_by_month[mkey] - rev)
-        else:
-            # Entry was in dg_sellers_base from a prior run — roll back dg_base
-            month = v["month"]
-            if month in cfg["dg_base"]:
-                cfg["dg_base"][month] = max(0, cfg["dg_base"][month] - v["revenue"])
 
     return personal
 
@@ -699,13 +707,8 @@ def main():
     seller_colors    = cfg.get("dg_seller_colors", {})
     active_keys      = [k for k, _ in months]
 
-    # Monthly totals: base + new delta from sheet
-    dg_monthly     = {key: dg_base.get(key, 0) + dg_new_by_month.get(key, 0) for key in active_keys}
-    dg_grand_total = sum(dg_monthly.values())
-
-    # ── Daily DG Snapshot ─────────────────────────────────────────────────────
-    print("Writing DG snapshot…")
-    write_dg_snapshot(gc, dg_monthly, months)
+    # Monthly totals: base + new delta from sheet (grand total computed after personal rule)
+    dg_monthly = {key: dg_base.get(key, 0) + dg_new_by_month.get(key, 0) for key in active_keys}
 
     # Breakdown table: start from config base, merge in new sheet rows
     merged_sellers = {(s["name"], s["price"]): dict(s) for s in dg_sellers_base}
@@ -731,6 +734,10 @@ def main():
         if m in dg_monthly:
             dg_monthly[m] = max(0, dg_monthly[m] - p["revenue"])
     dg_grand_total = sum(dg_monthly.values())
+
+    # ── Daily DG Snapshot (after personal rule so totals are accurate) ────────
+    print("Writing DG snapshot…")
+    write_dg_snapshot(gc, dg_monthly, months)
 
     dg_sellers = sorted(
         [
@@ -922,7 +929,7 @@ def main():
             cfg["dg_base"][m] = cfg["dg_base"].get(m, 0) + delta
             cfg_changed = True
 
-    if dg_breakdown:
+    if dg_breakdown or personal_entries:
         cfg["dg_sellers_base"] = [
             {"name": v["name"], "price": v["price"],
              "txns": v["txns"], "revenue": v["revenue"], "month": v["month"]}
