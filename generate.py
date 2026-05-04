@@ -6,6 +6,7 @@ Reads Google Sheets, computes totals, renders index.html from template.html
 
 import json
 import os
+import re
 from collections import defaultdict
 from datetime import datetime, date as date_class, timedelta
 
@@ -97,6 +98,56 @@ def fmt_inr(n: int) -> str:
 def fmt_num(n: int) -> str:
     """Format with commas: 2442 → 2,442"""
     return f"{n:,}"
+
+
+_PERSONAL_RE = re.compile(r'_Personal(_Reading)?$', re.IGNORECASE)
+
+def extract_personal_entries(merged_sellers, dg_breakdown, dg_new_by_month, cfg):
+    """
+    Finds sellers whose name ends with _Personal or _Personal_Reading, removes them
+    from DG entirely, and returns them as OO practitioner records.
+
+    Also rolls back their revenue from dg_new_by_month (prevents dg_base inflation)
+    or from cfg["dg_base"] directly if the entry came from a prior config snapshot.
+    """
+    personal = []
+    for key in list(merged_sellers.keys()):
+        name = merged_sellers[key]["name"]
+        m = _PERSONAL_RE.search(name)
+        if not m:
+            continue
+        v = merged_sellers.pop(key)
+        if m.group(1):          # _Personal_Reading
+            practitioner = name[:m.start()]
+            product = "Personal Reading"
+        else:                   # _Personal
+            practitioner = name[:m.start()]
+            product = "Personal"
+
+        personal.append({
+            "name":        practitioner,
+            "product":     product,
+            "price":       v["price"],
+            "price_fmt":   fmt_inr(v["price"]),
+            "txns":        v["txns"],
+            "revenue":     v["revenue"],
+            "revenue_fmt": fmt_inr(v["revenue"]),
+            "month":       v["month"],
+            "month_label": v["month"].capitalize(),
+        })
+
+        # If this entry came from this run's sheet data, unwind dg_new_by_month
+        if key in dg_breakdown:
+            for mkey, rev in dg_breakdown.pop(key)["monthly"].items():
+                if mkey in dg_new_by_month:
+                    dg_new_by_month[mkey] = max(0, dg_new_by_month[mkey] - rev)
+        else:
+            # Entry was in dg_sellers_base from a prior run — roll back dg_base
+            month = v["month"]
+            if month in cfg["dg_base"]:
+                cfg["dg_base"][month] = max(0, cfg["dg_base"][month] - v["revenue"])
+
+    return personal
 
 
 # ── Payment Extension helpers ──────────────────────────────────────────────────
@@ -670,6 +721,17 @@ def main():
                 "month": v["first_month"],
             }
 
+    # ── Personal Rule: auto-move _Personal / _Personal_Reading from DG → OO ──────
+    personal_entries = extract_personal_entries(
+        merged_sellers, dg_breakdown, dg_new_by_month, cfg
+    )
+    # Subtract extracted revenue from dg_monthly so DG totals stay correct
+    for p in personal_entries:
+        m = p["month"]
+        if m in dg_monthly:
+            dg_monthly[m] = max(0, dg_monthly[m] - p["revenue"])
+    dg_grand_total = sum(dg_monthly.values())
+
     dg_sellers = sorted(
         [
             {
@@ -720,11 +782,18 @@ def main():
     }
 
     # ── OO ────────────────────────────────────────────────────────────────────
-    oo_apr_raw   = oo_cfg.get("apr_total", 0)
-    oo_total_raw = oo_cfg["feb_total"] + oo_cfg["mar_total"] + oo_apr_raw
+    # Tally any auto-extracted personal entries per month
+    personal_by_month = defaultdict(int)
+    for p in personal_entries:
+        personal_by_month[p["month"]] += p["revenue"]
+
+    oo_feb_raw   = oo_cfg["feb_total"]               + personal_by_month.get("feb", 0)
+    oo_mar_raw   = oo_cfg["mar_total"]               + personal_by_month.get("mar", 0)
+    oo_apr_raw   = oo_cfg.get("apr_total", 0)        + personal_by_month.get("apr", 0)
+    oo_total_raw = oo_feb_raw + oo_mar_raw + oo_apr_raw
     oo = {
-        "feb_total": fmt_inr(oo_cfg["feb_total"]),
-        "mar_total": fmt_inr(oo_cfg["mar_total"]),
+        "feb_total": fmt_inr(oo_feb_raw),
+        "mar_total": fmt_inr(oo_mar_raw),
         "apr_total": fmt_inr(oo_apr_raw),
         "total":     fmt_inr(oo_total_raw),
         "feb_sub":   oo_cfg["feb_sub"],
@@ -738,7 +807,7 @@ def main():
                 "month_label": p["month"].capitalize(),
             }
             for p in oo_cfg["practitioners"]
-        ],
+        ] + personal_entries,
         "chart": oo_cfg["chart"],
     }
 
