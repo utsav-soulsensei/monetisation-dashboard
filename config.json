@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 9285
+    "may": 14567
   },
   "dg_sellers_base": [
     {
@@ -292,8 +292,8 @@
     {
       "name": "Manka_3506",
       "price": 199,
-      "txns": 9,
-      "revenue": 1791,
+      "txns": 10,
+      "revenue": 1990,
       "month": "may"
     },
     {
@@ -301,6 +301,13 @@
       "price": 279,
       "txns": 24,
       "revenue": 6696,
+      "month": "may"
+    },
+    {
+      "name": "Vidhi_3293",
+      "price": 299,
+      "txns": 17,
+      "revenue": 5083,
       "month": "may"
     }
   ],
