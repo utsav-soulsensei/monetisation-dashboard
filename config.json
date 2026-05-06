@@ -6,7 +6,7 @@
     "feb": 604,
     "mar": 12687,
     "apr": 12361,
-    "may": 2073
+    "may": 2174
   },
   "visitors": {
     "feb_web": 394,
@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 64442
+    "may": 64671
   },
   "dg_sellers_base": [
     {
@@ -159,8 +159,8 @@
     {
       "name": "Jyotismita_2850",
       "price": 229,
-      "txns": 1,
-      "revenue": 229,
+      "txns": 2,
+      "revenue": 458,
       "month": "apr"
     },
     {
