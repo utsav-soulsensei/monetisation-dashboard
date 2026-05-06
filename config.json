@@ -337,61 +337,85 @@
       0,
       21642,
       0,
+      0,
       0
     ],
     "Arjun": [
       0,
       2495,
       0,
-      499
+      499,
+      0
     ],
     "Amrita": [
       0,
       4186,
       4785,
+      0,
       0
     ],
     "Kavyal": [
       0,
       0,
       47481,
-      89376
+      89376,
+      0
     ],
     "Swapnil": [
       0,
       0,
       4743,
-      558
+      558,
+      0
     ],
     "Sushita": [
       0,
       0,
       796,
+      0,
       0
     ],
     "Sunaina": [
       0,
       0,
       1047,
+      0,
       0
     ],
     "Rhea": [
       0,
       0,
       0,
-      299
+      299,
+      0
     ],
     "Kajal": [
       0,
       0,
       0,
-      1245
+      1245,
+      0
     ],
     "Bijal": [
       0,
       0,
       0,
-      498
+      498,
+      0
+    ],
+    "Manka_3506": [
+      0,
+      0,
+      0,
+      0,
+      1791
+    ],
+    "Swapnil_2947": [
+      0,
+      0,
+      0,
+      0,
+      6696
     ]
   },
   "dg_seller_colors": {
@@ -410,9 +434,11 @@
     "feb_total": 856,
     "mar_total": 2786,
     "apr_total": 14451,
+    "may_total": 3289,
     "feb_sub": "Riya — 6 tarot pulls",
     "mar_sub": "Tamanna — 14 tarot pulls",
     "apr_sub": "Tamanna — 31 tarot pulls; Tanisha — 4 readings; Poonam — 1 reading; Rooppreet — 1 reading; Moneka — 11 sessions; Nattasha — 1 reading",
+    "may_sub": "Anushree — 11 personal readings",
     "practitioners": [
       {
         "name": "Tamanna",
@@ -485,6 +511,14 @@
         "txns": 1,
         "revenue": 999,
         "month": "apr"
+      },
+      {
+        "name": "Anushree",
+        "product": "Personal Reading",
+        "price": 299,
+        "txns": 11,
+        "revenue": 3289,
+        "month": "may"
       }
     ],
     "chart": {
@@ -492,43 +526,57 @@
         0,
         856,
         0,
+        0,
         0
       ],
       "tamanna": [
         0,
         0,
         2786,
-        6169
+        6169,
+        0
       ],
       "tanisha": [
         0,
         0,
         0,
-        1996
+        1996,
+        0
       ],
       "poonam": [
         0,
         0,
         0,
-        999
+        999,
+        0
       ],
       "rooppreet": [
         0,
         0,
         0,
-        999
+        999,
+        0
       ],
       "moneka": [
         0,
         0,
         0,
-        3289
+        3289,
+        0
       ],
       "nattasha": [
         0,
         0,
         0,
-        999
+        999,
+        0
+      ],
+      "anushree": [
+        0,
+        0,
+        0,
+        0,
+        3289
       ]
     }
   }

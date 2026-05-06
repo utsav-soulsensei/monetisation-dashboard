@@ -555,6 +555,11 @@
         <div class="metric-value">{{ oo.apr_total }}</div>
         <div class="metric-sub">{{ oo.apr_sub }}</div>
       </div>
+      <div class="metric-card">
+        <div class="metric-label">May</div>
+        <div class="metric-value">{{ oo.may_total }}</div>
+        <div class="metric-sub">{{ oo.may_sub }}</div>
+      </div>
       <div class="metric-card total">
         <div class="metric-label">Total</div>
         <div class="metric-value">{{ oo.total }}</div>
@@ -568,6 +573,7 @@
         <div class="legend">
           <div class="legend-item"><div class="legend-dot" style="background:#5A4A8A;"></div>Riya Sankhla (₹151)</div>
           <div class="legend-item"><div class="legend-dot" style="background:#B5456A;"></div>Tamanna (₹199)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#5A8A4A;"></div>Anushree (₹299)</div>
         </div>
       </div>
       <div class="chart-wrap"><canvas id="ooChart"></canvas></div>
@@ -790,7 +796,7 @@ function buildOoChart() {
   new Chart(document.getElementById('ooChart'), {
     type: 'bar',
     data: {
-      labels: ['January', 'February', 'March', 'April'],
+      labels: ['January', 'February', 'March', 'April', 'May'],
       datasets: [
         { label: 'Riya Sankhla', data: {{ oo.chart.riya | tojson }}, backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
         { label: 'Tamanna',      data: {{ oo.chart.tamanna | tojson }}, backgroundColor: '#B5456A', borderRadius: 5, borderSkipped: false },
@@ -798,7 +804,8 @@ function buildOoChart() {
         { label: 'Poonam',       data: {{ oo.chart.poonam | tojson }}, backgroundColor: '#C47A2B', borderRadius: 5, borderSkipped: false },
         { label: 'Rooppreet',    data: {{ oo.chart.rooppreet | tojson }}, backgroundColor: '#D05A3A', borderRadius: 5, borderSkipped: false },
         { label: 'Moneka',       data: {{ oo.chart.moneka | tojson }}, backgroundColor: '#7A5A9A', borderRadius: 5, borderSkipped: false },
-        { label: 'Nattasha',     data: {{ oo.chart.nattasha | tojson }}, backgroundColor: '#3A8A7A', borderRadius: 5, borderSkipped: false }
+        { label: 'Nattasha',     data: {{ oo.chart.nattasha | tojson }}, backgroundColor: '#3A8A7A', borderRadius: 5, borderSkipped: false },
+        { label: 'Anushree',     data: {{ oo.chart.anushree | tojson }}, backgroundColor: '#5A8A4A', borderRadius: 5, borderSkipped: false }
       ]
     },
     options: {

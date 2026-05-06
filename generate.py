@@ -797,15 +797,18 @@ def main():
     oo_feb_raw   = oo_cfg["feb_total"]               + personal_by_month.get("feb", 0)
     oo_mar_raw   = oo_cfg["mar_total"]               + personal_by_month.get("mar", 0)
     oo_apr_raw   = oo_cfg.get("apr_total", 0)        + personal_by_month.get("apr", 0)
-    oo_total_raw = oo_feb_raw + oo_mar_raw + oo_apr_raw
+    oo_may_raw   = oo_cfg.get("may_total", 0)        + personal_by_month.get("may", 0)
+    oo_total_raw = oo_feb_raw + oo_mar_raw + oo_apr_raw + oo_may_raw
     oo = {
         "feb_total": fmt_inr(oo_feb_raw),
         "mar_total": fmt_inr(oo_mar_raw),
         "apr_total": fmt_inr(oo_apr_raw),
+        "may_total": fmt_inr(oo_may_raw),
         "total":     fmt_inr(oo_total_raw),
         "feb_sub":   oo_cfg["feb_sub"],
         "mar_sub":   oo_cfg["mar_sub"],
         "apr_sub":   oo_cfg.get("apr_sub", ""),
+        "may_sub":   oo_cfg.get("may_sub", ""),
         "practitioners": [
             {
                 **p,
