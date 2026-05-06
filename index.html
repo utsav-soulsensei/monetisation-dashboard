@@ -506,9 +506,13 @@
           
           <div class="legend-item"><div class="legend-dot" style="background:#D05A3A;"></div>Amrita</div>
           
+          <div class="legend-item"><div class="legend-dot" style="background:#C47A2B;"></div>Swapnil_2947</div>
+          
           <div class="legend-item"><div class="legend-dot" style="background:#B5456A;"></div>Swapnil</div>
           
           <div class="legend-item"><div class="legend-dot" style="background:#2D7A6B;"></div>Arjun</div>
+          
+          <div class="legend-item"><div class="legend-dot" style="background:#4A7A9A;"></div>Manka_3506</div>
           
           <div class="legend-item"><div class="legend-dot" style="background:#4A8A6A;"></div>Kajal</div>
           
@@ -1001,9 +1005,14 @@
         <div class="metric-value">₹14,451</div>
         <div class="metric-sub">Tamanna — 31 tarot pulls; Tanisha — 4 readings; Poonam — 1 reading; Rooppreet — 1 reading; Moneka — 11 sessions; Nattasha — 1 reading</div>
       </div>
+      <div class="metric-card">
+        <div class="metric-label">May</div>
+        <div class="metric-value">₹3,289</div>
+        <div class="metric-sub">Anushree — 11 personal readings</div>
+      </div>
       <div class="metric-card total">
         <div class="metric-label">Total</div>
-        <div class="metric-value">₹18,093</div>
+        <div class="metric-value">₹21,382</div>
         <div class="metric-sub">Captured only</div>
       </div>
     </div>
@@ -1014,6 +1023,7 @@
         <div class="legend">
           <div class="legend-item"><div class="legend-dot" style="background:#5A4A8A;"></div>Riya Sankhla (₹151)</div>
           <div class="legend-item"><div class="legend-dot" style="background:#B5456A;"></div>Tamanna (₹199)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#5A8A4A;"></div>Anushree (₹299)</div>
         </div>
       </div>
       <div class="chart-wrap"><canvas id="ooChart"></canvas></div>
@@ -1113,6 +1123,15 @@
             <td>1</td>
             <td class="td-revenue">₹999</td>
             <td><span class="month-pill pill-apr">Apr</span></td>
+          </tr>
+          
+          <tr>
+            <td>Anushree</td>
+            <td style="color:var(--text-secondary);text-align:left;">Personal Reading</td>
+            <td>₹299</td>
+            <td>11</td>
+            <td class="td-revenue">₹3,289</td>
+            <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
         </tbody>
@@ -1550,15 +1569,16 @@ function buildOoChart() {
   new Chart(document.getElementById('ooChart'), {
     type: 'bar',
     data: {
-      labels: ['January', 'February', 'March', 'April'],
+      labels: ['January', 'February', 'March', 'April', 'May'],
       datasets: [
-        { label: 'Riya Sankhla', data: [0, 856, 0, 0], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
-        { label: 'Tamanna',      data: [0, 0, 2786, 6169], backgroundColor: '#B5456A', borderRadius: 5, borderSkipped: false },
-        { label: 'Tanisha',      data: [0, 0, 0, 1996], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false },
-        { label: 'Poonam',       data: [0, 0, 0, 999], backgroundColor: '#C47A2B', borderRadius: 5, borderSkipped: false },
-        { label: 'Rooppreet',    data: [0, 0, 0, 999], backgroundColor: '#D05A3A', borderRadius: 5, borderSkipped: false },
-        { label: 'Moneka',       data: [0, 0, 0, 3289], backgroundColor: '#7A5A9A', borderRadius: 5, borderSkipped: false },
-        { label: 'Nattasha',     data: [0, 0, 0, 999], backgroundColor: '#3A8A7A', borderRadius: 5, borderSkipped: false }
+        { label: 'Riya Sankhla', data: [0, 856, 0, 0, 0], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+        { label: 'Tamanna',      data: [0, 0, 2786, 6169, 0], backgroundColor: '#B5456A', borderRadius: 5, borderSkipped: false },
+        { label: 'Tanisha',      data: [0, 0, 0, 1996, 0], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false },
+        { label: 'Poonam',       data: [0, 0, 0, 999, 0], backgroundColor: '#C47A2B', borderRadius: 5, borderSkipped: false },
+        { label: 'Rooppreet',    data: [0, 0, 0, 999, 0], backgroundColor: '#D05A3A', borderRadius: 5, borderSkipped: false },
+        { label: 'Moneka',       data: [0, 0, 0, 3289, 0], backgroundColor: '#7A5A9A', borderRadius: 5, borderSkipped: false },
+        { label: 'Nattasha',     data: [0, 0, 0, 999, 0], backgroundColor: '#3A8A7A', borderRadius: 5, borderSkipped: false },
+        { label: 'Anushree',     data: [0, 0, 0, 0, 3289], backgroundColor: '#5A8A4A', borderRadius: 5, borderSkipped: false }
       ]
     },
     options: {
@@ -1584,13 +1604,17 @@ function buildDgChart() {
         
         { label: "Kavyal", data: [0, 0, 47481, 89376, 0], backgroundColor: "#C47A2B", borderRadius: 5, borderSkipped: false },
         
-        { label: "Vidhi", data: [0, 21642, 0, 0, 299], backgroundColor: "#5A4A8A", borderRadius: 5, borderSkipped: false },
+        { label: "Vidhi", data: [0, 21642, 0, 0, 0], backgroundColor: "#5A4A8A", borderRadius: 5, borderSkipped: false },
         
         { label: "Amrita", data: [0, 4186, 4785, 0, 0], backgroundColor: "#D05A3A", borderRadius: 5, borderSkipped: false },
+        
+        { label: "Swapnil_2947", data: [0, 0, 0, 0, 6696], backgroundColor: "#C47A2B", borderRadius: 5, borderSkipped: false },
         
         { label: "Swapnil", data: [0, 0, 4743, 558, 0], backgroundColor: "#B5456A", borderRadius: 5, borderSkipped: false },
         
         { label: "Arjun", data: [0, 2495, 0, 499, 0], backgroundColor: "#2D7A6B", borderRadius: 5, borderSkipped: false },
+        
+        { label: "Manka_3506", data: [0, 0, 0, 0, 1791], backgroundColor: "#4A7A9A", borderRadius: 5, borderSkipped: false },
         
         { label: "Kajal", data: [0, 0, 0, 1245, 0], backgroundColor: "#4A8A6A", borderRadius: 5, borderSkipped: false },
         
