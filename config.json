@@ -6,7 +6,7 @@
     "feb": 604,
     "mar": 12687,
     "apr": 12361,
-    "may": 2174
+    "may": 2486
   },
   "visitors": {
     "feb_web": 394,
@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 64671
+    "may": 64970
   },
   "dg_sellers_base": [
     {
@@ -322,6 +322,13 @@
       "price": 399,
       "txns": 124,
       "revenue": 49476,
+      "month": "may"
+    },
+    {
+      "name": "Vidhi",
+      "price": 299,
+      "txns": 1,
+      "revenue": 299,
       "month": "may"
     }
   ],
