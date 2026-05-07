@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 64970
+    "may": 69658
   },
   "dg_sellers_base": [
     {
@@ -306,22 +306,22 @@
     {
       "name": "Vidhi_3293",
       "price": 299,
-      "txns": 17,
-      "revenue": 5083,
+      "txns": 18,
+      "revenue": 5382,
       "month": "may"
     },
     {
       "name": "Guided Hypnosis Script To Attract Meaningful Relationships",
       "price": 399,
-      "txns": 1,
-      "revenue": 399,
+      "txns": 2,
+      "revenue": 798,
       "month": "may"
     },
     {
       "name": "Kavyal_3354",
       "price": 399,
-      "txns": 124,
-      "revenue": 49476,
+      "txns": 133,
+      "revenue": 53067,
       "month": "may"
     },
     {
@@ -329,6 +329,13 @@
       "price": 299,
       "txns": 1,
       "revenue": 299,
+      "month": "may"
+    },
+    {
+      "name": "Deep Meditation To Remove Blockages",
+      "price": 399,
+      "txns": 1,
+      "revenue": 399,
       "month": "may"
     }
   ],
