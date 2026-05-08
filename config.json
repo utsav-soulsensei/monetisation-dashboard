@@ -6,7 +6,7 @@
     "feb": 604,
     "mar": 12687,
     "apr": 12361,
-    "may": 2687
+    "may": 2788
   },
   "visitors": {
     "feb_web": 394,
@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 76042
+    "may": 77983
   },
   "dg_sellers_base": [
     {
@@ -336,6 +336,20 @@
       "price": 399,
       "txns": 1,
       "revenue": 399,
+      "month": "may"
+    },
+    {
+      "name": "Kavyal_Abundance_Cheque_3345",
+      "price": 151,
+      "txns": 1,
+      "revenue": 151,
+      "month": "may"
+    },
+    {
+      "name": "Sushita_3722",
+      "price": 179,
+      "txns": 10,
+      "revenue": 1790,
       "month": "may"
     }
   ],
