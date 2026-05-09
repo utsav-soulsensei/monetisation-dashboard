@@ -6,7 +6,7 @@
     "feb": 604,
     "mar": 12687,
     "apr": 12361,
-    "may": 2788
+    "may": 2989
   },
   "visitors": {
     "feb_web": 394,
@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 77983
+    "may": 82060
   },
   "dg_sellers_base": [
     {
@@ -341,8 +341,8 @@
     {
       "name": "Kavyal_Abundance_Cheque_3345",
       "price": 151,
-      "txns": 1,
-      "revenue": 151,
+      "txns": 28,
+      "revenue": 4228,
       "month": "may"
     },
     {
