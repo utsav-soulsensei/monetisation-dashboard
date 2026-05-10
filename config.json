@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 82060
+    "may": 83796
   },
   "dg_sellers_base": [
     {
@@ -341,8 +341,8 @@
     {
       "name": "Kavyal_Abundance_Cheque_3345",
       "price": 151,
-      "txns": 28,
-      "revenue": 4228,
+      "txns": 30,
+      "revenue": 4530,
       "month": "may"
     },
     {
@@ -350,6 +350,27 @@
       "price": 179,
       "txns": 10,
       "revenue": 1790,
+      "month": "may"
+    },
+    {
+      "name": "Bijal_3146",
+      "price": 249,
+      "txns": 2,
+      "revenue": 498,
+      "month": "may"
+    },
+    {
+      "name": "Bijal_3903",
+      "price": 249,
+      "txns": 1,
+      "revenue": 249,
+      "month": "may"
+    },
+    {
+      "name": "Roop_3347",
+      "price": 229,
+      "txns": 3,
+      "revenue": 687,
       "month": "may"
     }
   ],
