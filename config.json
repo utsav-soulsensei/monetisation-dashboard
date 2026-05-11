@@ -6,7 +6,7 @@
     "feb": 604,
     "mar": 12687,
     "apr": 12361,
-    "may": 2989
+    "may": 3090
   },
   "visitors": {
     "feb_web": 394,
@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 83796
+    "may": 85681
   },
   "dg_sellers_base": [
     {
@@ -341,8 +341,8 @@
     {
       "name": "Kavyal_Abundance_Cheque_3345",
       "price": 151,
-      "txns": 30,
-      "revenue": 4530,
+      "txns": 31,
+      "revenue": 4681,
       "month": "may"
     },
     {
@@ -371,6 +371,34 @@
       "price": 229,
       "txns": 3,
       "revenue": 687,
+      "month": "may"
+    },
+    {
+      "name": "Sunaina_3374",
+      "price": 349,
+      "txns": 1,
+      "revenue": 349,
+      "month": "may"
+    },
+    {
+      "name": "Swapnil_3122",
+      "price": 279,
+      "txns": 3,
+      "revenue": 837,
+      "month": "may"
+    },
+    {
+      "name": "Poonam_3397",
+      "price": 249,
+      "txns": 1,
+      "revenue": 249,
+      "month": "may"
+    },
+    {
+      "name": "Rhea_3406",
+      "price": 299,
+      "txns": 1,
+      "revenue": 299,
       "month": "may"
     }
   ],
