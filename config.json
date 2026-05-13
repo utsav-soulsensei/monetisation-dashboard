@@ -6,7 +6,7 @@
     "feb": 604,
     "mar": 12687,
     "apr": 12361,
-    "may": 3593
+    "may": 3794
   },
   "visitors": {
     "feb_web": 394,
@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 85983
+    "may": 87382
   },
   "dg_sellers_base": [
     {
@@ -341,8 +341,8 @@
     {
       "name": "Kavyal_Abundance_Cheque_3345",
       "price": 151,
-      "txns": 33,
-      "revenue": 4983,
+      "txns": 34,
+      "revenue": 5134,
       "month": "may"
     },
     {
@@ -399,6 +399,20 @@
       "price": 299,
       "txns": 1,
       "revenue": 299,
+      "month": "may"
+    },
+    {
+      "name": "DailyReset_Sukhmani Bajwa_3301",
+      "price": 249,
+      "txns": 1,
+      "revenue": 249,
+      "month": "may"
+    },
+    {
+      "name": "Sheela_3377",
+      "price": 999,
+      "txns": 1,
+      "revenue": 999,
       "month": "may"
     }
   ],
