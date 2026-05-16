@@ -6,7 +6,7 @@
     "feb": 604,
     "mar": 12687,
     "apr": 12361,
-    "may": 3794
+    "may": 3995
   },
   "visitors": {
     "feb_web": 394,
@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 87533
+    "may": 100639
   },
   "dg_sellers_base": [
     {
@@ -413,6 +413,20 @@
       "price": 999,
       "txns": 1,
       "revenue": 999,
+      "month": "may"
+    },
+    {
+      "name": "DailyReset_Ivy",
+      "price": 249,
+      "txns": 1,
+      "revenue": 249,
+      "month": "may"
+    },
+    {
+      "name": "Tamanna_3912",
+      "price": 299,
+      "txns": 43,
+      "revenue": 12857,
       "month": "may"
     }
   ],
