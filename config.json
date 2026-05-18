@@ -6,7 +6,7 @@
     "feb": 604,
     "mar": 12687,
     "apr": 12361,
-    "may": 4096
+    "may": 4297
   },
   "visitors": {
     "feb_web": 394,
@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 101387
+    "may": 103477
   },
   "dg_sellers_base": [
     {
@@ -438,6 +438,27 @@
     },
     {
       "name": "DailyReset_Mahima Mor_3910",
+      "price": 249,
+      "txns": 1,
+      "revenue": 249,
+      "month": "may"
+    },
+    {
+      "name": "Manka_3409",
+      "price": 199,
+      "txns": 8,
+      "revenue": 1592,
+      "month": "may"
+    },
+    {
+      "name": "Nattasha_3340",
+      "price": 249,
+      "txns": 1,
+      "revenue": 249,
+      "month": "may"
+    },
+    {
+      "name": "DailyReset_Violet Tara_3375",
       "price": 249,
       "txns": 1,
       "revenue": 249,
