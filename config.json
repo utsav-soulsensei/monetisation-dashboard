@@ -6,7 +6,7 @@
     "feb": 604,
     "mar": 12687,
     "apr": 12361,
-    "may": 4297
+    "may": 5101
   },
   "visitors": {
     "feb_web": 394,
@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 103477
+    "may": 106675
   },
   "dg_sellers_base": [
     {
@@ -425,8 +425,8 @@
     {
       "name": "Tamanna_3912",
       "price": 299,
-      "txns": 43,
-      "revenue": 12857,
+      "txns": 50,
+      "revenue": 14950,
       "month": "may"
     },
     {
@@ -459,6 +459,27 @@
     },
     {
       "name": "DailyReset_Violet Tara_3375",
+      "price": 249,
+      "txns": 1,
+      "revenue": 249,
+      "month": "may"
+    },
+    {
+      "name": "Sushita_3440",
+      "price": 179,
+      "txns": 2,
+      "revenue": 358,
+      "month": "may"
+    },
+    {
+      "name": "DailyReset",
+      "price": 249,
+      "txns": 2,
+      "revenue": 498,
+      "month": "may"
+    },
+    {
+      "name": "DailyReset_SoulSync'",
       "price": 249,
       "txns": 1,
       "revenue": 249,
