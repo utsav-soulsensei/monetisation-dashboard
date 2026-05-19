@@ -6,7 +6,7 @@
     "feb": 604,
     "mar": 12687,
     "apr": 12361,
-    "may": 5101
+    "may": 5302
   },
   "visitors": {
     "feb_web": 394,
@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 103631
+    "may": 103930
   },
   "dg_sellers_base": [
     {
@@ -159,9 +159,9 @@
     {
       "name": "Jyotismita_2850",
       "price": 229,
-      "txns": 2,
-      "revenue": 458,
-      "month": "apr"
+      "txns": 1,
+      "revenue": 229,
+      "month": "may"
     },
     {
       "name": "Vidhi_2694",
@@ -425,8 +425,8 @@
     {
       "name": "Tamanna_3912",
       "price": 299,
-      "txns": 50,
-      "revenue": 14950,
+      "txns": 51,
+      "revenue": 15249,
       "month": "may"
     },
     {
@@ -490,13 +490,6 @@
       "price": 399,
       "txns": 1,
       "revenue": 399,
-      "month": "may"
-    },
-    {
-      "name": "Jyotismita_2850",
-      "price": 229,
-      "txns": 1,
-      "revenue": 229,
       "month": "may"
     }
   ],
