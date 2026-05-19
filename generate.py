@@ -940,6 +940,39 @@ def main():
         ]
         cfg_changed = True
 
+    # Persist personal entries to cfg["oo"] so they survive future runs after
+    # the DG sheet rows are marked Calculated and dropped from dg_sellers_base.
+    # Merge by (name, product, price, month); bump month total once per entry.
+    if personal_entries:
+        existing = cfg["oo"].setdefault("practitioners", [])
+        by_key = {(p["name"], p["product"], p["price"], p["month"]): p for p in existing}
+        chart = cfg["oo"].setdefault("chart", {})
+        n_months = len(MONTH_KEYS[:now.month])
+        for p in personal_entries:
+            k = (p["name"], p["product"], p["price"], p["month"])
+            if k in by_key:
+                by_key[k]["txns"]    += p["txns"]
+                by_key[k]["revenue"] += p["revenue"]
+            else:
+                existing.append({
+                    "name":    p["name"],
+                    "product": p["product"],
+                    "price":   p["price"],
+                    "txns":    p["txns"],
+                    "revenue": p["revenue"],
+                    "month":   p["month"],
+                })
+            total_key = f"{p['month']}_total"
+            cfg["oo"][total_key] = cfg["oo"].get(total_key, 0) + p["revenue"]
+
+            chart_key = p["name"].lower()
+            arr = chart.setdefault(chart_key, [0] * n_months)
+            while len(arr) < n_months:
+                arr.append(0)
+            if p["month"] in MONTH_KEYS:
+                arr[MONTH_KEYS.index(p["month"])] += p["revenue"]
+        cfg_changed = True
+
     if cfg_changed:
         with open("config.json", "w", encoding="utf-8") as f:
             json.dump(cfg, f, indent=2, ensure_ascii=False)

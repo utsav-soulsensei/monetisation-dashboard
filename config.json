@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 106675
+    "may": 103631
   },
   "dg_sellers_base": [
     {
@@ -320,29 +320,29 @@
     {
       "name": "Kavyal_3354",
       "price": 399,
-      "txns": 149,
-      "revenue": 59451,
+      "txns": 141,
+      "revenue": 56259,
       "month": "may"
     },
     {
       "name": "Vidhi",
       "price": 299,
-      "txns": 1,
-      "revenue": 299,
+      "txns": 2,
+      "revenue": 598,
       "month": "may"
     },
     {
       "name": "Deep Meditation To Remove Blockages",
       "price": 399,
-      "txns": 1,
-      "revenue": 399,
+      "txns": 2,
+      "revenue": 798,
       "month": "may"
     },
     {
       "name": "Kavyal_Abundance_Cheque_3345",
       "price": 151,
-      "txns": 35,
-      "revenue": 5285,
+      "txns": 34,
+      "revenue": 5134,
       "month": "may"
     },
     {
@@ -484,6 +484,20 @@
       "txns": 1,
       "revenue": 249,
       "month": "may"
+    },
+    {
+      "name": "Health Meditation To Reduce Stress And Improve Vitality",
+      "price": 399,
+      "txns": 1,
+      "revenue": 399,
+      "month": "may"
+    },
+    {
+      "name": "Jyotismita_2850",
+      "price": 229,
+      "txns": 1,
+      "revenue": 229,
+      "month": "may"
     }
   ],
   "dg_chart_base": {
@@ -492,7 +506,7 @@
       21642,
       0,
       0,
-      299
+      598
     ],
     "Arjun": [
       0,
@@ -576,21 +590,21 @@
       0,
       0,
       0,
-      49476
+      56259
     ],
     "Vidhi_3293": [
       0,
       0,
       0,
       0,
-      5083
+      5382
     ],
     "Guided Hypnosis Script To Attract Meaningful Relationships": [
       0,
       0,
       0,
       0,
-      399
+      798
     ]
   },
   "dg_seller_colors": {
@@ -609,11 +623,11 @@
     "feb_total": 856,
     "mar_total": 2786,
     "apr_total": 14451,
-    "may_total": 3289,
+    "may_total": 8970,
     "feb_sub": "Riya — 6 tarot pulls",
     "mar_sub": "Tamanna — 14 tarot pulls",
     "apr_sub": "Tamanna — 31 tarot pulls; Tanisha — 4 readings; Poonam — 1 reading; Rooppreet — 1 reading; Moneka — 11 sessions; Nattasha — 1 reading",
-    "may_sub": "Anushree — 11 personal readings",
+    "may_sub": "Anushree — 12 personal readings; Tamanna — 7 personal readings; Moneka — 11 personal sessions",
     "practitioners": [
       {
         "name": "Tamanna",
@@ -691,6 +705,22 @@
         "name": "Anushree",
         "product": "Personal Reading",
         "price": 299,
+        "txns": 12,
+        "revenue": 3588,
+        "month": "may"
+      },
+      {
+        "name": "Tamanna",
+        "product": "Personal Reading",
+        "price": 299,
+        "txns": 7,
+        "revenue": 2093,
+        "month": "may"
+      },
+      {
+        "name": "Moneka",
+        "product": "Personal",
+        "price": 299,
         "txns": 11,
         "revenue": 3289,
         "month": "may"
@@ -709,7 +739,7 @@
         0,
         2786,
         6169,
-        0
+        2093
       ],
       "tanisha": [
         0,
@@ -737,7 +767,7 @@
         0,
         0,
         3289,
-        0
+        3289
       ],
       "nattasha": [
         0,
@@ -751,7 +781,7 @@
         0,
         0,
         0,
-        3289
+        3588
       ]
     }
   }
