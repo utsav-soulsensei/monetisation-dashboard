@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 108714
+    "may": 109013
   },
   "dg_sellers_base": [
     {
@@ -495,8 +495,8 @@
     {
       "name": "Vidhi_3295",
       "price": 299,
-      "txns": 15,
-      "revenue": 4485,
+      "txns": 16,
+      "revenue": 4784,
       "month": "may"
     }
   ],
