@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 103930
+    "may": 108714
   },
   "dg_sellers_base": [
     {
@@ -425,8 +425,8 @@
     {
       "name": "Tamanna_3912",
       "price": 299,
-      "txns": 51,
-      "revenue": 15249,
+      "txns": 52,
+      "revenue": 15548,
       "month": "may"
     },
     {
@@ -490,6 +490,13 @@
       "price": 399,
       "txns": 1,
       "revenue": 399,
+      "month": "may"
+    },
+    {
+      "name": "Vidhi_3295",
+      "price": 299,
+      "txns": 15,
+      "revenue": 4485,
       "month": "may"
     }
   ],
