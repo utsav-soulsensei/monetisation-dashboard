@@ -6,7 +6,7 @@
     "feb": 604,
     "mar": 12687,
     "apr": 12361,
-    "may": 5503
+    "may": 6003
   },
   "visitors": {
     "feb_web": 394,
@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 109810
+    "may": 110905
   },
   "dg_sellers_base": [
     {
@@ -512,6 +512,27 @@
       "txns": 1,
       "revenue": 249,
       "month": "may"
+    },
+    {
+      "name": "DailyReset_Dr.",
+      "price": 249,
+      "txns": 1,
+      "revenue": 249,
+      "month": "may"
+    },
+    {
+      "name": "DailyReset_Nattasha Kapoor_3413",
+      "price": 249,
+      "txns": 1,
+      "revenue": 249,
+      "month": "may"
+    },
+    {
+      "name": "Vidhi_3788",
+      "price": 199,
+      "txns": 3,
+      "revenue": 597,
+      "month": "may"
     }
   ],
   "dg_chart_base": {
@@ -637,7 +658,7 @@
     "feb_total": 856,
     "mar_total": 2786,
     "apr_total": 14451,
-    "may_total": 8970,
+    "may_total": 11063,
     "feb_sub": "Riya — 6 tarot pulls",
     "mar_sub": "Tamanna — 14 tarot pulls",
     "apr_sub": "Tamanna — 31 tarot pulls; Tanisha — 4 readings; Poonam — 1 reading; Rooppreet — 1 reading; Moneka — 11 sessions; Nattasha — 1 reading",
@@ -727,8 +748,8 @@
         "name": "Tamanna",
         "product": "Personal Reading",
         "price": 299,
-        "txns": 7,
-        "revenue": 2093,
+        "txns": 14,
+        "revenue": 4186,
         "month": "may"
       },
       {
@@ -753,7 +774,7 @@
         0,
         2786,
         6169,
-        2093
+        4186
       ],
       "tanisha": [
         0,
