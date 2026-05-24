@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 111383
+    "may": 112130
   },
   "dg_sellers_base": [
     {
@@ -543,6 +543,20 @@
     },
     {
       "name": "DailyReset_Binita",
+      "price": 249,
+      "txns": 1,
+      "revenue": 249,
+      "month": "may"
+    },
+    {
+      "name": "Kajal_4015",
+      "price": 249,
+      "txns": 2,
+      "revenue": 498,
+      "month": "may"
+    },
+    {
+      "name": "DailyReset_Nithya",
       "price": 249,
       "txns": 1,
       "revenue": 249,
