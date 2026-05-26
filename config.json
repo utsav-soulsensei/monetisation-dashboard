@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 112479
+    "may": 112728
   },
   "dg_sellers_base": [
     {
@@ -567,6 +567,13 @@
       "price": 349,
       "txns": 1,
       "revenue": 349,
+      "month": "may"
+    },
+    {
+      "name": "DailyReset_Hiral Pawar_3333",
+      "price": 249,
+      "txns": 1,
+      "revenue": 249,
       "month": "may"
     }
   ],
