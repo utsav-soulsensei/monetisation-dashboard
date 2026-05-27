@@ -6,7 +6,7 @@
     "feb": 604,
     "mar": 12687,
     "apr": 12361,
-    "may": 6003
+    "may": 6506
   },
   "visitors": {
     "feb_web": 394,
@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 112728
+    "may": 116918
   },
   "dg_sellers_base": [
     {
@@ -495,8 +495,8 @@
     {
       "name": "Vidhi_3295",
       "price": 299,
-      "txns": 17,
-      "revenue": 5083,
+      "txns": 18,
+      "revenue": 5382,
       "month": "may"
     },
     {
@@ -574,6 +574,20 @@
       "price": 249,
       "txns": 1,
       "revenue": 249,
+      "month": "may"
+    },
+    {
+      "name": "Tanisha_Reading",
+      "price": 499,
+      "txns": 6,
+      "revenue": 2994,
+      "month": "may"
+    },
+    {
+      "name": "Rhea_3431",
+      "price": 299,
+      "txns": 3,
+      "revenue": 897,
       "month": "may"
     }
   ],
