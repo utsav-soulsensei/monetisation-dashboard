@@ -6,7 +6,7 @@
     "feb": 604,
     "mar": 12687,
     "apr": 12361,
-    "may": 6708
+    "may": 7020
   },
   "visitors": {
     "feb_web": 394,
@@ -20,7 +20,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 118911
+    "may": 119409
   },
   "dg_sellers_base": [
     {
@@ -600,8 +600,8 @@
     {
       "name": "Mahima_",
       "price": 249,
-      "txns": 4,
-      "revenue": 996,
+      "txns": 6,
+      "revenue": 1494,
       "month": "may"
     },
     {
@@ -735,7 +735,7 @@
     "feb_total": 856,
     "mar_total": 2786,
     "apr_total": 14451,
-    "may_total": 11063,
+    "may_total": 14651,
     "feb_sub": "Riya — 6 tarot pulls",
     "mar_sub": "Tamanna — 14 tarot pulls",
     "apr_sub": "Tamanna — 31 tarot pulls; Tanisha — 4 readings; Poonam — 1 reading; Rooppreet — 1 reading; Moneka — 11 sessions; Nattasha — 1 reading",
@@ -833,8 +833,8 @@
         "name": "Moneka",
         "product": "Personal",
         "price": 299,
-        "txns": 11,
-        "revenue": 3289,
+        "txns": 23,
+        "revenue": 6877,
         "month": "may"
       }
     ],
@@ -879,7 +879,7 @@
         0,
         0,
         3289,
-        3289
+        6877
       ],
       "nattasha": [
         0,
