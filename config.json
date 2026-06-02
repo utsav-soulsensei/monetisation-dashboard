@@ -7,7 +7,7 @@
     "mar": 12687,
     "apr": 12361,
     "may": 7723,
-    "jun": 402
+    "jun": 1107
   },
   "visitors": {
     "feb_web": 394,
@@ -21,7 +21,8 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 180728
+    "may": 180728,
+    "jun": 1398
   },
   "dg_sellers_base": [
     {
@@ -629,8 +630,8 @@
     {
       "name": "Munisha_4193",
       "price": 699,
-      "txns": 86,
-      "revenue": 60114,
+      "txns": 88,
+      "revenue": 61512,
       "month": "may"
     },
     {
