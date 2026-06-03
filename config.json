@@ -22,7 +22,7 @@
     "mar": 68523,
     "apr": 141860,
     "may": 180728,
-    "jun": 8388
+    "jun": 15269
   },
   "dg_sellers_base": [
     {
@@ -427,8 +427,8 @@
     {
       "name": "Tamanna_3912",
       "price": 299,
-      "txns": 52,
-      "revenue": 15548,
+      "txns": 53,
+      "revenue": 15847,
       "month": "may"
     },
     {
@@ -630,8 +630,8 @@
     {
       "name": "Munisha_4193",
       "price": 699,
-      "txns": 98,
-      "revenue": 68502,
+      "txns": 101,
+      "revenue": 70599,
       "month": "may"
     },
     {
@@ -640,6 +640,13 @@
       "txns": 3,
       "revenue": 747,
       "month": "may"
+    },
+    {
+      "name": "Vidhi_3985",
+      "price": 299,
+      "txns": 15,
+      "revenue": 4485,
+      "month": "jun"
     }
   ],
   "dg_chart_base": {
