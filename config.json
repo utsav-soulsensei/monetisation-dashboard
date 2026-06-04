@@ -22,7 +22,7 @@
     "mar": 68523,
     "apr": 141860,
     "may": 180728,
-    "jun": 15269
+    "jun": 15767
   },
   "dg_sellers_base": [
     {
@@ -476,8 +476,8 @@
     {
       "name": "DailyReset",
       "price": 249,
-      "txns": 3,
-      "revenue": 747,
+      "txns": 5,
+      "revenue": 1245,
       "month": "may"
     },
     {
