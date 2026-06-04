@@ -238,6 +238,10 @@
 
   th:not(:first-child) { text-align: right; }
 
+  th.sortable { cursor: pointer; user-select: none; transition: color 0.15s; }
+  th.sortable:hover { color: var(--text-secondary); }
+  .sort-ind { font-size: 9px; margin-left: 3px; }
+
   td {
     padding: 11px 16px;
     font-size: 13px;
@@ -449,11 +453,9 @@
 
     <div class="chart-section">
       <div class="chart-header">
-        <div class="chart-title">Monthly revenue by seller</div>
+        <div class="chart-title">Month-on-month revenue</div>
         <div class="legend">
-          {% for ds in dg.chart_datasets %}
-          <div class="legend-item"><div class="legend-dot" style="background:{{ ds.color }};"></div>{{ ds.label }}</div>
-          {% endfor %}
+          <div class="legend-item"><div class="legend-dot" style="background:#C47A2B;"></div>Revenue</div>
         </div>
       </div>
       <div class="chart-wrap"><canvas id="dgChart"></canvas></div>
@@ -464,19 +466,19 @@
       <button class="csv-btn" onclick="downloadDgCsv()">↓ Download CSV</button>
     </div>
     <div class="seller-table table-scroll">
-      <table>
+      <table id="dgTable">
         <thead>
           <tr>
             <th>Seller</th>
             <th>Price</th>
-            <th>Txns</th>
-            <th>Revenue</th>
-            <th>Month</th>
+            <th class="sortable" onclick="sortDgTable(2)">Orders <span class="sort-ind" data-col="2"></span></th>
+            <th class="sortable" onclick="sortDgTable(3)">Revenue <span class="sort-ind" data-col="3"></span></th>
+            <th class="sortable" onclick="sortDgTable(4)">Month <span class="sort-ind" data-col="4"></span></th>
           </tr>
         </thead>
         <tbody>
           {% for s in dg.sellers %}
-          <tr>
+          <tr data-txns="{{ s.txns }}" data-revenue="{{ s.revenue }}" data-month="{{ s.month_idx }}">
             <td>{{ s.name }}</td>
             <td>{{ s.price_fmt }}</td>
             <td>{{ s.txns }}</td>
@@ -826,24 +828,41 @@ function buildDgChart() {
   new Chart(document.getElementById('dgChart'), {
     type: 'bar',
     data: {
-      labels: {{ ee_chart_labels | tojson }},
+      labels: {{ dg.chart_labels | tojson }},
       datasets: [
-        {% for ds in dg.chart_datasets %}
-        { label: {{ ds.label | tojson }}, data: {{ ds.data | tojson }}, backgroundColor: {{ ds.color | tojson }}, borderRadius: 5, borderSkipped: false },
-        {% endfor %}
+        { label: 'Revenue', data: {{ dg.chart_data | tojson }}, backgroundColor: '#C47A2B', borderRadius: 6, borderSkipped: false }
       ]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: { display: false },
-        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ₹' + ctx.parsed.y.toLocaleString('en-IN') } }
+        tooltip: { callbacks: { label: ctx => 'Revenue: ₹' + ctx.parsed.y.toLocaleString('en-IN') } }
       },
       scales: {
-        x: { stacked: true, grid: { display: false }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, autoSkip: false } },
-        y: { stacked: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, callback: v => '₹' + v.toLocaleString('en-IN') }, beginAtZero: true }
+        x: { grid: { display: false }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, autoSkip: false } },
+        y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, callback: v => '₹' + v.toLocaleString('en-IN') }, beginAtZero: true }
       }
     }
+  });
+}
+
+// Click a column header to sort the DG breakdown table.
+let dgSortState = { col: null, dir: 1 };
+function sortDgTable(col) {
+  const tbody = document.querySelector('#dgTable tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  const keyAttr = { 2: 'txns', 3: 'revenue', 4: 'month' }[col];
+  dgSortState.dir = (dgSortState.col === col) ? -dgSortState.dir : -1;
+  dgSortState.col = col;
+  rows.sort((a, b) => {
+    const av = parseFloat(a.dataset[keyAttr]) || 0;
+    const bv = parseFloat(b.dataset[keyAttr]) || 0;
+    return (av - bv) * dgSortState.dir;
+  });
+  rows.forEach(r => tbody.appendChild(r));
+  document.querySelectorAll('#dgTable .sort-ind').forEach(s => {
+    s.textContent = (parseInt(s.dataset.col) === col) ? (dgSortState.dir === 1 ? '▲' : '▼') : '';
   });
 }
 

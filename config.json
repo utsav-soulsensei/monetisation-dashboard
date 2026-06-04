@@ -21,7 +21,7 @@
     "feb": 17260,
     "mar": 68523,
     "apr": 141860,
-    "may": 180728,
+    "may": 177734,
     "jun": 15767
   },
   "dg_sellers_base": [
@@ -579,13 +579,6 @@
       "month": "may"
     },
     {
-      "name": "Tanisha_Reading",
-      "price": 499,
-      "txns": 6,
-      "revenue": 2994,
-      "month": "may"
-    },
-    {
       "name": "Rhea_3431",
       "price": 299,
       "txns": 3,
@@ -649,113 +642,6 @@
       "month": "jun"
     }
   ],
-  "dg_chart_base": {
-    "Vidhi": [
-      0,
-      21642,
-      0,
-      0,
-      598
-    ],
-    "Arjun": [
-      0,
-      2495,
-      0,
-      499,
-      0
-    ],
-    "Amrita": [
-      0,
-      4186,
-      4785,
-      0,
-      0
-    ],
-    "Kavyal": [
-      0,
-      0,
-      47481,
-      89376,
-      0
-    ],
-    "Swapnil": [
-      0,
-      0,
-      4743,
-      558,
-      0
-    ],
-    "Sushita": [
-      0,
-      0,
-      796,
-      0,
-      0
-    ],
-    "Sunaina": [
-      0,
-      0,
-      1047,
-      0,
-      0
-    ],
-    "Rhea": [
-      0,
-      0,
-      0,
-      299,
-      0
-    ],
-    "Kajal": [
-      0,
-      0,
-      0,
-      1245,
-      0
-    ],
-    "Bijal": [
-      0,
-      0,
-      0,
-      498,
-      0
-    ],
-    "Manka_3506": [
-      0,
-      0,
-      0,
-      0,
-      1990
-    ],
-    "Swapnil_2947": [
-      0,
-      0,
-      0,
-      0,
-      6696
-    ],
-    "Kavyal_3354": [
-      0,
-      0,
-      0,
-      0,
-      56259
-    ],
-    "Vidhi_3293": [
-      0,
-      0,
-      0,
-      0,
-      5382
-    ],
-    "Guided Hypnosis Script To Attract Meaningful Relationships": [
-      0,
-      0,
-      0,
-      0,
-      798
-    ]
-  },
   "dg_seller_colors": {
     "Kavyal": "#C47A2B",
     "Vidhi": "#5A4A8A",
@@ -772,11 +658,11 @@
     "feb_total": 856,
     "mar_total": 2786,
     "apr_total": 14451,
-    "may_total": 17043,
+    "may_total": 20037,
     "feb_sub": "Riya — 6 tarot pulls",
     "mar_sub": "Tamanna — 14 tarot pulls",
     "apr_sub": "Tamanna — 31 tarot pulls; Tanisha — 4 readings; Poonam — 1 reading; Rooppreet — 1 reading; Moneka — 11 sessions; Nattasha — 1 reading",
-    "may_sub": "Anushree — 12 personal readings; Tamanna — 7 personal readings; Moneka — 11 personal sessions",
+    "may_sub": "Anushree — 12 personal readings; Tamanna — 7 personal readings; Moneka — 11 personal sessions; Tanisha — 6 readings",
     "practitioners": [
       {
         "name": "Tamanna",
@@ -873,6 +759,14 @@
         "txns": 31,
         "revenue": 9269,
         "month": "may"
+      },
+      {
+        "name": "Tanisha",
+        "product": "Reading",
+        "price": 499,
+        "txns": 6,
+        "revenue": 2994,
+        "month": "may"
       }
     ],
     "chart": {
@@ -895,7 +789,7 @@
         0,
         0,
         1996,
-        0
+        2994
       ],
       "poonam": [
         0,

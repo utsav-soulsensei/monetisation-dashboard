@@ -703,7 +703,6 @@ def main():
     # ── DG ────────────────────────────────────────────────────────────────────
     dg_base          = cfg["dg_base"]
     dg_sellers_base  = cfg["dg_sellers_base"]
-    dg_chart_base    = cfg["dg_chart_base"]
     seller_colors    = cfg.get("dg_seller_colors", {})
     active_keys      = [k for k, _ in months]
 
@@ -749,43 +748,27 @@ def main():
                 "revenue_fmt": fmt_inr(v["revenue"]),
                 "month":       v["month"],
                 "month_label": v["month"].capitalize(),
+                "month_idx":   MONTH_KEYS.index(v["month"]) if v["month"] in MONTH_KEYS else 99,
             }
             for v in merged_sellers.values()
         ],
         key=lambda x: -x["revenue"]
     )
 
-    # Chart datasets: config base arrays + new monthly delta per seller group
-    # Config base uses first-name keys ("Vidhi", "Swapnil" etc.)
-    chart_data = {name: list(arr) for name, arr in dg_chart_base.items()}
-
-    # Extend arrays if new months beyond config's 3 columns
-    for name in chart_data:
-        while len(chart_data[name]) < len(active_keys):
-            chart_data[name].append(0)
-
-    # Add new sheet rows to matching chart group (match by first word)
-    for (seller, price), v in dg_breakdown.items():
-        group = seller.split()[0]  # e.g. "Swapnil" from "Swapnil (OM)"
-        if group not in chart_data:
-            chart_data[group] = [0] * len(active_keys)
-        for mkey, rev in v["monthly"].items():
-            if mkey in active_keys:
-                chart_data[group][active_keys.index(mkey)] += rev
-
-    color_idx = 0
-    dg_chart_datasets = []
-    for name, data in sorted(chart_data.items(), key=lambda x: -sum(x[1])):
-        color = seller_colors.get(name, DG_DEFAULT_COLORS[color_idx % len(DG_DEFAULT_COLORS)])
-        color_idx += 1
-        dg_chart_datasets.append({"label": name, "color": color, "data": data})
+    # Month-on-month total revenue — single series straight off dg_monthly,
+    # the same authoritative totals shown in the metric cards above. No
+    # per-seller split, so the chart can never disagree with the cards.
+    dg_chart_labels = [label + (" (MTD)" if key == current_key else "")
+                       for key, label in months]
+    dg_chart_data   = [dg_monthly.get(key, 0) for key, _ in months]
 
     dg = {
         "months":         [{"label": label + (" (MTD)" if key == current_key else ""),
                             "total": fmt_inr(dg_monthly.get(key, 0))} for key, label in months],
         "total":          fmt_inr(dg_grand_total),
         "sellers":        dg_sellers,
-        "chart_datasets": dg_chart_datasets,
+        "chart_labels":   dg_chart_labels,
+        "chart_data":     dg_chart_data,
     }
 
     # ── OO ────────────────────────────────────────────────────────────────────

@@ -237,6 +237,9 @@
   }
 
   th:not(:first-child) { text-align: right; }
+  th.sortable { cursor: pointer; user-select: none; transition: color 0.15s; }
+  th.sortable:hover { color: var(--text-secondary); }
+  .sort-ind { font-size: 9px; margin-left: 3px; }
 
   td {
     padding: 11px 16px;
@@ -509,41 +512,9 @@
 
     <div class="chart-section">
       <div class="chart-header">
-        <div class="chart-title">Monthly revenue by seller</div>
+        <div class="chart-title">Month-on-month revenue</div>
         <div class="legend">
-          
-          <div class="legend-item"><div class="legend-dot" style="background:#C47A2B;"></div>Kavyal</div>
-          
-          <div class="legend-item"><div class="legend-dot" style="background:#2D7A6B;"></div>Kavyal_3354</div>
-          
-          <div class="legend-item"><div class="legend-dot" style="background:#5A4A8A;"></div>Vidhi</div>
-          
-          <div class="legend-item"><div class="legend-dot" style="background:#D05A3A;"></div>Amrita</div>
-          
-          <div class="legend-item"><div class="legend-dot" style="background:#B5456A;"></div>Swapnil_2947</div>
-          
-          <div class="legend-item"><div class="legend-dot" style="background:#7A7570;"></div>Vidhi_3293</div>
-          
-          <div class="legend-item"><div class="legend-dot" style="background:#B5456A;"></div>Swapnil</div>
-          
-          <div class="legend-item"><div class="legend-dot" style="background:#2D7A6B;"></div>Arjun</div>
-          
-          <div class="legend-item"><div class="legend-dot" style="background:#2D6A8A;"></div>Manka_3506</div>
-          
-          <div class="legend-item"><div class="legend-dot" style="background:#4A8A6A;"></div>Kajal</div>
-          
-          <div class="legend-item"><div class="legend-dot" style="background:#4A7A9A;"></div>Sunaina</div>
-          
-          <div class="legend-item"><div class="legend-dot" style="background:#2D7A6B;"></div>Guided Hypnosis Script To Attract Meaningful Relationships</div>
-          
-          <div class="legend-item"><div class="legend-dot" style="background:#7A7570;"></div>Sushita</div>
-          
-          <div class="legend-item"><div class="legend-dot" style="background:#8A7A3A;"></div>Bijal</div>
-          
-          <div class="legend-item"><div class="legend-dot" style="background:#B5456A;"></div>DailyReset</div>
-          
-          <div class="legend-item"><div class="legend-dot" style="background:#A05878;"></div>Rhea</div>
-          
+          <div class="legend-item"><div class="legend-dot" style="background:#C47A2B;"></div>Revenue</div>
         </div>
       </div>
       <div class="chart-wrap"><canvas id="dgChart"></canvas></div>
@@ -554,19 +525,19 @@
       <button class="csv-btn" onclick="downloadDgCsv()">↓ Download CSV</button>
     </div>
     <div class="seller-table table-scroll">
-      <table>
+      <table id="dgTable">
         <thead>
           <tr>
             <th>Seller</th>
             <th>Price</th>
-            <th>Txns</th>
-            <th>Revenue</th>
-            <th>Month</th>
+            <th class="sortable" onclick="sortDgTable(2)">Orders <span class="sort-ind" data-col="2"></span></th>
+            <th class="sortable" onclick="sortDgTable(3)">Revenue <span class="sort-ind" data-col="3"></span></th>
+            <th class="sortable" onclick="sortDgTable(4)">Month <span class="sort-ind" data-col="4"></span></th>
           </tr>
         </thead>
         <tbody>
           
-          <tr>
+          <tr data-txns="101" data-revenue="70599" data-month="4">
             <td>Munisha_4193</td>
             <td>₹699</td>
             <td>101</td>
@@ -574,7 +545,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="161" data-revenue="64239" data-month="3">
             <td>Kavyal_2935</td>
             <td>₹399</td>
             <td>161</td>
@@ -582,7 +553,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="141" data-revenue="56259" data-month="4">
             <td>Kavyal_3354</td>
             <td>₹399</td>
             <td>141</td>
@@ -590,7 +561,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="119" data-revenue="47481" data-month="2">
             <td>Kavyal</td>
             <td>₹399</td>
             <td>119</td>
@@ -598,7 +569,7 @@
             <td><span class="month-pill pill-mar">Mar</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="78" data-revenue="31122" data-month="3">
             <td>Kavyal_3158</td>
             <td>₹399</td>
             <td>78</td>
@@ -606,7 +577,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="53" data-revenue="15847" data-month="4">
             <td>Tamanna_3912</td>
             <td>₹299</td>
             <td>53</td>
@@ -614,7 +585,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="49" data-revenue="14651" data-month="3">
             <td>Tamanna_3140</td>
             <td>₹299</td>
             <td>49</td>
@@ -622,7 +593,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="37" data-revenue="11063" data-month="2">
             <td>Vidhi Agarwal (Hanuman Sadhana)</td>
             <td>₹299</td>
             <td>37</td>
@@ -630,7 +601,7 @@
             <td><span class="month-pill pill-mar">Mar</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="71" data-revenue="10579" data-month="1">
             <td>Vidhi Agarwal</td>
             <td>₹149</td>
             <td>71</td>
@@ -638,7 +609,7 @@
             <td><span class="month-pill pill-feb">Feb</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="24" data-revenue="6696" data-month="4">
             <td>Swapnil_2947</td>
             <td>₹279</td>
             <td>24</td>
@@ -646,7 +617,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="18" data-revenue="5382" data-month="4">
             <td>Vidhi_3293</td>
             <td>₹299</td>
             <td>18</td>
@@ -654,7 +625,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="18" data-revenue="5382" data-month="4">
             <td>Vidhi_3295</td>
             <td>₹299</td>
             <td>18</td>
@@ -662,7 +633,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="34" data-revenue="5134" data-month="4">
             <td>Kavyal_Abundance_Cheque_3345</td>
             <td>₹151</td>
             <td>34</td>
@@ -670,7 +641,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="15" data-revenue="4485" data-month="3">
             <td>Vidhi_2694</td>
             <td>₹299</td>
             <td>15</td>
@@ -678,7 +649,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="15" data-revenue="4485" data-month="5">
             <td>Vidhi_3985</td>
             <td>₹299</td>
             <td>15</td>
@@ -686,7 +657,7 @@
             <td><span class="month-pill pill-jun">Jun</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="14" data-revenue="4186" data-month="1">
             <td>Amrita (Generic)</td>
             <td>₹299</td>
             <td>14</td>
@@ -694,7 +665,7 @@
             <td><span class="month-pill pill-feb">Feb</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="11" data-revenue="3069" data-month="3">
             <td>Swapnil_2977</td>
             <td>₹279</td>
             <td>11</td>
@@ -702,7 +673,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="6" data-revenue="2994" data-month="4">
             <td>Tanisha_Reading</td>
             <td>₹499</td>
             <td>6</td>
@@ -710,7 +681,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="10" data-revenue="2790" data-month="2">
             <td>Swapnil (Chakra)</td>
             <td>₹279</td>
             <td>10</td>
@@ -718,7 +689,7 @@
             <td><span class="month-pill pill-mar">Mar</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="9" data-revenue="2511" data-month="3">
             <td>Swapnil_2688</td>
             <td>₹279</td>
             <td>9</td>
@@ -726,7 +697,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="5" data-revenue="2495" data-month="1">
             <td>Arjun Iyer</td>
             <td>₹499</td>
             <td>5</td>
@@ -734,7 +705,7 @@
             <td><span class="month-pill pill-feb">Feb</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="5" data-revenue="2495" data-month="2">
             <td>Vidhi_2506</td>
             <td>₹499</td>
             <td>5</td>
@@ -742,7 +713,7 @@
             <td><span class="month-pill pill-mar">Mar</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="4" data-revenue="1996" data-month="3">
             <td>Ddevika_3289</td>
             <td>₹499</td>
             <td>4</td>
@@ -750,7 +721,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="10" data-revenue="1990" data-month="4">
             <td>Manka_3506</td>
             <td>₹199</td>
             <td>10</td>
@@ -758,7 +729,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="7" data-revenue="1953" data-month="2">
             <td>Swapnil (OM)</td>
             <td>₹279</td>
             <td>7</td>
@@ -766,7 +737,7 @@
             <td><span class="month-pill pill-mar">Mar</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="10" data-revenue="1790" data-month="4">
             <td>Sushita_3722</td>
             <td>₹179</td>
             <td>10</td>
@@ -774,7 +745,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="8" data-revenue="1592" data-month="4">
             <td>Manka_3409</td>
             <td>₹199</td>
             <td>8</td>
@@ -782,7 +753,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="6" data-revenue="1494" data-month="4">
             <td>Mahima_</td>
             <td>₹249</td>
             <td>6</td>
@@ -790,7 +761,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="4" data-revenue="1396" data-month="3">
             <td>Sunaina_2917</td>
             <td>₹349</td>
             <td>4</td>
@@ -798,7 +769,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="5" data-revenue="1245" data-month="3">
             <td>Kajal_2925</td>
             <td>₹249</td>
             <td>5</td>
@@ -806,7 +777,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="5" data-revenue="1245" data-month="4">
             <td>DailyReset</td>
             <td>₹249</td>
             <td>5</td>
@@ -814,7 +785,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="3" data-revenue="1047" data-month="2">
             <td>Sunaina</td>
             <td>₹349</td>
             <td>3</td>
@@ -822,7 +793,7 @@
             <td><span class="month-pill pill-mar">Mar</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="999" data-month="4">
             <td>Sheela_3377</td>
             <td>₹999</td>
             <td>1</td>
@@ -830,7 +801,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="3" data-revenue="897" data-month="3">
             <td>Tamanna_3451</td>
             <td>₹299</td>
             <td>3</td>
@@ -838,7 +809,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="3" data-revenue="897" data-month="4">
             <td>Rhea_3431</td>
             <td>₹299</td>
             <td>3</td>
@@ -846,7 +817,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="3" data-revenue="837" data-month="4">
             <td>Swapnil_3122</td>
             <td>₹279</td>
             <td>3</td>
@@ -854,7 +825,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="2" data-revenue="798" data-month="3">
             <td>Sayali_2860</td>
             <td>₹399</td>
             <td>2</td>
@@ -862,7 +833,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="2" data-revenue="798" data-month="4">
             <td>Guided Hypnosis Script To Attract Meaningful Relationships</td>
             <td>₹399</td>
             <td>2</td>
@@ -870,7 +841,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="2" data-revenue="798" data-month="4">
             <td>Deep Meditation To Remove Blockages</td>
             <td>₹399</td>
             <td>2</td>
@@ -878,7 +849,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="4" data-revenue="796" data-month="2">
             <td>Sushita</td>
             <td>₹199</td>
             <td>4</td>
@@ -886,7 +857,7 @@
             <td><span class="month-pill pill-mar">Mar</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="3" data-revenue="747" data-month="3">
             <td>Poonam_2770</td>
             <td>₹249</td>
             <td>3</td>
@@ -894,7 +865,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="3" data-revenue="747" data-month="4">
             <td>Poonam_2948</td>
             <td>₹249</td>
             <td>3</td>
@@ -902,7 +873,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="4" data-revenue="716" data-month="3">
             <td>Sushita_3296</td>
             <td>₹179</td>
             <td>4</td>
@@ -910,7 +881,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="3" data-revenue="687" data-month="3">
             <td>Roop_3142</td>
             <td>₹229</td>
             <td>3</td>
@@ -918,7 +889,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="3" data-revenue="687" data-month="4">
             <td>Roop_3347</td>
             <td>₹229</td>
             <td>3</td>
@@ -926,7 +897,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="599" data-month="2">
             <td>Amrita (Personal)</td>
             <td>₹599</td>
             <td>1</td>
@@ -934,7 +905,7 @@
             <td><span class="month-pill pill-mar">Mar</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="599" data-month="3">
             <td>Nupur_3283</td>
             <td>₹599</td>
             <td>1</td>
@@ -942,7 +913,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="2" data-revenue="598" data-month="4">
             <td>Vidhi</td>
             <td>₹299</td>
             <td>2</td>
@@ -950,7 +921,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="3" data-revenue="597" data-month="4">
             <td>Vidhi_3788</td>
             <td>₹199</td>
             <td>3</td>
@@ -958,7 +929,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="2" data-revenue="558" data-month="3">
             <td>Swapnil_2975</td>
             <td>₹279</td>
             <td>2</td>
@@ -966,7 +937,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="499" data-month="3">
             <td>Arjun_2976</td>
             <td>₹499</td>
             <td>1</td>
@@ -974,7 +945,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="499" data-month="4">
             <td>Arjun_3513</td>
             <td>₹499</td>
             <td>1</td>
@@ -982,7 +953,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="499" data-month="4">
             <td>Ddevika_3789</td>
             <td>₹499</td>
             <td>1</td>
@@ -990,7 +961,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="2" data-revenue="498" data-month="3">
             <td>Bijal_2859</td>
             <td>₹249</td>
             <td>2</td>
@@ -998,7 +969,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="2" data-revenue="498" data-month="3">
             <td>Divyaa_2926</td>
             <td>₹249</td>
             <td>2</td>
@@ -1006,7 +977,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="2" data-revenue="498" data-month="3">
             <td>Poonam_2934</td>
             <td>₹249</td>
             <td>2</td>
@@ -1014,7 +985,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="2" data-revenue="498" data-month="4">
             <td>Bijal_3146</td>
             <td>₹249</td>
             <td>2</td>
@@ -1022,7 +993,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="2" data-revenue="498" data-month="4">
             <td>Kajal_4015</td>
             <td>₹249</td>
             <td>2</td>
@@ -1030,7 +1001,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="399" data-month="4">
             <td>Health Meditation To Reduce Stress And Improve Vitality</td>
             <td>₹399</td>
             <td>1</td>
@@ -1038,7 +1009,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="2" data-revenue="398" data-month="3">
             <td>Susitha_2916</td>
             <td>₹199</td>
             <td>2</td>
@@ -1046,7 +1017,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="2" data-revenue="358" data-month="4">
             <td>Sushita_3440</td>
             <td>₹179</td>
             <td>2</td>
@@ -1054,7 +1025,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="349" data-month="4">
             <td>Sunaina_3374</td>
             <td>₹349</td>
             <td>1</td>
@@ -1062,7 +1033,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="349" data-month="4">
             <td>Sunaina_3379</td>
             <td>₹349</td>
             <td>1</td>
@@ -1070,7 +1041,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="299" data-month="2">
             <td>Rhea_2611</td>
             <td>₹299</td>
             <td>1</td>
@@ -1078,7 +1049,7 @@
             <td><span class="month-pill pill-mar">Mar</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="299" data-month="3">
             <td>Rhea_2884</td>
             <td>₹299</td>
             <td>1</td>
@@ -1086,7 +1057,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="299" data-month="3">
             <td>Tamanna_3140🌬️🫧🫧✨</td>
             <td>₹299</td>
             <td>1</td>
@@ -1094,7 +1065,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="299" data-month="4">
             <td>Rhea_3406</td>
             <td>₹299</td>
             <td>1</td>
@@ -1102,7 +1073,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="279" data-month="3">
             <td>Amrita_2950</td>
             <td>₹279</td>
             <td>1</td>
@@ -1110,7 +1081,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="279" data-month="3">
             <td>Swapnil_2702</td>
             <td>₹279</td>
             <td>1</td>
@@ -1118,7 +1089,7 @@
             <td><span class="month-pill pill-apr">Apr</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="249" data-month="4">
             <td>Bijal_3903</td>
             <td>₹249</td>
             <td>1</td>
@@ -1126,7 +1097,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="249" data-month="4">
             <td>Poonam_3397</td>
             <td>₹249</td>
             <td>1</td>
@@ -1134,7 +1105,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="249" data-month="4">
             <td>DailyReset_Sukhmani Bajwa_3301</td>
             <td>₹249</td>
             <td>1</td>
@@ -1142,7 +1113,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="249" data-month="4">
             <td>DailyReset_Ivy</td>
             <td>₹249</td>
             <td>1</td>
@@ -1150,7 +1121,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="249" data-month="4">
             <td>DailyReset_Mahima Mor_3910</td>
             <td>₹249</td>
             <td>1</td>
@@ -1158,7 +1129,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="249" data-month="4">
             <td>Nattasha_3340</td>
             <td>₹249</td>
             <td>1</td>
@@ -1166,7 +1137,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="249" data-month="4">
             <td>DailyReset_Violet Tara_3375</td>
             <td>₹249</td>
             <td>1</td>
@@ -1174,7 +1145,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="249" data-month="4">
             <td>DailyReset_SoulSync'</td>
             <td>₹249</td>
             <td>1</td>
@@ -1182,7 +1153,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="249" data-month="4">
             <td>DailyReset_Bharti</td>
             <td>₹249</td>
             <td>1</td>
@@ -1190,7 +1161,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="249" data-month="4">
             <td>DailyReset_Disha Deshpande_3723</td>
             <td>₹249</td>
             <td>1</td>
@@ -1198,7 +1169,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="249" data-month="4">
             <td>DailyReset_Dr.</td>
             <td>₹249</td>
             <td>1</td>
@@ -1206,7 +1177,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="249" data-month="4">
             <td>DailyReset_Nattasha Kapoor_3413</td>
             <td>₹249</td>
             <td>1</td>
@@ -1214,7 +1185,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="249" data-month="4">
             <td>DailyReset_Binita</td>
             <td>₹249</td>
             <td>1</td>
@@ -1222,7 +1193,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="249" data-month="4">
             <td>DailyReset_Nithya</td>
             <td>₹249</td>
             <td>1</td>
@@ -1230,7 +1201,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="249" data-month="4">
             <td>DailyReset_Hiral Pawar_3333</td>
             <td>₹249</td>
             <td>1</td>
@@ -1238,7 +1209,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="249" data-month="4">
             <td>DailyReset_Prateek Bajaj_3332</td>
             <td>₹249</td>
             <td>1</td>
@@ -1246,7 +1217,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="229" data-month="4">
             <td>Jyotismita_2850</td>
             <td>₹229</td>
             <td>1</td>
@@ -1254,7 +1225,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="229" data-month="4">
             <td>Jyotismita_3157</td>
             <td>₹229</td>
             <td>1</td>
@@ -1262,7 +1233,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="229" data-month="4">
             <td>Roop_3423</td>
             <td>₹229</td>
             <td>1</td>
@@ -1270,7 +1241,7 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
-          <tr>
+          <tr data-txns="1" data-revenue="229" data-month="4">
             <td>Ruchika_4318</td>
             <td>₹229</td>
             <td>1</td>
@@ -1999,52 +1970,38 @@ function buildDgChart() {
     data: {
       labels: ["January", "February", "March", "April", "May", "June (MTD)"],
       datasets: [
-        
-        { label: "Kavyal", data: [0, 0, 47481, 89376, 0, 0], backgroundColor: "#C47A2B", borderRadius: 5, borderSkipped: false },
-        
-        { label: "Kavyal_3354", data: [0, 0, 0, 0, 56259, 0], backgroundColor: "#2D7A6B", borderRadius: 5, borderSkipped: false },
-        
-        { label: "Vidhi", data: [0, 21642, 0, 0, 598, 0], backgroundColor: "#5A4A8A", borderRadius: 5, borderSkipped: false },
-        
-        { label: "Amrita", data: [0, 4186, 4785, 0, 0, 0], backgroundColor: "#D05A3A", borderRadius: 5, borderSkipped: false },
-        
-        { label: "Swapnil_2947", data: [0, 0, 0, 0, 6696, 0], backgroundColor: "#B5456A", borderRadius: 5, borderSkipped: false },
-        
-        { label: "Vidhi_3293", data: [0, 0, 0, 0, 5382, 0], backgroundColor: "#7A7570", borderRadius: 5, borderSkipped: false },
-        
-        { label: "Swapnil", data: [0, 0, 4743, 558, 0, 0], backgroundColor: "#B5456A", borderRadius: 5, borderSkipped: false },
-        
-        { label: "Arjun", data: [0, 2495, 0, 499, 0, 0], backgroundColor: "#2D7A6B", borderRadius: 5, borderSkipped: false },
-        
-        { label: "Manka_3506", data: [0, 0, 0, 0, 1990, 0], backgroundColor: "#2D6A8A", borderRadius: 5, borderSkipped: false },
-        
-        { label: "Kajal", data: [0, 0, 0, 1245, 0, 0], backgroundColor: "#4A8A6A", borderRadius: 5, borderSkipped: false },
-        
-        { label: "Sunaina", data: [0, 0, 1047, 0, 0, 0], backgroundColor: "#4A7A9A", borderRadius: 5, borderSkipped: false },
-        
-        { label: "Guided Hypnosis Script To Attract Meaningful Relationships", data: [0, 0, 0, 0, 798, 0], backgroundColor: "#2D7A6B", borderRadius: 5, borderSkipped: false },
-        
-        { label: "Sushita", data: [0, 0, 796, 0, 0, 0], backgroundColor: "#7A7570", borderRadius: 5, borderSkipped: false },
-        
-        { label: "Bijal", data: [0, 0, 0, 498, 0, 0], backgroundColor: "#8A7A3A", borderRadius: 5, borderSkipped: false },
-        
-        { label: "DailyReset", data: [0, 0, 0, 0, 0, 498], backgroundColor: "#B5456A", borderRadius: 5, borderSkipped: false },
-        
-        { label: "Rhea", data: [0, 0, 0, 299, 0, 0], backgroundColor: "#A05878", borderRadius: 5, borderSkipped: false },
-        
+        { label: 'Revenue', data: [0, 17260, 68523, 141860, 180728, 15767], backgroundColor: '#C47A2B', borderRadius: 6, borderSkipped: false }
       ]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: { display: false },
-        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ₹' + ctx.parsed.y.toLocaleString('en-IN') } }
+        tooltip: { callbacks: { label: ctx => 'Revenue: ₹' + ctx.parsed.y.toLocaleString('en-IN') } }
       },
       scales: {
-        x: { stacked: true, grid: { display: false }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, autoSkip: false } },
-        y: { stacked: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, callback: v => '₹' + v.toLocaleString('en-IN') }, beginAtZero: true }
+        x: { grid: { display: false }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, autoSkip: false } },
+        y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#A09B95', font: { family: 'DM Sans', size: 12 }, callback: v => '₹' + v.toLocaleString('en-IN') }, beginAtZero: true }
       }
     }
+  });
+}
+
+let dgSortState = { col: null, dir: 1 };
+function sortDgTable(col) {
+  const tbody = document.querySelector('#dgTable tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  const keyAttr = { 2: 'txns', 3: 'revenue', 4: 'month' }[col];
+  dgSortState.dir = (dgSortState.col === col) ? -dgSortState.dir : -1;
+  dgSortState.col = col;
+  rows.sort((a, b) => {
+    const av = parseFloat(a.dataset[keyAttr]) || 0;
+    const bv = parseFloat(b.dataset[keyAttr]) || 0;
+    return (av - bv) * dgSortState.dir;
+  });
+  rows.forEach(r => tbody.appendChild(r));
+  document.querySelectorAll('#dgTable .sort-ind').forEach(s => {
+    s.textContent = (parseInt(s.dataset.col) === col) ? (dgSortState.dir === 1 ? '▲' : '▼') : '';
   });
 }
 
