@@ -7,7 +7,7 @@
     "mar": 12687,
     "apr": 12361,
     "may": 7723,
-    "jun": 1107
+    "jun": 1641
   },
   "visitors": {
     "feb_web": 394,
@@ -22,7 +22,7 @@
     "mar": 68523,
     "apr": 141860,
     "may": 177734,
-    "jun": 15767
+    "jun": 16732
   },
   "dg_sellers_base": [
     {
@@ -639,6 +639,20 @@
       "price": 299,
       "txns": 15,
       "revenue": 4485,
+      "month": "jun"
+    },
+    {
+      "name": "Susitha_4036",
+      "price": 179,
+      "txns": 4,
+      "revenue": 716,
+      "month": "jun"
+    },
+    {
+      "name": "DailyReset_SoulSync",
+      "price": 249,
+      "txns": 1,
+      "revenue": 249,
       "month": "jun"
     }
   ],

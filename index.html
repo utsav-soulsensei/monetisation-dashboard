@@ -237,6 +237,7 @@
   }
 
   th:not(:first-child) { text-align: right; }
+
   th.sortable { cursor: pointer; user-select: none; transition: color 0.15s; }
   th.sortable:hover { color: var(--text-secondary); }
   .sort-ind { font-size: 9px; margin-left: 3px; }
@@ -402,13 +403,13 @@
       
       <div class="metric-card">
         <div class="metric-label">June (MTD)</div>
-        <div class="metric-value">₹1,107</div>
-        <div class="metric-sub">Web ₹0 · App ₹1,107</div>
+        <div class="metric-value">₹2,196</div>
+        <div class="metric-sub">Web ₹555 · App ₹1,641</div>
       </div>
       
       <div class="metric-card total">
         <div class="metric-label">Total</div>
-        <div class="metric-value">₹1,14,463</div>
+        <div class="metric-value">₹1,15,552</div>
         <div class="metric-sub">Captured only</div>
       </div>
     </div>
@@ -493,19 +494,19 @@
       
       <div class="metric-card">
         <div class="metric-label">May</div>
-        <div class="metric-value">₹1,80,728</div>
+        <div class="metric-value">₹1,77,734</div>
         <div class="metric-sub">Captured only</div>
       </div>
       
       <div class="metric-card">
         <div class="metric-label">June (MTD)</div>
-        <div class="metric-value">₹15,767</div>
+        <div class="metric-value">₹16,732</div>
         <div class="metric-sub">Captured only</div>
       </div>
       
       <div class="metric-card total">
         <div class="metric-label">Total</div>
-        <div class="metric-value">₹4,24,138</div>
+        <div class="metric-value">₹4,22,109</div>
         <div class="metric-sub">Captured only</div>
       </div>
     </div>
@@ -671,14 +672,6 @@
             <td>11</td>
             <td class="td-revenue">₹3,069</td>
             <td><span class="month-pill pill-apr">Apr</span></td>
-          </tr>
-          
-          <tr data-txns="6" data-revenue="2994" data-month="4">
-            <td>Tanisha_Reading</td>
-            <td>₹499</td>
-            <td>6</td>
-            <td class="td-revenue">₹2,994</td>
-            <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
           <tr data-txns="10" data-revenue="2790" data-month="2">
@@ -879,6 +872,14 @@
             <td>4</td>
             <td class="td-revenue">₹716</td>
             <td><span class="month-pill pill-apr">Apr</span></td>
+          </tr>
+          
+          <tr data-txns="4" data-revenue="716" data-month="5">
+            <td>Susitha_4036</td>
+            <td>₹179</td>
+            <td>4</td>
+            <td class="td-revenue">₹716</td>
+            <td><span class="month-pill pill-jun">Jun</span></td>
           </tr>
           
           <tr data-txns="3" data-revenue="687" data-month="3">
@@ -1217,6 +1218,14 @@
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
+          <tr data-txns="1" data-revenue="249" data-month="5">
+            <td>DailyReset_SoulSync</td>
+            <td>₹249</td>
+            <td>1</td>
+            <td class="td-revenue">₹249</td>
+            <td><span class="month-pill pill-jun">Jun</span></td>
+          </tr>
+          
           <tr data-txns="1" data-revenue="229" data-month="4">
             <td>Jyotismita_2850</td>
             <td>₹229</td>
@@ -1281,7 +1290,7 @@
       
       <div class="metric-card total">
         <div class="metric-label">Jun 1–7</div>
-        <div class="metric-value">₹15,767</div>
+        <div class="metric-value">₹16,732</div>
         <div class="metric-sub">Partial week</div>
       </div>
       
@@ -1320,8 +1329,8 @@
       
       <div class="metric-card total">
         <div class="metric-label">Jun 1–7</div>
-        <div class="metric-value">₹1,107</div>
-        <div class="metric-sub">Web ₹0 · App ₹1,107</div>
+        <div class="metric-value">₹2,196</div>
+        <div class="metric-sub">Web ₹555 · App ₹1,641</div>
       </div>
       
     </div>
@@ -1358,12 +1367,12 @@
       </div>
       <div class="metric-card">
         <div class="metric-label">May</div>
-        <div class="metric-value">₹17,043</div>
-        <div class="metric-sub">Anushree — 12 personal readings; Tamanna — 7 personal readings; Moneka — 11 personal sessions</div>
+        <div class="metric-value">₹20,037</div>
+        <div class="metric-sub">Anushree — 12 personal readings; Tamanna — 7 personal readings; Moneka — 11 personal sessions; Tanisha — 6 readings</div>
       </div>
       <div class="metric-card total">
         <div class="metric-label">Total</div>
-        <div class="metric-value">₹35,136</div>
+        <div class="metric-value">₹38,130</div>
         <div class="metric-sub">Captured only</div>
       </div>
     </div>
@@ -1500,6 +1509,15 @@
             <td>₹299</td>
             <td>31</td>
             <td class="td-revenue">₹9,269</td>
+            <td><span class="month-pill pill-may">May</span></td>
+          </tr>
+          
+          <tr>
+            <td>Tanisha</td>
+            <td style="color:var(--text-secondary);text-align:left;">Reading</td>
+            <td>₹499</td>
+            <td>6</td>
+            <td class="td-revenue">₹2,994</td>
             <td><span class="month-pill pill-may">May</span></td>
           </tr>
           
@@ -1851,7 +1869,7 @@ function buildWowCharts() {
     data: {
       labels: wowLabels,
       datasets: [
-        { label: 'Revenue', data: [23326, 14139, 74229, 15767], backgroundColor: '#C47A2B', borderRadius: 6, borderSkipped: false }
+        { label: 'Revenue', data: [23326, 14139, 74229, 16732], backgroundColor: '#C47A2B', borderRadius: 6, borderSkipped: false }
       ]
     },
     options: {
@@ -1872,8 +1890,8 @@ function buildWowCharts() {
     data: {
       labels: wowLabels,
       datasets: [
-        { label: 'Web', data: [1665, 1665, 1554, 0], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
-        { label: 'App', data: [1207, 1706, 1720, 1107], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
+        { label: 'Web', data: [1665, 1665, 1554, 555], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+        { label: 'App', data: [1207, 1706, 1720, 1641], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
       ]
     },
     options: {
@@ -1895,8 +1913,8 @@ new Chart(document.getElementById('eeChart'), {
   data: {
     labels: ["January", "February", "March", "April", "May", "June (MTD)"],
     datasets: [
-      { label: 'Web', data: [2073, 12322, 33516, 20859, 11211, 0], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
-      { label: 'App', data: [0, 604, 12687, 12361, 7723, 1107], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
+      { label: 'Web', data: [2073, 12322, 33516, 20859, 11211, 555], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
+      { label: 'App', data: [0, 604, 12687, 12361, 7723, 1641], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false }
     ]
   },
   options: {
@@ -1942,7 +1960,7 @@ function buildOoChart() {
       datasets: [
         { label: 'Riya Sankhla', data: [0, 856, 0, 0, 0], backgroundColor: '#5A4A8A', borderRadius: 5, borderSkipped: false },
         { label: 'Tamanna',      data: [0, 0, 2786, 6169, 4186], backgroundColor: '#B5456A', borderRadius: 5, borderSkipped: false },
-        { label: 'Tanisha',      data: [0, 0, 0, 1996, 0], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false },
+        { label: 'Tanisha',      data: [0, 0, 0, 1996, 2994], backgroundColor: '#2D7A6B', borderRadius: 5, borderSkipped: false },
         { label: 'Poonam',       data: [0, 0, 0, 999, 0], backgroundColor: '#C47A2B', borderRadius: 5, borderSkipped: false },
         { label: 'Rooppreet',    data: [0, 0, 0, 999, 0], backgroundColor: '#D05A3A', borderRadius: 5, borderSkipped: false },
         { label: 'Moneka',       data: [0, 0, 0, 3289, 9269], backgroundColor: '#7A5A9A', borderRadius: 5, borderSkipped: false },
@@ -1970,7 +1988,7 @@ function buildDgChart() {
     data: {
       labels: ["January", "February", "March", "April", "May", "June (MTD)"],
       datasets: [
-        { label: 'Revenue', data: [0, 17260, 68523, 141860, 180728, 15767], backgroundColor: '#C47A2B', borderRadius: 6, borderSkipped: false }
+        { label: 'Revenue', data: [0, 17260, 68523, 141860, 177734, 16732], backgroundColor: '#C47A2B', borderRadius: 6, borderSkipped: false }
       ]
     },
     options: {
@@ -1987,6 +2005,7 @@ function buildDgChart() {
   });
 }
 
+// Click a column header to sort the DG breakdown table.
 let dgSortState = { col: null, dir: 1 };
 function sortDgTable(col) {
   const tbody = document.querySelector('#dgTable tbody');
