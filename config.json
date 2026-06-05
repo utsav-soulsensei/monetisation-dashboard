@@ -22,7 +22,7 @@
     "mar": 68523,
     "apr": 141860,
     "may": 177734,
-    "jun": 16732
+    "jun": 16981
   },
   "dg_sellers_base": [
     {
@@ -650,6 +650,13 @@
     },
     {
       "name": "DailyReset_SoulSync",
+      "price": 249,
+      "txns": 1,
+      "revenue": 249,
+      "month": "jun"
+    },
+    {
+      "name": "DailyReset_Oshika",
       "price": 249,
       "txns": 1,
       "revenue": 249,
